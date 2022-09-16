@@ -1,6 +1,6 @@
 /*
 * wxbuf.js
-* copyright lingluo 2022
+* copyRight lingluo 2022
 */
 
 const storageCache = Symbol()
