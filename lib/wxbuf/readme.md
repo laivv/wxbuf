@@ -623,7 +623,9 @@ Page({
   // componentC.js
   Component({
     methods: {
-      this.fireEvent('updateOk', '这是数据')
+      handleBtnTap() {
+        this.fireEvent('updateOk', '这是数据')
+      }
     }
   })
   ```   
