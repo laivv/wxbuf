@@ -1,0 +1,45 @@
+<window wx:if="{{installed}}"></window>
+<view class="container">
+  <view>
+    计算属性fff:{{fff}}
+  </view>
+  <view>
+    ccc1:{{ccc1}}
+  </view>
+  <view>
+    globalData.globalNumber : {{globalNumber}}
+  </view>
+  <view>
+    storage.number: {{number}}
+  </view>
+  <button bindtap="handleJump">
+    跳转页面
+  </button>
+  <button bindtap="handleRemoveStorage" style="width: 400rpx; margin-top: 20rpx;">
+    remove storage.number
+  </button>
+  <button bindtap="handleFire" style="width: 400rpx; margin-top: 20rpx;">
+    fireEvent
+  </button>
+  <button bindtap="longtap" style="width: 400rpx; margin-top: 20rpx;">
+    点击打开由组件提供的方法
+  </button>
+  <button bindtap="handleChangeData" style="width: 400rpx; margin-top: 20rpx;">
+    setData
+  </button>
+  <button bindtap="handleToggleInstall" style="width: 400rpx; margin-top: 20rpx;">
+    {{ installed ? '已安装全局组件,点击卸载' : '安装全局组件'}}
+  </button>
+
+  <input bind="handler" style="width: 300rpx;height: 100rpx;border: solid 2rpx red;" data-name="input" data-version="v1.0"></input>
+  <button bind:longtap="handler" data-name="wxbuf" data-version="v1.0">longTap</button>
+  <button bind:longpress="handler">longpress</button>
+  <button bind:tap="handler" data-a="1" data-b="2" data-auth="{{true}}">tap</button>
+  <button bind:touchstart="handler">touchstart</button>
+  <button bind:touchmove="handler">touchmove</button>
+  <button bind:touchend="handler">touchend</button>
+  <button bind:touchcancel="handler">touchcancel</button>
+  <button bind:touchforcechange="handler">touchforcechange</button>
+  <button bind:tap="handleShare">分享</button>
+  <button bind:tap="handleSwitchTab">切换到我的</button>
+</view>

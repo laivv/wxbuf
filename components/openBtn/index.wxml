@@ -1,0 +1,4 @@
+
+<button open-type="{{openType}}" bindgetphonenumber="onOpenTypeCallback" bindtap="onTap">
+  <slot></slot> 
+</button>

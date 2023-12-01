@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "日志",
+  "name": "日志",
+  "requiredAuth": true,
+  "usingComponents": {
+    "comp": "./components/comp/index"
+  }
+}

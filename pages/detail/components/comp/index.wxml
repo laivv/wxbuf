@@ -1,0 +1,12 @@
+<view style="display: flex;align-items: center;margin-top: 20rpx;">
+  <view style="flex: 1;">globalData.globalNumber:{{gnum}}</view>
+  <button style="width: 100rpx;background-color: #ccc;text-align: center;font-size: 24rpx;" bindtap="changeGlobalData">+1</button>
+</view>
+<view style="display: flex;align-items: center;margin-top: 20rpx;">
+  <view style="flex: 1;">storage.number:{{storageNumber}}</view>
+  <button style="width: 100rpx;background-color: #ccc;text-align: center;font-size: 24rpx;" bindtap="changeStorage">+1</button>
+</view>
+<button bindtap="handleFinish" style="width: 400rpx; margin-top: 20rpx;">回传值: 'Component-111222'</button>
+<button bindtap="removeStorage" style="width: 400rpx; margin-top: 20rpx;">remove storage.number</button>
+<button bindtap="handleFire" style="width: 400rpx; margin-top: 20rpx;">fireEvent</button>
+<view>ss{{ss}}</view>

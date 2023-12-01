@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "1",
+  "name": "1",
+  "usingComponents": {
+    "comp1": "./comp1/index"
+  }
+}
