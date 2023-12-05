@@ -1,4 +1,4 @@
-import wxbuf from './lib/wxbuf/index'
+import wxbuf from './lib/wxbuf/dist/wxbuf.min.js'
 
 wxbuf.global.extend('wx2', {
   hello() {
@@ -31,7 +31,7 @@ wxbuf.watch({
     console.log('onPagePullDownRefresh:', option)
   },
   onTap: function (option) {
-    console.log('onTap:', option)
+    // console.log('onTap:', option)
   },
   onLongpress: function (option) {
     console.log('onLongpress:', option)
