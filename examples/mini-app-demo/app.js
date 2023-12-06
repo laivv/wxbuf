@@ -1,4 +1,4 @@
-import wxbuf from './lib/wxbuf/dist/wxbuf.min.js'
+import wxbuf from './lib/wxbuf.min.js'
 
 wxbuf.global.extend('wx2', {
   hello() {

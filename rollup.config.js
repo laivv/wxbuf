@@ -1,10 +1,11 @@
 import terser from '@rollup/plugin-terser'
+import copy from 'rollup-plugin-copy'
 // import extensions from '@rollup/plugin-extensions'
-import babel from '@rollup/plugin-babel'
-import obfuscator from 'rollup-plugin-obfuscator'
+// import babel from '@rollup/plugin-babel'
+// import obfuscator from 'rollup-plugin-obfuscator'
 
-export default {
-  input: './src/index.js', // 入口文件
+export default [{
+  input: './src/index.js',
   output: {
     file: './dist/wxbuf.min.js', // 输出文件
     format: 'es', // 输出格式 amd / es / cjs / iife / umd / system
@@ -26,12 +27,30 @@ export default {
     //     stringArrayEncoding: []
     //   }
     // })
-    //    babel({
-    //   babelHelpers: 'bundled',
-    //   exclude: 'node_modules/**'
-    // }),
+    terser({
+      compress: false
+    }),
+    // copy({
+    //   targets: [{ 
+    //     src: './dist/wxbuf.min.js',
+    //     dest: './examples/mini-app-demo/lib/'
+    //   }],
+    //   hook: 'buildEnd'
+    // })
+  ],
+},
+
+{
+  input: './src/index.js',
+  output: {
+    file: './examples/mini-app-demo/lib/wxbuf.min.js',
+    format: 'es',
+    sourcemap: false
+  },
+  plugins: [
     terser({
       compress: false
     }),
   ],
 }
+]
