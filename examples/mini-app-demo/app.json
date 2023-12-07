@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/my/index",
-    "pages/index/subIndex/index",
     "pages/detail/index"
   ],
   "window": {

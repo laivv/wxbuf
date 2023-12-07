@@ -140,11 +140,9 @@ App({
     }
   },
   onGlobalDataChange(newVal, oldVal) {
-    console.log('来自App.js的消息,全局数据改变了, 旧值:', oldVal)
-    console.log('来自App.js的消息,全局数据改变了, 新值:', newVal)
+    console.log('来自App.js的消息,全局数据改变了, 新旧值分别是:',newVal, oldVal)
   },
   onStorageChange(newVal, oldVal) {
-    console.log('来自App.js的消息,storage数据改变了, 旧值:', oldVal)
-    console.log('来自App.js的消息,storage数据改变了, 新值:', newVal)
+    console.log('来自App.js的消息,storage数据改变了, 新旧值分别是:',newVal, oldVal)
   },
 })

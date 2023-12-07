@@ -21,7 +21,6 @@ Component({
     attached(){
       console.log(this.data.ss, '------comp-computed')
       console.log('component.lifetimes.attached', this.data.storageNumber)
-      console.log('wx.router.getRouteContext(this)', wx.router.getRouteContext(this))
     },
     ready(){
       console.log('component.lifetimes.ready', this.data.storageNumber)
@@ -44,7 +43,6 @@ Component({
       this.removeStorageSync('number')
     },
     handleFinish(){
-      console.log('aaaaaaaaaaaaaaa')
       this.finish('Component-111222')
     },
     handleFire(){

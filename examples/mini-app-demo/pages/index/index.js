@@ -1,7 +1,5 @@
 
-import behavior from './behavior'
 Page({
-  behaviors: [behavior],
   mixinGlobalData: ['globalNumber', 'appVersion'],
   mixinStorage: ['number'],
   listeners: {
@@ -26,10 +24,6 @@ Page({
       console.log('index.js--computed: fff')
       return this.data.globalNumber + 'years'
     },
-    ccc1() {
-      console.log('index.js--computed: ccc1')
-      return this.data.ccc + 'ccc1'
-    }
   },
   data: {
     ccc: 1
@@ -40,8 +34,6 @@ Page({
   onShow(option) {
     console.log('wxbuf:', wxbuf)
     console.log('index-page-show:', option)
-    
-    // getApp().globalData.globalNumber = 2
   },
   onLoad: function () {
     wx2.hello()
@@ -60,10 +52,6 @@ Page({
     console.log('来自index页的消息,storage数据改变了, 新值:', newVal)
   },
   async handleJump() {
-    // this.pageRouter.navigateTo({
-    //   url: './././././././././././../index/subIndex/index'
-    // })
-    // return
     const receivedValue = await wx.openPage({
       name: "日志",
       // url: '/pages/detail/index',
@@ -77,7 +65,7 @@ Page({
         g: '1'
       },
       body: {
-        'ffff': { name: '这是body数据' }
+        ffff: { name: '这是body数据' }
       },
       success(page) {
         console.log('打开新页面成功：', page)
@@ -126,11 +114,6 @@ Page({
   handler(e, data) {
     console.log('event:', e)
     console.log('dataset:', data)
-  },
-  handleShare() {
-    wx.showShareMenu({
-      menus: []
-    })
   },
   handleSwitchTab() {
     wx.switchTab({
