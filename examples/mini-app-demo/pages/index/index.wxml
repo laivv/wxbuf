@@ -31,4 +31,5 @@
   <button bind:tap="handler" data-a="1" data-b="2" data-auth="{{true}}">tap</button>
 
   <button bind:tap="handleSwitchTab">wx.switchTab切换到[我的]</button>
+  <view wx:if="{{token}}">已登录</view>
 </view>

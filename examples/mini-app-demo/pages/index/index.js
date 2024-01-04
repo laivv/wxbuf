@@ -1,7 +1,7 @@
 
 Page({
   mixinGlobalData: ['globalNumber', 'appVersion'],
-  mixinStorage: ['number'],
+  mixinStorage: ['number', 'token'],
   listeners: {
     bbbaaa(event) {
       console.log('fireEvent:', event)

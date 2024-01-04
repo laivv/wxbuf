@@ -297,6 +297,7 @@ const batchSetStorage = function (option) {
     const kvs = {}
     kvList.forEach(({ key, value }) => {
       kvs[key] = value
+      storageCache.set(key, value)
     })
     updateMixinsAsync(kvs, oldVal, 'storage')
     return (success || noop).apply(this, arguments)
@@ -333,6 +334,7 @@ const batchSetStorageSync = function (kvList) {
   const oldKvs = {}
   kvList.forEach(({ key, value }) => {
     kvs[key] = value
+    storageCache.set(key, value)
     oldKvs[key] = getStorageSync(key)
   })
   updateMixinsAsync(kvs, oldKvs, 'storage')
@@ -355,6 +357,7 @@ const clearStorage = function (option = {}) {
     const oldKvs = {}
     keys.forEach(key => {
       kvs[key] = ''
+      storageCache.remove(key)
       oldKvs[key] = getStorageSync(key)
     })
     updateMixinsAsync(kvs, oldKvs, 'storage')
@@ -368,6 +371,7 @@ const clearStorageSync = function () {
   const oldKvs = {}
   _wx.getStorageInfoSync().keys.forEach(key => {
     kvs[key] = ''
+    storageCache.remove(key)
     oldKvs[key] = getStorageSync(key)
   })
   updateMixinsAsync(kvs, oldKvs, 'storage')
