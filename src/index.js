@@ -384,12 +384,12 @@ const clearStorageSync = function () {
 }
 
 const getGlobalData = function (key) {
-  const app = getApp()
+  const app = getApplication()
   return app.globalData ? (key ? app.globalData[key] : app.globalData) : undefined
 }
 
 const setGlobalData = function (key, value) {
-  const app = getApp()
+  const app = getApplication()
   if (!app.globalData) {
     app.globalData = {}
   }
@@ -575,28 +575,28 @@ const defineReactive = function (option, fn) {
     }
   })
 }
-/**
- * fix getApp because when getApp called in onLaunch that retruns undefined
-*/
-const fixGetApp = function () {
-  let _app = null
-  let _getApp = getApp
-  getApp = function () {
-    return _getApp() || _app
+
+let _app = null
+
+const fixGetApp = function (app) {
+  _app = app
+}
+
+Object.defineProperty(globalThis, 'getApplication', {
+  value: function() {
+    return getApp() || _app
   }
-  return function (app) {
-    _app = app
-  }
-}()
+})
 
 App = function (option = {}) {
-  fixGetApp(this)
+
   appOption = option
   if (option.globalData) {
     option.globalData = defineReactive(option.globalData, updateMixinsAsync)
   }
 
   const onLaunch = function (...args) {
+    fixGetApp(this)
     callUserHook(this, 'onAppLaunch', ...args)
   }
 
