@@ -280,7 +280,6 @@ const setStorage = function (option) {
   const oldVal = storageCache.get(key)
   option.success = function () {
     storageCache.set(key, data)
-    // updateMixins(key, data, oldVal, 'storage')
     updateMixinsAsync({ [key]: data }, { [key]: oldVal }, 'storage')
     return (success || noop).apply(this, arguments)
   }
@@ -298,7 +297,6 @@ const batchSetStorage = function (option) {
     const kvs = {}
     kvList.forEach(({ key, value }) => {
       kvs[key] = value
-      // updateMixins(key, value, oldVal[key], 'storage')
     })
     updateMixinsAsync(kvs, oldVal, 'storage')
     return (success || noop).apply(this, arguments)
@@ -312,7 +310,6 @@ const removeStorage = function (option) {
   const oldVal = storageCache.get(key)
   option.success = function () {
     storageCache.remove(key)
-    // updateMixins(key, '', oldVal, 'storage')
     updateMixinsAsync({ [key]: '' }, { [key]: oldVal })
     return (success || noop).apply(this, arguments)
   }
@@ -328,7 +325,6 @@ const setStorageSync = function (key, value) {
   const oldVal = storageCache.get(key)
   storageCache.set(key, value)
   _setStorageSync.call(wx, key, value)
-  // updateMixins(key, value, oldVal, 'storage')
   updateMixinsAsync({ [key]: value }, { [key]: oldVal }, 'storage')
 }
 
@@ -338,7 +334,6 @@ const batchSetStorageSync = function (kvList) {
   kvList.forEach(({ key, value }) => {
     kvs[key] = value
     oldKvs[key] = getStorageSync(key)
-    // updateMixins(key, value, getStorageSync(key), 'storage')
   })
   updateMixinsAsync(kvs, oldKvs, 'storage')
   return _batchSetStorageSync.apply(wx, arguments)
@@ -349,7 +344,6 @@ const removeStorageSync = function (key) {
   const oldValue = storageCache.get(key)
   storageCache.remove(key)
   _removeStorageSync.call(wx, key)
-  // updateMixins(key, '', oldValue, 'storage')
   updateMixinsAsync({ [key]: '' }, { [key]: oldValue }, 'storage')
 }
 
@@ -362,7 +356,6 @@ const clearStorage = function (option = {}) {
     keys.forEach(key => {
       kvs[key] = ''
       oldKvs[key] = getStorageSync(key)
-      // updateMixins(key, '', getStorageSync(key), 'storage')
     })
     updateMixinsAsync(kvs, oldKvs, 'storage')
     return (success || noop).apply(wx, arguments)
@@ -376,7 +369,6 @@ const clearStorageSync = function () {
   _wx.getStorageInfoSync().keys.forEach(key => {
     kvs[key] = ''
     oldKvs[key] = getStorageSync(key)
-    // updateMixins(key, '', getStorageSync(key), 'storage')
   })
   updateMixinsAsync(kvs, oldKvs, 'storage')
 
@@ -395,7 +387,6 @@ const setGlobalData = function (key, value) {
   }
   const oldValue = app.globalData[key]
   app.globalData[key] = value
-  // updateMixins(key, value, oldValue, 'globalData')
   updateMixinsAsync({ [key]: value }, { [key]: oldValue }, 'globalData')
 }
 
