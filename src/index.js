@@ -853,7 +853,7 @@ const factory = function (option, constructr) {
     finish(data, this.$page)
   }
   option.methods[`${userConfig.methodPrefix}getUrlParams`] = getUrlParams
-  option.methods[`${userConfig.methodPrefix}getPage`] = function () {
+  option.methods[`${userConfig.methodPrefix}getPageInstance`] = function () {
     return getPageInstance(this)
   }
 

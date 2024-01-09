@@ -10,7 +10,7 @@
     "build": "set NODE_ENV=production && rollup -c"
   },
   "type": "module",
-  "author": "lingluo",
+  "author": "laivv",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.23.5",

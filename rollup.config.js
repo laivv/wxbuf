@@ -5,7 +5,7 @@ const banner =
   '/*!\n' +
   ` * wxbuf.js v1.0.0\n` +
   ` * (c) ${new Date().getFullYear()} lingluo\n` +
-  ' * Released under the MIT License.\n' +
+  ' * the MIT License.\n' +
   ' */'
 
 export default [{
