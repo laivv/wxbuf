@@ -79,21 +79,6 @@ wxbuf.page.extend({
 })
 
 
-// wxbuf.intercepter.config({
-//   beforePageEnter(option, next) {},
-//   beforePageLoad (option, next) {},
-//   afterPageLoad(option, next) {},
-//   beforeShareAppMessage(option, next) {},
-//   afterShareAppMessage(option, next) {},
-//   beforePageScroll(e, next) {},
-//   afterPageScroll(e, next) {},
-//   beforePageReachBottom(page, next) {},
-//   afterPageReachBottom(page, next) {},
-//   beforeShareTimeline(page, next) {},
-//   afterShareTimeline (page, next) {}
-//   beforeUIEventDispatch(event, next) {}
-// })
-
 App({
   listeners: {
     bbbaaa(e) {
