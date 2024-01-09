@@ -582,6 +582,12 @@ Object.defineProperty(globalThis, 'getApplication', {
     return getApp() || _app
   }
 })
+Object.defineProperty(globalThis, 'getSavedPages', {
+  value: function() {
+    return _pages.slice(0)
+  }
+})
+
 
 App = function (option = {}) {
 

@@ -87,6 +87,7 @@
 * [***option.onConfirm***](#watch)
 ### 【新增】全局方法   
 * [***getApplication():AppInstance***](#getapplication) 获取app实例
+* [***getSavedPages():page[]***](#getsavedpages) 获取所有未销毁的page实例
 ### 【新增】全局配置
 * [***wxbuf.config(option: object)***](#global-config)
 ### 【新增】全局扩展
@@ -916,6 +917,13 @@ App({
 * ***getApplication(): AppInstance***   
 
   说明：获取app实例，效果同`getApp()`一样，区别是小程序自带的`getApp`在`App`的`onLaunch`钩子中返回`undefined`，而`getApplication()`能够正确返回实例
+
+<a id="getsavedpages"></a>
+
+* ***getSavedPages(): page[]***   
+
+  说明：获取所有未销毁的页面实例，类似于`getCurrentPages()`，区别是`getCurrentPages()`获取的是页面栈，对于已经打开过多个tabbar页面并不能获取到，而`getSavedPages()`可以获取
+
 <a id="global-config"></a>
 
 ## 全局配置
