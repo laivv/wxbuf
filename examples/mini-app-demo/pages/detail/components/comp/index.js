@@ -14,6 +14,7 @@ Component({
       return this.data.gnum + '哈哈'
     }
   },
+  inject: ['count'],
   lifetimes:{
     created(){
       console.log('component.lifetimes.created', this.data.storageNumber)

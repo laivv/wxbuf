@@ -555,6 +555,87 @@ const initGlobalSharePage = function (page) {
   }
 }
 
+const getParentProvides = function (context) {
+  const ret = []
+  let parent = context
+  let provide = null
+  let isStatic
+  while ((parent = parent.$parent)) {
+    provide = parent.provide
+    isStatic = true
+    if (provide) {
+      if (isFunction(provide)) {
+        isStatic = false
+        provide = parent.provide()
+      }
+      if (isObject(provide)) {
+        ret.push({ parent, provide, isStatic })
+      }
+    }
+  }
+  return ret
+}
+
+class InjectWatcher {
+
+  constructor(parent, context, key) {
+    this.parent = parent
+    this.context = context
+    this.key = key
+  }
+  update() {
+    const provide = this.parent.provide()
+    const key = this.key
+    const v = provide[key]
+    if (isFunction(v)) {
+      this.context[key] = v
+    } else {
+      this.context.setData({ [key]: v })
+    }
+  }
+}
+
+
+const initInject = function (option, context) {
+  const inject = option.inject
+  if (isArray(inject) && inject.length) {
+    const provides = getParentProvides(context)
+    inject.forEach(key => {
+      for (let i = 0; i < provides.length; i++) {
+        const { parent, provide, isStatic } = provides[i]
+        if (hasOwn(provide, key)) {
+          if (!isStatic) {
+            if (!parent.$provideWatchers) {
+              parent.$provideWatchers = []
+              const _setData = parent.setData
+              parent.setData = function () {
+                const ret = _setData.apply(this, arguments)
+                this.$provideWatchers.forEach(c => c.update())
+                return ret
+              }
+            }
+            parent.$provideWatchers.push(new InjectWatcher(parent, context, key))
+
+            if (!context.$parentProvides) {
+              context.$parentProvides = []
+            }
+            if (!context.$parentProvides.includes(parent)) {
+              context.$parentProvides.push(parent)
+            }
+          }
+          const v = provide[key]
+          if (isFunction(v)) {
+            context[key] = v
+          } else {
+            context.setData({ [key]: v })
+          }
+          break
+        }
+      }
+    })
+  }
+}
+
 const defineReactive = function (option, fn) {
   return new Proxy(option, {
     get(target, key) {
@@ -846,6 +927,7 @@ const factory = function (option, constructr) {
       }
       parent.$components.push(this)
       this.$parent = parent
+      initInject(option, this)
     }
     if (_attached) {
       return _attached.apply(this, arguments)
@@ -863,6 +945,14 @@ const factory = function (option, constructr) {
           parent.$components.splice(index, 1)
           this.$parent = null
         }
+      }
+      if (this.$parentProvides) {
+        this.$parentProvides.forEach(parent => {
+          const index = parent.$provideWatchers.findIndex(w => w.context === this)
+          if (index > -1) {
+            parent.$provideWatchers.splice(index, 1)
+          }
+        })
       }
     }
     if (_detached) {

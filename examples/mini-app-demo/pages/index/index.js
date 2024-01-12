@@ -114,7 +114,6 @@ Page({
     this.setData({ installed: !this.data.installed })
   },
   handler(e, data) {
-    console.log('event:', e)
     console.log('dataset:', data)
   },
   handleSwitchTab() {

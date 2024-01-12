@@ -18,6 +18,10 @@
       <button style="width: 200rpx;background-color: #ccc;text-align: center;font-size: 24rpx;" bindtap="changeStorage">+1</button>
     </view>
 
+    <view style="display: flex;align-items: center;margin-top: 20rpx">
+      <button style="width: 200rpx;background-color: #ccc;text-align: center;font-size: 24rpx;" bindtap="handleAddNumber">n+1</button>
+    </view>
+
     <button bindtap="handleFinish" style="width: 400rpx; margin-top: 20rpx;">回传值: 'Page-111222'</button>
 
     <button bindtap="handleremoveStorage" style="width: 400rpx; margin-top: 20rpx;">remove storage.number</button>
@@ -33,8 +37,9 @@
       </view>
       <view style="border: solid 1px red;margin-top: 30rpx;padding: 40rpx;">
         <view style="font-weight: bold;font-size: 40rpx;color: #888;padding-bottom: 20rpx;">组件B</view>
-        <comp></comp>
+        <comp wx:if="{{showCompB}}"></comp>
       </view>
+      <button bind:tap="handleToggleInstallComB">挂载/卸载组件B</button>
     </view>
   </view>
 </view>
