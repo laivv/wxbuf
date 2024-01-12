@@ -39,6 +39,8 @@ Page({
     wx2.hello()
     this.say()
     console.log('appversion:', this.data.appVersion)
+    // wx.setNavigateBarTitle({ title: '了了了' })
+    // console.log('wxbuf.getNavigateBarTitle():', wxbuf.getNavigateBarTitle())
   },
   onGlobalDataChange(newVal, oldVal) {
     console.log('来自index页的消息,全局数据改变了, 旧值:', oldVal)

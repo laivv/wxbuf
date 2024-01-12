@@ -28,13 +28,13 @@ import {
   getPathWithOutQuery,
   getNavigateBarTitle,
 } from './util'
-import { 
-  addCom, 
-  addPage, 
-  removeCom, 
-  removePage, 
+import {
+  addCom,
+  addPage,
+  removeCom,
+  removePage,
   pages as _pages,
-  components as _components, 
+  components as _components,
 } from './instance'
 import path from './path'
 import { Watcher } from './hookWatcher'
@@ -578,14 +578,20 @@ const fixGetApp = function (app) {
 }
 
 Object.defineProperty(globalThis, 'getApplication', {
-  value: function() {
+  value: function () {
     return getApp() || _app
-  }
+  },
+  configurable: false,
+  writable: false,
+  enumerable: false
 })
 Object.defineProperty(globalThis, 'getSavedPages', {
-  value: function() {
+  value: function () {
     return _pages.slice(0)
-  }
+  },
+  configurable: false,
+  writable: false,
+  enumerable: false
 })
 
 
@@ -834,6 +840,12 @@ const factory = function (option, constructr) {
     initMixinData(option, this)
     if (isComponent) {
       installPageMethods(option, this)
+      const parent = this.selectOwnerComponent()
+      if (!parent.$components) {
+        parent.$components = []
+      }
+      parent.$components.push(this)
+      this.$parent = parent
     }
     if (_attached) {
       return _attached.apply(this, arguments)
@@ -844,6 +856,14 @@ const factory = function (option, constructr) {
     const com = removeCom(this)
     if (com.type === 'component') {
       uninstallPageMethods(com.option, this)
+      const parent = this.selectOwnerComponent()
+      if (parent.$components) {
+        const index = parent.$components.indexOf(this)
+        if (index > -1) {
+          parent.$components.splice(index, 1)
+          this.$parent = null
+        }
+      }
     }
     if (_detached) {
       return _detached.apply(this, arguments)
@@ -895,7 +915,7 @@ const _global = {
       console.warn('global.extend: 不能重复定义wx')
     } else {
       Object.defineProperty(globalThis, globalVar, {
-        get: () => value
+        get: () => value,
       })
     }
   }
@@ -969,8 +989,7 @@ const wxbuf = {
 global.extend('wxbuf', wxbuf)
 
 Object.defineProperty(wxbuf, 'version', {
-  get() { return '1.0' },
+  get: () => '1.0',
   configurable: false,
-  enumerable: false,
 })
 export default wxbuf

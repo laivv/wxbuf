@@ -136,13 +136,25 @@ export const isTabBarPage = function (path) {
   return getTabBarPages().includes(getPathWithOutQuery(path))
 }
 
+// const navigationBarTitleMap = {}
+// const setNavigationBarTitle = wx.setNavigationBarTitle
+// wx = Object.assign(Object.create(wx.__proto__), wx)
+
+// wx.setNavigationBarTitle = function (options) {
+//   const page = getCurrentPages().slice(0).pop()
+//   if (page) {
+//     navigationBarTitleMap[page.route] = options.title
+//   }
+//   return setNavigationBarTitle.call(wx, options)
+// }
+
 export const getNavigateBarTitle = function () {
-  const page = getCurrentPages().slice(0).pop()
+  // const page = getCurrentPages().slice(0).pop()
+  // if(page && hasOwn(navigationBarTitleMap, page.route)) {
+  //   return navigationBarTitleMap[page.route]
+  // }
   if (page && __wxConfig && __wxConfig.page && __wxConfig.page[page.route + '.html']) {
     return __wxConfig.page[page.route + '.html'].window.navigationBarTitleText
-  }
-  if (__wxConfig && __wxConfig.accountInfo) {
-    return __wxConfig.accountInfo.nickname
   }
   return ''
 }

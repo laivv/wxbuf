@@ -10,3 +10,4 @@
 <button bindtap="removeStorage" style="width: 400rpx; margin-top: 20rpx;">remove storage.number</button>
 <button bindtap="handleFire" style="width: 400rpx; margin-top: 20rpx;">fireEvent</button>
 <view>ss{{ss}}</view>
+<window />
