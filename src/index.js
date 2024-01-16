@@ -1031,6 +1031,11 @@ function initWx() {
   wx[`${pref}finish`] = function (data) {
     finish(data, getCurrentPage())
   }
+  wx[`${pref}getNavigateBarTitle`] = getNavigateBarTitle
+  wx[`${pref}getTabBarPages`] = getTabBarPages
+  wx[`${pref}isTabBarPage`] = isTabBarPage
+  wx[`${pref}getConfigJson`] = getConfigJson
+
   wx.getStorageSync = getStorageSync
   wx.setStorage = setStorage
   wx.setStorageSync = setStorageSync
@@ -1053,11 +1058,6 @@ export const page = _page
 export const component = _component
 export const global = _global
 const wxbuf = {
-  page,
-  watch,
-  config,
-  global,
-  component,
   setStorage,
   removeStorage,
   getStorageSync,
@@ -1085,4 +1085,11 @@ Object.defineProperty(wxbuf, 'version', {
   get: () => '1.0',
   configurable: false,
 })
-export default wxbuf
+
+export default {
+  page,
+  watch,
+  config,
+  global,
+  component
+}
