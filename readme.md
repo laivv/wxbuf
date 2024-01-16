@@ -155,8 +155,11 @@ Page({
 })
 ```
 
-## API文档
-[API文档大全](https://gitee.com/laivv/wxbuf/blob/master/DOCS.md)
+## 快速入门文档
+[快速入门文档](https://gitee.com/laivv/wxbuf/blob/master/DOCS.md)
+
+## API文档大全
+[API文档大全](https://gitee.com/laivv/wxbuf/blob/master/APIS.md)
 
 ## License
 

@@ -576,7 +576,7 @@ const getParentProvides = function (context) {
   return ret
 }
 
-class InjectWatcher {
+class ProvideWatcher {
 
   constructor(parent, context, key) {
     this.parent = parent
@@ -598,6 +598,9 @@ class InjectWatcher {
 
 const initInject = function (option, context) {
   const inject = option.inject
+  if(option.provide) {
+    context.provide = option.provide
+  }
   if (isArray(inject) && inject.length) {
     const provides = getParentProvides(context)
     inject.forEach(key => {
@@ -614,7 +617,7 @@ const initInject = function (option, context) {
                 return ret
               }
             }
-            parent.$provideWatchers.push(new InjectWatcher(parent, context, key))
+            parent.$provideWatchers.push(new ProvideWatcher(parent, context, key))
 
             if (!context.$parentProvides) {
               context.$parentProvides = []

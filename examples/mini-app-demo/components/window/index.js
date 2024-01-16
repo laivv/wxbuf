@@ -1,4 +1,7 @@
 Component({
+  provide: {
+      a1: 'a1 is window',
+  },
   pageMethods: {
 
   },

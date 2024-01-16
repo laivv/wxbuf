@@ -25,6 +25,10 @@ Page({
       return this.data.globalNumber + 'years'
     },
   },
+  provide: {
+    a1: 'a1 is page',
+    a2: 'a2 is page'
+  },
   data: {
     ccc: 1
   },
