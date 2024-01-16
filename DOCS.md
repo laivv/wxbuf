@@ -2,6 +2,9 @@
 
 # 快速入门
 
+  此文档仅提供较常用的功能，要查看所有api，请查看[API文档大全](https://gitee.com/laivv/wxbuf/blob/master/APIS.md)
+
+
 ## 跨组件通信
 
   需要跨组件或者跨页通信时，在构造器选项中配置`listeners`字段来指定事件接收函数，通过实例方法`fireEvent`来触发一个事件
