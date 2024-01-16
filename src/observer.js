@@ -13,7 +13,7 @@ class Observer {
     }
     return false
   }
-  notify(action) {
+  notify() {
     for (let i = 0, len = this.watchers.length; i < len; i++) {
       this.watchers[i].update()
     }

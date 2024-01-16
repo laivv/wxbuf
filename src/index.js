@@ -588,7 +588,7 @@ class ProvideWatcher {
     const key = this.key
     const v = provide[key]
     if (isFunction(v)) {
-      this.context[key] = v
+      this.context[key] = v.bind(this.parent)
     } else {
       this.context.setData({ [key]: v })
     }
@@ -628,7 +628,7 @@ const initInject = function (option, context) {
           }
           const v = provide[key]
           if (isFunction(v)) {
-            context[key] = v
+            context[key] = v.bind(parent)
           } else {
             context.setData({ [key]: v })
           }
