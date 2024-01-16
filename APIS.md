@@ -66,7 +66,7 @@
 * [***wx.getGlobalData*** (`key`: string): `any`  ](#wx-get-global-data) 获取全局数据
 * [***wx.setGlobalData*** (`key`: string, `value`: any): `any`  ](#wx-set-global-data) 设置全局数据
 * [***wx.getNavigateBarTitle*** (): `string`  ](#wx-getNavigateBarTitle) 获取当前页的导航栏title
-* [***wx.getTabBarPages*** (): `string[]`  ](#wx-getTabBarPages) 获取tabPages
+* [***wx.getTabBarPages*** (): `string[]`  ](#wx-getTabBarPages) 获取tabbar的页面路径列表
 * [***wx.isTabBarPage*** (`url`: string): `boolean`  ](#wx-isTabBarPage) 判断一个url是否是tabbar页面
 * [***wx.getConfigJson*** (`url`: string): `object`  ](#wx-getConfigJson) 获取页面的原始json文件信息
 ### 【更新】wx
