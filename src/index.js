@@ -529,8 +529,7 @@ const initComputed = function (option, context) {
   const computed = option.computed || {}
   if (isEmpty(computed)) return
   const setData = context.$setData
-  context.setData = function () {
-    setData.apply(context, arguments)
+  const update = function (computed, context) {
     const data = {}
     for (let key in computed) {
       const fn = computed[key]
@@ -542,6 +541,11 @@ const initComputed = function (option, context) {
       setData.call(context, data)
     }
   }
+  context.setData = function () {
+    setData.apply(context, arguments)
+    update(computed, context)
+  }
+  update(computed, context)
 }
 
 const initGlobalSharePage = function (page) {
@@ -598,7 +602,7 @@ class ProvideWatcher {
 
 const initInject = function (option, context) {
   const inject = option.inject
-  if(option.provide) {
+  if (option.provide) {
     context.provide = option.provide
   }
   if (isArray(inject) && inject.length) {

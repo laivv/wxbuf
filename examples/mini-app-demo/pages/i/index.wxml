@@ -1,0 +1,2 @@
+<view class="text-gray" >请阅读app.js文件中的beforePageEnter方法逻辑，并点击下方按钮测试</view>
+<view class="btn mt-16" bind:tap="handle">点击测试全局页面拦截</view>

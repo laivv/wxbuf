@@ -1,0 +1,2 @@
+<view>{{totalText}}</view>
+<view class="btn mt-16" bind:tap="handle">修改数量</view>

@@ -1,0 +1,8 @@
+<view class="full pd-16">
+  <view class="bold">page</view>
+  <view>全局数据'globalData.appCount'的值是: {{appCount}}</view>
+  <view class="mt-16">
+    <comA />
+    <comB />
+  </view>
+</view>

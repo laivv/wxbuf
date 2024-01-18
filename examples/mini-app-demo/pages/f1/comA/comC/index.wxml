@@ -1,0 +1,9 @@
+<view class="boder pd-16">
+  <view class="bold">
+    组件C
+  </view>
+  <view class="mt-16">name：{{name}}</view>
+  <view class="mt-16">text：{{text}}</view>
+  <view class="mt-16">desc：{{desc}}</view>
+  <view class="mt-16">当前页面data字段中value的值是： {{pageValue}}</view>
+</view>

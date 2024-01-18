@@ -1,0 +1,3 @@
+
+<view>storage中count的值是: {{count}}</view>
+<view class="btn mt-16" bind:tap="handle">点击打开新页面来测试响应式storage</view>

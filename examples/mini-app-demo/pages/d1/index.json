@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "",
+  "styleIsolation": "apply-shared",
+  "usingComponents": {
+    "comA": "./comA/index",
+    "comB": "./comB/index"
+  }
+}

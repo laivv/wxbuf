@@ -1,0 +1,1 @@
+<view class="btn mt-16" bind:tap="handle">关闭当前页，向前一个页面回传数据</view>

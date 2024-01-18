@@ -1,0 +1,7 @@
+<view class="full pd-16">
+  <view class="bold">page</view>
+  <view class="mt-16">
+    <comA />
+  </view>
+  <view class="text-gray mt-16">provide写成一个对象，传递静态死数据</view>
+</view>

@@ -1,0 +1,2 @@
+<view wx:if="{{eventData}}" class="mb-16">{{eventData}}</view>
+<view class="btn" bind:tap="handle">点击打开新页面测试跨页跨组件通信</view>

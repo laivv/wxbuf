@@ -1,0 +1,9 @@
+<view class="full pd-16">
+  <view class="bold">page</view>
+  <view class="mt-16">data.count的值是: {{count}}</view>
+  <view class="btn mt-16" bind:tap="handle">修改count的值</view>
+  <view class="mt-16">
+    <comA />
+  </view>
+  <view class="text-gray mt-16">provide写成一个函数，传递动态数据，后代组件将保持同步</view>
+</view>

@@ -1,0 +1,3 @@
+Page({
+  mixinStorage: ['count'],
+})

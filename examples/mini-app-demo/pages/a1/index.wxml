@@ -1,0 +1,5 @@
+<view>id: {{id}}</view>
+<view>name: {{name}}</view>
+<view>author: {{author}}</view>
+<view>jsonData: {{jsonData}}</view>
+<view>version: {{version}}</view>

@@ -1,0 +1,9 @@
+<view class="boder pd-16">
+  <view class="bold">
+    组件A
+  </view>
+  <view>storage中count的值是: {{count}}</view>
+  <view class="mt-16">
+    <comC />
+  </view>
+</view>

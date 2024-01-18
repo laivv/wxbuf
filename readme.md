@@ -2,7 +2,7 @@
 
 轻量级的微信原生小程序状态管理与事件通信的javascript库
 
-为什么叫`wxbuf`？玩过游戏的都知道加`buff`就是增加状态，变强的意思。这就是取名`wxbuf``的原因。    
+为什么叫`wxbuf`？玩过游戏的都知道加`buff`就是增加状态，变强的意思。这就是取名`wxbuf`的原因。    
 
 `wxbuf`对小程序原生API进行了扩展，增加了以下功能
 * 支持全局状态管理（任意页面或组件引用的globalData自动保持一致）
@@ -10,9 +10,10 @@
 * 支持更易用的跨组件跨页面通信方式，彻底解决通信问题
 * 支持globalData、storage变化监听
 * 更方便的page间数据传递方式
+* 支持跨组件层级传递数据
 * Page、Component支持computed计算属性
 * Page支持observers字段监听器
-* 自动解析page路径参数中的json、number、null、undefined、array字段，在onLoad钩子中自动接收解析后的参数
+* 自动解析page路径参数中的object、number、null、undefined、array字段，在onLoad钩子中自动接收解析后的参数
 * 支持全局生命周期监听
 * 支持全局路由前置守卫钩子、路由变化钩子，方便路由级权限控制
 * 支持全局view标准事件拦截，方便按钮级权限控制

@@ -1,0 +1,6 @@
+<view class="boder pd-16 mt-16">
+  <view class="bold">
+    组件B
+  </view>
+  <view>全局数据'globalData.appCount'的值是: {{appCount}}</view>
+</view>

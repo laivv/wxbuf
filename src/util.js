@@ -98,7 +98,7 @@ export const queryToObject = function (str = '') {
 
 export const mergePathQuery = function (url, params) {
   params = isObject(params) ? toQueryString(params) : params
-  return params ? [url, params].join(url.includes('?') ? '' : '?') : url
+  return params ? [url, params].join(url.includes('?') ? '&' : '?') : url
 }
 
 export const parseOption = function (option, ignore = false) {

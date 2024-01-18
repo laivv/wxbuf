@@ -2,7 +2,7 @@
 
 # 快速入门
 
-  此文档仅提供较常用的功能，要查看所有api，请查看[API文档大全](https://gitee.com/laivv/wxbuf/blob/master/APIS.md)
+  此文档仅介绍较常用的功能，要查看所有api，请查看[API文档大全](https://gitee.com/laivv/wxbuf/blob/master/APIS.md)
 
 
 ## 跨组件通信
@@ -40,8 +40,10 @@
     async handleTap() {
       const acceptVal = await this.openPage({ 
         url: '/pages/detail/index?name=wxbuf',
-        // params参数会追加在url后面，最终生成 /pages/detail/index?name=wxbuf&id=123
+        // 使用params字段传递参数，会追加在url后面，最终生成 /pages/detail/index?name=wxbuf&id=123
         params: { id: '123' },
+        // 使用body字段传递参数
+        body: { value: 1 },
         success(page) {
           // 给被打开page设置字段
           page.setData({ age: 18 })
@@ -54,9 +56,10 @@
   ```js
   // pages/detail/index.js
   Page({
-    onLoad({ name, id }) {
+    onLoad({ name, id, value }) {
       console.log(name) // 'wxbuf'
       console.log(id) // '123'
+      console.log(value) // 1
     },
     async handleOk() {
       console.log(this.data.age) // 18
@@ -65,7 +68,7 @@
     }
   })
   ```
-  因此，可以指定`params`字段来代替字符串拼接，并且`params`中的字段还可以是对象，比自己拼接更方便
+  因此，可以指定`params`字段来代替字符串拼接，并且`params`中的字段还可以是对象，比自己拼接更方便；`body`方式则是通过内存传递参数
 
 ## 获取globalData全局数据
 

@@ -1,8 +1,24 @@
 {
   "pages": [
-    "pages/index/index",
+    "pages/home/index",
     "pages/my/index",
-    "pages/detail/index"
+    "pages/a/index",
+    "pages/a1/index",
+    "pages/b/index",
+    "pages/b1/index",
+    "pages/c/index",
+    "pages/c1/index",
+    "pages/d/index",
+    "pages/d1/index",
+    "pages/e/index",
+    "pages/e1/index",
+    "pages/f/index",
+    "pages/f1/index",
+    "pages/f2/index",
+    "pages/g/index",
+    "pages/h/index",
+    "pages/i/index",
+    "pages/i1/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -16,7 +32,7 @@
   "tabBar": {
     "list": [
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/home/index",
         "text": "首页",
         "iconPath": "/images/tab_home_normal.png",
         "selectedIconPath": "/images/tab_home_light.png"

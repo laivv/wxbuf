@@ -1,0 +1,9 @@
+<view class="boder pd-16">
+  <view class="bold">
+    组件C
+  </view>
+  <view class="mt-16">pageText：{{pageText}}</view>
+  <view class="mt-16">pageCount：{{pageCount}}</view>
+  <view class="mt-16">comNumber：{{comNumber}}</view>
+  <view class="mt-16 btn" bind:tap="handle">点击调用page提供的方法</view>
+</view>

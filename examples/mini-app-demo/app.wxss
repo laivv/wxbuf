@@ -1,10 +1,43 @@
-/**app.wxss**/
-.container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 200rpx 0;
+page {
+  padding: 32rpx;
+}
+page, view {
   box-sizing: border-box;
-} 
+}
+
+.btn {
+  width: 100%;
+  background-color: rgb(25, 175, 83);
+  text-align: center;
+  padding: 12rpx 0;
+  border-radius: 8rpx;
+  color: #fff;
+}
+.btn:active {
+  background-color: rgb(28, 141, 71);
+}
+.btn+.btn {
+  margin-top: 16rpx;
+}
+.mt-16 {
+  margin-top: 32rpx;
+}
+.mb-16 {
+  margin-bottom: 32rpx;
+}
+.text-gray {
+  color:#888;
+}
+.boder {
+  border: solid 2rpx #aaa;
+}
+.full {
+  width: 100%;
+  height: 100%;
+}
+.pd-16{
+  padding: 32rpx;
+}
+.bold {
+  font-weight: bold;
+}

@@ -1,0 +1,3 @@
+Page({
+  mixinGlobalData: ['appCount'],
+})

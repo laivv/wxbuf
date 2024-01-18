@@ -1,0 +1,7 @@
+<view class="boder pd-16">
+  <view class="bold">
+    组件C
+  </view>
+  <view>全局数据'globalData.appCount'的值是: {{appCount}}</view>
+  <view class="btn mt-16" bind:tap="handle">点击修改globalData.appCount的值</view>
+</view>

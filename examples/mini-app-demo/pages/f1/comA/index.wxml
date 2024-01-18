@@ -1,0 +1,8 @@
+<view class="boder pd-16">
+  <view class="bold">
+    组件A
+  </view>
+  <view class="mt-16">
+    <comC />
+  </view>
+</view>

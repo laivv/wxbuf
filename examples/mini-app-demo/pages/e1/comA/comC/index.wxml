@@ -1,0 +1,8 @@
+<view class="boder pd-16">
+  <view class="bold">
+    组件C
+  </view>
+  <view>storage中count的值是: {{count}}</view>
+  <view class="btn mt-16" bind:tap="handle">点击修改storage中count的值</view>
+  <view class="btn mt-16" bind:tap="handleRemove">点击移除storage中的count字段</view>
+</view>

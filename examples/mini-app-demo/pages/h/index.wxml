@@ -1,0 +1,2 @@
+<view>count: {{count}}</view>
+<view class="mt-16 btn" bind:tap="handle">修改count</view>

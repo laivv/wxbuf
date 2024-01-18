@@ -1,0 +1,2 @@
+<view class="btn" bind:tap="handle" data-url="/pages/f1/index">点击查看静态数据的跨级传递</view>
+<view class="btn mt-16" bind:tap="handle" data-url="/pages/f2/index">点击查看动态数据的跨级传递</view>
