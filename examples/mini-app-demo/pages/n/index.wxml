@@ -1,7 +1,7 @@
 <view style="height: 110vh">
   <view class="bold">page</view>
   <view class="mt-16 text-gray">
-    可以在组件中监听page的onPageScroll、onReachBottom、onPullDownRefsh三个钩子，小程序原本是不支持的，这些都是wxbuf提供的
+    可以在组件中监听page的onPageScroll、onReachBottom、onPullDownRefresh三个钩子，小程序原本是不支持的，这些都是wxbuf提供的
   </view>
   <view class="mt-16">
     <comA />
