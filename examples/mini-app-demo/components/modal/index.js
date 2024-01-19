@@ -1,7 +1,4 @@
 Component({
-  attached() {
-  },
-  inject:['a1', 'a2'],
   pageMethods:{
     showPicker ({ onOk, ...option }) {
       this.showPicker(option)

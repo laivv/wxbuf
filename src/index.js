@@ -859,6 +859,11 @@ Page = function (option) {
   option[`${userConfig.methodPrefix}finish`] = function (data) {
     finish(data, this)
   }
+  option[`${userConfig.methodPrefix}invoke`] = function (fnName, ...args) {
+    if (this.$opener && isFunction(this.$opener[fnName])) {
+      this.$opener[fnName](...args)
+    }
+  }
   extendCommonMethods(option)
   extendUserMethods(option, 'page')
   return _Page(option)
@@ -984,6 +989,11 @@ const factory = function (option, constructr) {
 
   if (constructr === _Component) {
     extendUserMethods(option.methods, 'component')
+    option[`${userConfig.methodPrefix}invoke`] = function (fnName, ...args) {
+      if (this.$page.$opener && isFunction(this.$page.$opener[fnName])) {
+        this.$page.$opener[fnName](...args)
+      }
+    }
   }
 
   return constructr(option)

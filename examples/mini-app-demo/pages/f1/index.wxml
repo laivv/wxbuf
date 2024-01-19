@@ -1,5 +1,6 @@
 <view class="full pd-16">
   <view class="bold">page</view>
+  <view class="mt-16">value: {{value}}</view>
   <view class="mt-16">
     <comA />
   </view>

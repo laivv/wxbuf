@@ -6,8 +6,8 @@ Page({
   provide: {
     name: '这是page的name',
     desc: '这是page的desc',
-    getPageData() {
-      return this.data.value
+    updatePageData() {
+      this.setData({ value: this.data.value + 1 })
     }
   }
 })

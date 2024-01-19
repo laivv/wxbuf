@@ -1,5 +1,6 @@
 Page({
-  async handle() {
+  handle() {
+    // 以下将向新页面传递5个字段，它们分别是： id、name、author、jsonData、version
     this.openPage({
       url: '/pages/a1/index?id=123456',
       params: { name: 'wxbuf', author: 'laivv' },
@@ -10,8 +11,5 @@ Page({
         page.setData({ version: 'v1.0.0' })
       }
     })
-    if (recData) {
-      this.setData({ recData: JSON.stringify(recData) })
-    }
   }
 })

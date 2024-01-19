@@ -1,0 +1,1 @@
+<view class="com-b {{ scrolling ? 'hide' : '' }}">组件B</view>

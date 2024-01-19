@@ -18,7 +18,12 @@
     "pages/g/index",
     "pages/h/index",
     "pages/i/index",
-    "pages/i1/index"
+    "pages/i1/index",
+    "pages/j/index",
+    "pages/k/index",
+    "pages/l/index",
+    "pages/m/index",
+    "pages/n/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -27,7 +32,6 @@
     "navigationBarTextStyle": "black"
   },
   "usingComponents": {
-    "window": "/components/window/index"
   },
   "tabBar": {
     "list": [

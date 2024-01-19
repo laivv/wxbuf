@@ -2,5 +2,8 @@
   <view class="bold">
     组件C
   </view>
+  <view>
+    {{eventData}}
+  </view>
   <view class="btn mt-16" bind:tap="handle">点击派发一个'dataChange'事件</view>
 </view>

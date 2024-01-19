@@ -1,3 +1,12 @@
-<view wx:if="{{recData}}" class="mb-16">{{recData}}</view>
+<view wx:if="{{recData}}" class="mb-16">
+  <view class="text-gray mb-16">以下是单次回传的数据</view>
+  <view>{{recData}}</view>
+</view>
+
+<view wx:if="{{list.length}}" class="mb-16">
+  <view class="text-gray mb-16">以下是多次回传的数据</view>
+  <view wx:for="{{list}}" wx:key="index">{{item}}</view>
+</view>
+
 <view class="text-gray mb-16">请点击下方的按钮，打开一个新的页面，新的页面可以把数据回传给本页</view>
 <view class="btn" bind:tap="handle">点击打开新页并让其回传数据</view>

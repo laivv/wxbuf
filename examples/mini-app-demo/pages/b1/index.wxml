@@ -1,1 +1,5 @@
-<view class="btn mt-16" bind:tap="handle">关闭当前页，向前一个页面回传数据</view>
+
+<view class="text-gray">请多次点击下方按钮，可以多次回传数据</view>
+<view class="btn mt-16" bind:tap="handleA">向前一个页面回传数据</view>
+<view class="mt-16 text-gray">请点击下方按钮，仅在关闭当前页时回传一次</view>
+<view class="btn mt-16" bind:tap="handleB">关闭当前页，向前一个页面回传一次数据</view>

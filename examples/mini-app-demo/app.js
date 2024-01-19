@@ -1,12 +1,12 @@
 import wxbuf from './lib/wxbuf.min'
 
-wxbuf.global.extend('getAppName', function() {
+wxbuf.global.extend('getAppName', function () {
   return '我的小程序'
 })
 
 wxbuf.page.extend({
-  say() {
-    console.log('这个方法将挂展到所有page的实例上')
+  closePage() {
+    wx.navigateBack()
   }
 })
 
@@ -30,16 +30,16 @@ wxbuf.watch({
     // console.log('onPageScroll:', option)
   },
   onPageReachBottom: function (option) {
-    // console.log('onPageReachBottom:', option)
+    console.log('onPageReachBottom:', option)
   },
   onPagePullDownRefresh: function (option) {
-    // console.log('onPagePullDownRefresh:', option)
+    console.log('onPagePullDownRefresh:', option)
   },
   onTap: function (option) {
-    // console.log('onTap:', option)
+    console.log('onTap:', option)
   },
   onLongpress: function (option) {
-    // console.log('onLongpress:', option)
+    console.log('onLongpress:', option)
   },
   onLongtap: function (option) {
     // console.log('onLongtap:', option)
@@ -60,13 +60,13 @@ wxbuf.watch({
     // console.log('onTouchforcechange:', option)
   },
   onInput: function (option) {
-    // console.log('onInput:', option)
+    console.log('onInput:', option)
   },
   onFocus: function (option) {
-    // console.log('onFocus:', option)
+    console.log('onFocus:', option)
   },
   onBlur: function (option) {
-    // console.log('onBlur:', option)
+    console.log('onBlur:', option)
   },
 })
 
@@ -77,32 +77,34 @@ wxbuf.config({
   enableGlobalSharePage: false,
 })
 
-
 App({
   listeners: {
+    dataChange(event) {
+      wx.showToast({
+        title: `此窗由app.js弹出！收到'dataChange'事件`,
+        icon: 'none'
+      })
+    }
   },
   globalData: {
     appVersion: 'v1.0',
     appCount: 1
   },
-  onPageLoad() {
-  },
-  beforePageEnter(option, pageConfig) {
-    if (pageConfig.requiredAuth) {
+  beforePageEnter(option, config) {
+    if (config.requiredAuth) {
       wx.showModal({ title: '你没有权限访问该页面', showCancel: false })
       return false
     }
   },
-  onPageChange(page) {
-  },
-  onUIEventDispatch(e, next) {
-    if (e.currentTarget.dataset.auth) {
-     return wx.showToast({
+  onUIEventDispatch(event, next) {
+    if (event.currentTarget.dataset.permission) {
+      return wx.showToast({
         title: '你没有此操作权限',
         icon: 'error'
       })
-    } 
-    next(e, Object.assign({}, e.currentTarget.dataset, e.detail.value ? { value: e.detail.value } : {}))
+    }
+    // 给目标handler传递第二个参数，减少取dataset的解构层数
+    next(event, event.currentTarget.dataset)
   },
   onGlobalDataChange(newVal, oldVal) {
     console.log('来自App.js的消息,全局数据改变了, 新旧值分别是:', newVal, oldVal)

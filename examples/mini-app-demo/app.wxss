@@ -38,6 +38,9 @@ page, view {
 .pd-16{
   padding: 32rpx;
 }
+.pd-8{
+  padding: 16rpx;
+}
 .bold {
   font-weight: bold;
 }

@@ -1,6 +1,6 @@
 
 Page({
-  handleA(e, { url }){
+  handle(e, { url }){
     this.openPage({ url })
   }
  })

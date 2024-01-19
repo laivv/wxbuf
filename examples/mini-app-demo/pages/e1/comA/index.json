@@ -3,6 +3,5 @@
   "styleIsolation": "apply-shared",
   "usingComponents": {
     "comC": "./comC/index"
-  },
-  "enablePullDownRefresh": true
+  }
 }

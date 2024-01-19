@@ -1,0 +1,9 @@
+<view class="text-gray">
+  请进行常见的操作，如页面下拉刷新，滑动页面，按钮点击，长按，输入框的聚焦，失焦，输入等操作，操作中注意观调试器`Console`面的log
+</view>
+<view class="btn mt-16" bind:tap="handle">点击</view>
+<view class="btn mt-16" bind:longpress="handle">长按</view>
+<input class="mt-16 boder pd-8" bind:focus="handle" bindblur="handle" bindinput="handle" placeholder="请执行聚焦，输入，失焦操作" />
+<view class="text-gray mt-16" style="height: 80vh;">
+  请打开调试器切换到`Console`面板
+</view>

@@ -1,0 +1,15 @@
+.com-b{
+  position: fixed;
+  height: 100rpx;
+  width: 100rpx;
+  top: 600rpx;
+  right: 10rpx;
+  background-color: red;
+  transform: translateX(0%);
+  transition: all 0.3s;
+  color:#fff;
+  text-align: center;
+}
+.com-b.hide{
+  transform: translateX(50%);
+}

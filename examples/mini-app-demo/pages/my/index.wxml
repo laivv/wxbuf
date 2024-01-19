@@ -1,3 +1,1 @@
-<view>{{a}}</view>
-<button bind:tap="handleChangeData">修改数据</button>
-<comp1 />
+<view>我的</view>

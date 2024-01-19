@@ -5,5 +5,5 @@
   <view class="mt-16">name：{{name}}</view>
   <view class="mt-16">text：{{text}}</view>
   <view class="mt-16">desc：{{desc}}</view>
-  <view class="mt-16">当前页面data字段中value的值是： {{pageValue}}</view>
+  <view class="mt-16 btn" bind:tap="handle">点击调用由page提供的方法</view>
 </view>
