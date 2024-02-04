@@ -5,17 +5,5 @@
   "setting": {
     "compileHotReLoad": true
   },
-  "condition": {
-    "miniprogram": {
-      "list": [
-        {
-          "name": "",
-          "pathName": "pages/index/index",
-          "query": "name=1",
-          "launchMode": "default",
-          "scene": null
-        }
-      ]
-    }
-  }
+  "condition": {}
 }

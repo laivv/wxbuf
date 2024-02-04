@@ -1,0 +1,14 @@
+<view class="text-gray">
+  在app.js中配置<text class="darkblue">wxbuf.config({ parseUrlArgs: true })</text>可以开启page的url参数反序列化
+</view>
+<view class="text-gray mt-16">开启page参数反序列化后，onLoad(options)钩子的回调参数options上的每个key对应的值都将自动反序列化为对应的js类型数据，而不再全部当string处理</view>
+
+<view class="mt-16">以下<text class="darkblue">options</text> 是指<text class="darkblue">onLoad(options)</text> 钩子的回调参数</view>
+
+<view class="boder pd-8 mt-16">
+  <view wx:for="{{list}}" wx:key="index" class="mb-16">
+    <text class="darkblue">options.{{item.key}}</text>
+    <text> 的类型是：</text>
+    <text class="darkblue">{{item.type}}</text>
+  </view>
+</view>

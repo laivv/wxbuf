@@ -1,1 +1,4 @@
-<view class="btn" bind:tap="handleSwitch">switchTab传参</view>
+<view class="btn" bind:tap="handleA">switchTab传参</view>
+<view class="btn" bind:tap="handleB">调用顶层全局方法</view>
+<view class="btn" bind:tap="handleC">调用page公共方法</view>
+<view class="btn" bind:tap="handleD">page的url参数反序列化</view>

@@ -5,8 +5,11 @@ wxbuf.global.extend('getAppName', function () {
 })
 
 wxbuf.page.extend({
-  closePage() {
-    wx.navigateBack()
+  showToast(title) {
+    wx.showToast({
+      title,
+      icon: 'none'
+    })
   }
 })
 
@@ -74,7 +77,7 @@ wxbuf.config({
   parseUrlArgs: true,
   methodPrefix: '',
   // 开启所有页面分享功能
-  enableGlobalSharePage: false,
+  enableGlobalSharePage: true,
 })
 
 App({

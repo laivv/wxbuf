@@ -119,6 +119,12 @@ export const parseOption = function (option, ignore = false) {
       if (val === 'undefined') {
         option[key] = undefined
       }
+      else if (val === 'true') {
+        option[key] = true
+      }
+      else if (val === 'false') {
+        option[key] = false
+      }
     }
   }
   return option
