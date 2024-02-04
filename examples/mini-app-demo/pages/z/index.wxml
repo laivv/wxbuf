@@ -1,0 +1,1 @@
+<view class="btn" bind:tap="handleSwitch">switchTab传参</view>

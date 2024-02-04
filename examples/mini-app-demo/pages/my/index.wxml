@@ -1,1 +1,2 @@
-<view>我的</view>
+<view wx:if="{{data}}" class="mb-16">url参数：{{data}}</view>
+<comA />

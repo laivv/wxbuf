@@ -1,6 +1,5 @@
 {
   "navigationBarTitleText": "",
   "usingComponents": {
-    "comA": "./comA/index"
   }
 }

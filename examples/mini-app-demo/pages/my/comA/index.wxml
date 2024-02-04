@@ -1,0 +1,7 @@
+<view class="boder pd-16">
+  <view class="bold">
+    组件A
+  </view>
+  <view class="mt-16">url参数：{{data}}</view>
+  <view class="text-gray mt-16">可以在组件中获取所在页面的url参数</view>
+</view>

@@ -771,6 +771,33 @@ const initSwitchTabParams = function (option, context) {
   }
 }
 
+
+
+const processSwitchTab = function (context) {
+  let switchParams = null
+  const isTabbar = isTabBarPage(context.route)
+  if (_switchTabParams &&
+    isTabbar &&
+    _switchTabParams.url === context.route &&
+    context._wakeUp
+  ) {
+    const options = {}
+    initSwitchTabParams(options, context)
+    extend(context.$params, options)
+    context.$rawParamsQuery = toQueryString(context.$params)
+    context.$rawParams = extend({}, context.$params)
+    parseOption(options, !userConfig.parseUrlArgs)
+    parseOption(context.$params, !userConfig.parseUrlArgs)
+    switchParams = options
+  }
+  if (isTabbar && context._wakeUp) {
+    if (context.onSwitchTab) {
+      context.onSwitchTab(switchParams || {})
+    }
+    createLifeTime('switchTab').call(context, switchParams || {})
+  }
+}
+
 const createOnLoad = function (option) {
   return function (params) {
     addPage(this)
@@ -788,6 +815,12 @@ const createOnLoad = function (option) {
     this.$route = this.route
     parseOption(params, !userConfig.parseUrlArgs)
     this.$params = params
+    // if (isTabBarPage(this.route)) {
+    //   if (this.onSwitchTab) {
+    //     this.onSwitchTab(params || {})
+    //   }
+    //   createLifeTime('switchTab').call(this, params || {})
+    // }
     callUserHook(this, 'onPageLoad', {
       option: params,
       path: this.route
@@ -800,37 +833,24 @@ const createOnLoad = function (option) {
 }
 
 
+
 const createOnShow = function (option) {
   const fn = option.onShow || noop
-  // const comSwitchTabLifeTimes = createLifeTime('switchTab')
   option.onShow = function () {
-    let switchParams = null
-    if (_switchTabParams &&
-      isTabBarPage(this.route) &&
-      _switchTabParams.url === this.route &&
-      this._wakeUp
-    ) {
-      const options = {}
-      initSwitchTabParams(options, this)
-      extend(this.$params, options)
-      this.$rawParamsQuery = toQueryString(this.$params)
-      this.$rawParams = extend({}, this.$params)
-      parseOption(options, !userConfig.parseUrlArgs)
-      parseOption(this.$params, !userConfig.parseUrlArgs)
-      switchParams = options
-      // comSwitchTabLifeTimes.call(this, switchParams)
-    }
+    processSwitchTab(this)
 
     callUserHook(this, 'onPageShow', {
       option: this.$params,
       path: this.route
     })
     callAppHook('onPageChange', this)
-    // const params = this._wakeUp ? (switchParams || {}) : this.$params
-    const ret = fn.call(this/**, params **/)
+
+    const ret = fn.call(this)
+
     if (this._wakeUp && this.onWakeup) {
-      this.onWakeup(switchParams || {})
+      this.onWakeup()
     }
+
     defProperty(this, '_wakeUp', true)
     return ret
   }

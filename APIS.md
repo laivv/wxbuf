@@ -20,13 +20,14 @@
 * [***invoke*** (`fnName`: string, `...args`: any[]): `void`](#invoke) 尝试调用opener页面的方法   
 ### 【新增】Component实例方法
 * [***getPageInstance*** (): `pageInstance`](#get-page) 获取所在页面的实例
-* [***getUrlParams*** (): `object`](#get-url-params) 获取所在页面的url参数(同page的onLoad钩子回调参数一致)
+* [***getUrlParams*** (): `object`](#get-url-params) 获取所在页面的url参数(同page的onLoad钩子回调参数一致，只能在ready之后调用)
 * [***invoke*** (`fnName`: string, `...args`: any[]): `void`](#invoke) 尝试调用所在页面的opener页面的方法
 ### 【新增】Page(option)构造器选项
 * [***option.computed*** ](#computed) 声明计算属性
 * [***option.observers*** ](#observers) 声明字段变化监听器
 * [***option.listeners*** ](#listeners) 声明全局事件监听器
 * [***option.onWakeup*** ](#onwakeup) 非首次onShow时调用
+* [***option.onSwitchTab*** ](#onSwitchTab) 当页面是tabbar时，在非首次onShow页面时调用，可接收参数
 * [***option.mixinGlobalData*** ](#mixin-global-data) 混入globalData并保持一致
 * [***option.mixinStorage*** ](#mixin-storage) 混入storage并保持一致
 * [***option.onGlobalDataChange*** ](#on-global-data-change) 监听globalData变化
@@ -42,6 +43,7 @@
 * [***option.pageLifeTimes.pullDownRefresh*** ](#pull-down-refresh) 所在页面onPullDownRefresh
 * [***option.pageLifeTimes.reachBottom*** ](#reach-bottom) 所在页面onReachBottom
 * [***option.pageLifeTimes.pageScroll*** ](#page-scroll) 所在页面onPageScroll
+* [***option.pageLifeTimes.switchTab*** ](#page-switch-tab) 所在tabbar页面发生onSwitchTab时调用   
 * [***option.pageMethods*** ](#page-methods) 向所在页面安装方法
 * [***option.provide*** ](#provide) 向后代组件提供数据
 * [***option.inject*** ](#inject) 获取来自上层组件提供的数据（配合provide使用）
@@ -60,6 +62,7 @@
 * [***option.onGlobalDataChange*** ](#on-global-data-change) 监听globalData变化
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.beforePageEnter*** ](#before-route-enter) 新页面加载前进行回调
+* [***option.onPageLoad*** ](#on-page-load) 页面onLoad进行回调
 * [***option.onPageChange*** ](#on-route-change) 路由发生变化时回调
 * [***option.onUIEventDispatch*** ](#on-uievent-dispatch) UI标准事件触发时的前置拦截器
 ### 【新增】wx工具方法
@@ -941,7 +944,7 @@
       url: '/pages/index/index?a=1&b=2'
     })
   ``` 
-  注意：首次打开目标tabbar页面请在`onLoad`钩子中接收参数，如果目标tabbar页面已经打开过（实例未销毁），此时`switchTab`跳转过去请在`onWakeUp`钩子中接收参数；由于受限于小程序，url上并不会体现出来query参数，但并不影响实际使用
+  注意：首次打开目标tabbar页面请在`onLoad`钩子中接收参数，如果目标tabbar页面已经打开过（实例未销毁），此时`switchTab`跳转过去请在`onSwitchTab`钩子中接收参数；由于受限于小程序，url上并不会体现出来query参数，但并不影响实际使用
 
 <a id="watch"></a>    
 

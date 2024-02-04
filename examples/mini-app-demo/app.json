@@ -23,7 +23,8 @@
     "pages/k/index",
     "pages/l/index",
     "pages/m/index",
-    "pages/n/index"
+    "pages/n/index",
+    "pages/z/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

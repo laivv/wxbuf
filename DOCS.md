@@ -329,7 +329,7 @@
       url: '/pages/index/index?a=1&b=2'
     })
   ``` 
-  注意：首次打开目标tabbar页面请在`onLoad`钩子中接收参数，如果目标tabbar页面已经打开过（实例未销毁），此时`switchTab`跳转过去请在`onWakeUp`钩子中接收参数；由于受限于小程序，url上并不会体现出来query参数，但并不影响实际使用
+  注意：首次打开目标tabbar页面请在`onLoad`钩子中接收参数，如果目标tabbar页面已经打开过（实例未销毁），此时`switchTab`跳转过去请在`onSwitchTab`钩子中接收参数；由于受限于小程序，url上并不会体现出来query参数，但并不影响实际使用
 
   
 
