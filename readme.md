@@ -162,6 +162,9 @@ Page({
 ## API文档大全
 [API文档大全](https://gitee.com/laivv/wxbuf/blob/master/APIS.md)
 
+## 演示小程序demo
+[小程序demo](https://gitee.com/laivv/wxbuf/tree/master/examples/mini-app-demo)
+
 ## License
 
 [MIT](https://opensource.org/licenses/MIT)
