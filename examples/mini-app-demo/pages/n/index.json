@@ -6,5 +6,5 @@
     "comB": "./comB/index",
     "loading": "./loading/index"
   },
-  "onReachBottomDistance": 0
+  "onReachBottomDistance": 10
 }
