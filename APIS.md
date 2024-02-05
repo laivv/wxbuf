@@ -63,9 +63,11 @@
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.beforePageEnter*** ](#before-route-enter) 新页面加载前进行回调
 * [***option.onPageLoad*** ](#on-page-load) 页面onLoad进行回调
-* [***option.onPageChange*** ](#on-route-change) 路由发生变化时回调
+* [***option.onPageShow*** ](#on-route-change) 路由发生变化时回调
+* [***option.onPageShareAppMessage*** ](#onPageShareAppMessage) 当页面分享给好友时进行回调，可劫持并修改参数
+* [***option.onPageShareTimeline*** ](#onPageShareTimeline) 当页面分享到朋友圈时进行回调，可劫持并修改参数
 * [***option.onUIEventDispatch*** ](#on-uievent-dispatch) UI标准事件触发时的前置拦截器
-### 【新增】wx工具方法
+### 【新增】wx对象上新增工具方法
 * [***wx.openPage*** (`option`: object): `promise` ](#wx-open-page) 打开一个页面
 * [***wx.replacePage*** (`option`: object): `void` ](#wx-replace-page) 打开一个页面替换当前页面栈
 * [***wx.finish*** (`value`?: any): `void`  ](#wx-finish) 关闭当前页面
@@ -75,7 +77,8 @@
 * [***wx.getTabBarPages*** (): `string[]`  ](#wx-getTabBarPages) 获取tabbar的页面路径列表
 * [***wx.isTabBarPage*** (`url`: string): `boolean`  ](#wx-isTabBarPage) 判断一个url是否是tabbar页面
 * [***wx.getConfigJson*** (`url`: string): `object`  ](#wx-getConfigJson) 获取页面的原始json文件信息
-### 【更新】wx
+* [***wx.fireEvent*** (`eventName`: string, `value`: any): `void`  ](#wx-fireEvent) 派发一个全局事件（同实例上的fireEvent）
+### 【更新】wx对象
 * [***wx.switchTab*** (`option`: object): `void` ](#wx-switch-tab) switchTab现在支持在url上携带query参数
 ### 【新增】全局监听器 `wxbuf.watch(option)`
 * [***option.onAppLaunch***](#watch)
@@ -101,8 +104,11 @@
 ### 【新增】全局方法   
 * [***getApplication():AppInstance***](#getapplication) 获取app实例
 * [***getSavedPages():page[]***](#getsavedpages) 获取所有未销毁的page实例
-### 【新增】全局配置
-* [***wxbuf.config(option: object)***](#global-config)
+### 【新增】全局配置 wxbuf.config(option)
+* [***option.parseUrlArgs***](#global-config) 是否开启自动反序列化url参数
+* [***option.methodPrefix***](#global-config) 给wxbuf提供的实例或wx对象上的方法添加前缀
+* [***option.enableGlobalShareAppMessage***](#global-config) 是否开启所有页面分享给好友
+* [***option.enableGlobalShareTimeline***](#global-config) 是否开启所有页面分享到朋友圈
 ### 【新增】全局扩展
 * [***wxbuf.global.extend(`varname`: string, `value`: any)***](#global-extend)  定义顶级全局变量
 * [***wxbuf.page.extend(`option`: object)***](#page-extend) 给所有page实例扩展方法
@@ -893,14 +899,14 @@
 
 <a id="on-route-change"></a>
 
-* ***option.onPageChange(page)： void***    
+* ***option.onPageShow(page)： void***    
   适用于： `app`  
 
   说明：当路由发生变化时回调    
 
   参数：`page`为相应的页面
 
-##  【增加】wx.工具方法
+##  【增加】wx对象增加工具方法
 
 <a id="wx-open-page"></a>
 
@@ -932,7 +938,7 @@
 
   说明：修改全局数据(globalData)，效果与实例方法[setGlobalData](#set-global-data)一样
 
-## 【更新】wx工具方法
+## 【更新】wx
 <a id="wx-switch-tab"></a>
 
 * ***wx.switchTab(`options`: object)***   
@@ -1044,12 +1050,14 @@ App({
 import wxbuf  from './utils/wxbuf'
 
 wxbuf.config({
-  // 自动解析页面路径中的json、number、array类型参数，并且在页面onLoad的时候拿到已经处理过的参数
+  // 开启自动反序列化url参数
   parseUrlArgs: true,
-  // 方法前缀 将影响实例方法和wx.静态方法
-  methodPrefix: '$', // e.g： this.$fireEvent， wx.$finish
-  // 开启所有页面分享功能（优先使用页面自己的分享功能）
-  enableGlobalSharePage: true,
+  // 给wxbuf提供的实例或wx对象上的方法添加前缀，用于防止冲突
+  methodPrefix: '',
+  // 开启所有页面分享给好友（优先使用页面自己的分享函数）
+  enableGlobalShareAppMessage: true,
+  // 开启所有页面分享到朋友圈（优先使用页面自己的分享函数）
+  enableGlobalShareTimeline: true,
 })
 
 App({

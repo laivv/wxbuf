@@ -74,15 +74,20 @@ wxbuf.watch({
 })
 
 wxbuf.config({
+  // 开启自动反序列化url参数
   parseUrlArgs: true,
+  // 给wxbuf提供的实例或wx对象上的方法添加前缀，用于防止冲突
   methodPrefix: '',
-  // 开启所有页面分享功能
-  enableGlobalSharePage: true,
+  // 开启所有页面分享给好友
+  enableGlobalShareAppMessage: true,
+  // 开启所有页面分享到朋友圈
+  enableGlobalShareTimeline: true,
 })
 
 App({
   listeners: {
     dataChange(event) {
+      console.log('event', event)
       wx.showToast({
         title: `此窗由app.js弹出！收到'dataChange'事件`,
         icon: 'none'
@@ -92,6 +97,14 @@ App({
   globalData: {
     appVersion: 'v1.0',
     appCount: 1
+  },
+  onPageShareAppMessage(page, options, object) {
+  },
+  onPageShareTimeline(page, options) {
+  },
+  onPageLoad(option) {
+  },
+  onPageShow(page) {
   },
   beforePageEnter(option, config) {
     if (config.requiredAuth) {

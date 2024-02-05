@@ -46,7 +46,7 @@ const userWatcher = new Watcher()
 let userConfig = {
   methodPrefix: '',
   parseUrlArgs: false,
-  enableGlobalSharePage: false,
+  enableGlobalShareAppMessage: false,
 }
 
 let appOption = {}
@@ -548,13 +548,70 @@ const initComputed = function (option, context) {
   update(computed, context)
 }
 
-const initGlobalSharePage = function (page) {
-  if (userConfig.enableGlobalSharePage && !page.onShareAppMessage) {
-    page.onShareAppMessage = function () {
-      return {
+const initGlobalShareAppMessage = function (page) {
+  if (userConfig.enableGlobalShareAppMessage && !page.onShareAppMessage) {
+    page.onShareAppMessage = function (object) {
+      let options = {
         title: getNavigateBarTitle(),
-        url: [this.route, this.$rawParamsQuery].join('?'),
+        url: `${this.route}${this.$rawParamsQuery ? `?${this.$rawParamsQuery}` : ''}`,
       }
+      if (appOption.onPageShareAppMessage) {
+        const ret = callAppHook('onPageShareAppMessage', this, options, object)
+        if (isObject(ret)) {
+          options = ret
+        }
+      }
+      return options
+    }
+  }
+}
+
+const initShareAppMessage = function (page) {
+  const cb = page.onShareAppMessage
+  if (cb) {
+    page.onShareAppMessage = function (object) {
+      let options = cb.call(this, object)
+      if (appOption.onPageShareAppMessage) {
+        const ret = callAppHook('onPageShareAppMessage', this, options, object)
+        if (isObject(ret)) {
+          options = ret
+        }
+      }
+      return options
+    }
+  }
+}
+
+const initGlobalShareTimeline = function (page) {
+  if (userConfig.enableGlobalShareTimeline && !page.onShareTimeline) {
+    page.onShareTimeline = function () {
+      let options = {
+        title: getNavigateBarTitle(),
+        query: this.$rawParamsQuery,
+      }
+      if (appOption.onPageShareTimeline) {
+        const ret = callAppHook('onPageShareTimeline', this, options)
+        if (isObject(ret)) {
+          options = ret
+        }
+      }
+      return options
+    }
+  }
+}
+
+const initShareTimeline = function (page) {
+  const cb = page.onShareTimeline
+  if (cb) {
+    page.onShareTimeline = function () {
+      let options = cb.call(this)
+      if (appOption.onPageShareTimeline) {
+        const ret = callAppHook('onPageShareTimeline', this, options)
+        if (isObject(ret)) {
+          options = ret
+        }
+      }
+      return options
     }
   }
 }
@@ -843,7 +900,7 @@ const createOnShow = function (option) {
       option: this.$params,
       path: this.route
     })
-    callAppHook('onPageChange', this)
+    callAppHook('onPageShow', this)
 
     const ret = fn.call(this)
 
@@ -869,7 +926,10 @@ const createLifeTime = function (hook, userHook) {
 
 Page = function (option) {
   initProxyTap(option)
-  initGlobalSharePage(option)
+  initShareAppMessage(option)
+  initGlobalShareAppMessage(option)
+  initShareTimeline(option)
+  initGlobalShareTimeline(option)
   overwriteFn(option, 'onLoad', createOnLoad(option))
   createOnShow(option)
   overwriteFn(option, 'onUnload', function () { removePage(this) })
@@ -1053,6 +1113,11 @@ const fnsBakup = {
   getGlobalData: wx.getGlobalData,
   setGlobbalData: wx.setGlobalData,
   finish: wx.finish,
+  getNavigateBarTitle: wx.getNavigateBarTitle,
+  getTabBarPages: wx.getTabBarPages,
+  isTabBarPage: wx.isTabBarPage,
+  getConfigJson: wx.getConfigJson,
+  fireEvent: wx.fireEvent
 }
 
 function initWx() {
@@ -1069,6 +1134,7 @@ function initWx() {
   wx[`${pref}getTabBarPages`] = getTabBarPages
   wx[`${pref}isTabBarPage`] = isTabBarPage
   wx[`${pref}getConfigJson`] = getConfigJson
+  wx[`${pref}fireEvent`] = fireEvent
 
   wx.getStorageSync = getStorageSync
   wx.setStorage = setStorage

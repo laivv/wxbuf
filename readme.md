@@ -75,7 +75,7 @@ App({
  
   },
   // 路由变化钩子
-  onPageChange(page) {
+  onPageShow(page) {
 
   },
   // 前置路由守卫钩子， return boolean控制跳转页面

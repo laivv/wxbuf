@@ -155,7 +155,7 @@ export const isTabBarPage = function (path) {
 // }
 
 export const getNavigateBarTitle = function () {
-  // const page = getCurrentPages().slice(0).pop()
+  const page = getCurrentPages().slice(0).pop()
   // if(page && hasOwn(navigationBarTitleMap, page.route)) {
   //   return navigationBarTitleMap[page.route]
   // }
