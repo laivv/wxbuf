@@ -13,7 +13,7 @@
 * 支持跨组件层级传递数据
 * Page、Component支持computed计算属性
 * Page支持observers字段监听器
-* 自动解析page路径参数中的object、number、null、undefined、array字段，在onLoad钩子中自动接收解析后的参数
+* 自动反序列化页面url参数中的object、number、null、undefined、array字段，在onLoad钩子中自动接收反序列化后的参数
 * 支持全局生命周期监听
 * 支持全局路由前置守卫钩子、路由变化钩子，方便路由级权限控制
 * 支持全局view标准事件拦截，方便按钮级权限控制
