@@ -22,8 +22,20 @@ page, view {
 .mt-16 {
   margin-top: 32rpx;
 }
+.mt-32 {
+  margin-top: 64rpx;
+}
 .mb-16 {
   margin-bottom: 32rpx;
+}
+.mr-8 {
+  margin-right: 16rpx;
+}
+.mr-16 {
+  margin-right: 32rpx;
+}
+.text-center {
+  text-align: center;
 }
 .text-gray {
   color:#888;

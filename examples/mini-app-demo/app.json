@@ -40,14 +40,14 @@
       {
         "pagePath": "pages/home/index",
         "text": "首页",
-        "iconPath": "/images/tab_home_normal.png",
-        "selectedIconPath": "/images/tab_home_light.png"
+        "iconPath": "/images/home.png",
+        "selectedIconPath": "/images/home1.png"
       },
       {
         "pagePath": "pages/my/index",
         "text": "我的",
-        "iconPath": "/images/tab_my_u.png",
-        "selectedIconPath": "/images/tab_my_a.png"
+        "iconPath": "/images/my.png",
+        "selectedIconPath": "/images/my1.png"
       }
     ]
   },

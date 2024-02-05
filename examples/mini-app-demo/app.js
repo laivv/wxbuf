@@ -87,7 +87,6 @@ wxbuf.config({
 App({
   listeners: {
     dataChange(event) {
-      console.log('event', event)
       wx.showToast({
         title: `此窗由app.js弹出！收到'dataChange'事件`,
         icon: 'none'

@@ -1,0 +1,4 @@
+<view wx:if="{{loading}}" class="loading">
+  <view class="circular mr-8"></view>
+   {{text}}
+</view>

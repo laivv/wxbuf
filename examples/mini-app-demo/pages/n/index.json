@@ -3,6 +3,7 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "comA": "./comA/index",
-    "comB": "./comB/index"
+    "comB": "./comB/index",
+    "loading": "./loading/index"
   }
 }

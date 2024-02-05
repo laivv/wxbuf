@@ -1,0 +1,37 @@
+
+@keyframes loading-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loading{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  color: #888;
+  background-color: #f5f5f5;
+}
+.circular {
+  display: inline-block;
+  position: relative;
+  height: 36rpx;
+  width: 36rpx;
+  border: solid 2rpx #888;
+  border-radius: 50%;
+  animation: loading-rotate 1.5s linear infinite;
+}
+.circular::after{
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 4rpx;
+  height: 6rpx;
+  width: 6rpx;
+  background-color: #888;
+}
