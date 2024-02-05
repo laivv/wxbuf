@@ -63,7 +63,7 @@
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.beforePageEnter*** ](#before-route-enter) 新页面加载前进行回调
 * [***option.onPageLoad*** ](#on-page-load) 页面onLoad进行回调
-* [***option.onPageShow*** ](#on-route-change) 路由发生变化时回调
+* [***option.onPageShow*** ](#on-route-change) 页面onShow时回调
 * [***option.onPageShareAppMessage*** ](#onPageShareAppMessage) 当页面分享给好友时进行回调，可劫持并修改参数
 * [***option.onPageShareTimeline*** ](#onPageShareTimeline) 当页面分享到朋友圈时进行回调，可劫持并修改参数
 * [***option.onUIEventDispatch*** ](#on-uievent-dispatch) UI标准事件触发时的前置拦截器
@@ -901,7 +901,7 @@
 * ***option.onPageShow(page)： void***    
   适用于： `app`  
 
-  说明：当路由发生变化时回调    
+  说明：页面onShow时回调    
 
   参数：`page`为相应的页面
 
