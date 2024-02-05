@@ -1,21 +1,21 @@
-  <view class="bold">page</view>
-  <view class="mt-16 text-gray">
-    可以在组件中监听page的onPageScroll、onReachBottom、onPullDownRefresh三个钩子，小程序原本是不支持的，这些都是wxbuf提供的
-  </view>
-  <view class="mt-16">
-    <comA />
-    <comB />
-  </view>
-  <view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-  <view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-  <view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-  <view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-  <view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-  <view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-  <view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-  <view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-  <view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-  <view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-  <view class="text-gray mt-32 mb-16">尝试下拉页面，滚动页面到底</view>
+<view class="bold">page</view>
+<view class="mt-16 text-gray">
+  可以在组件中监听page的onPageScroll、onReachBottom、onPullDownRefresh三个钩子，小程序原本是不支持的，这些都是wxbuf提供的
+</view>
+<view class="mt-16">
+  <comA />
+  <comB />
+</view>
+<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
+<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
+<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
+<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
+<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
+<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
+<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
+<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
+<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
+<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
+<view class="text-gray mt-32 mb-16">尝试下拉页面，滚动页面到底</view>
 
-<loading loadData="handleLoadMore" text="正在加载下一页..."/>
+<loading loadData="handleLoadMore" text="正在加载下一页..." />
