@@ -612,6 +612,37 @@
     }
   })
   ```
+  注意：`observers`只能对单一的`key`进行响应，暂不支持对`key`路径响应
+
+  以下是一个正反例子：    
+  
+  ```js
+  Page({
+    data: {
+      obj: {
+        count: 1
+      }
+    }
+    observers: {
+      // 正确
+      obj(newVal, oldVal) {
+       
+      },
+      // 错误
+      'obj.count': function(newVal, oldVal) {
+       
+      },
+    },
+    onLoad() {
+      // 正确，observers正确响式
+      this.setData({ obj: { count: 2 } })
+      // 错误，此方式observers不会响式
+      this.setData({ 'obj.count': 2 })
+    }
+  })
+  ```
+
+
 <a id="listeners"></a>
   
 * ***option.listeners*** : `object`  
