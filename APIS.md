@@ -457,8 +457,8 @@
     }
   })
   ```  
-  `opener`是指打开前当页面的页面，类似于浏览器js环境中的`window.opener`；使用`openPage`打开新页面可以建立`opener`关系，使用`reLaunch`或`redirectTo`等会替换当前页面栈的方法无法建立`opener`关系，
-  注意：`invoke`方法仅仅是尝试调用，若不存在`opener`页面或`opener`页面不存在对应的方法，也不会抛错，这比较适用于父子页面的数据多次回传的场景    
+  `opener`是指打开前当页面的页面，类似于浏览器js环境中的`window.opener`；使用实例方法[openPage](#open-page)打开新页面可以建立`opener`关系，使用`reLaunch`或`redirectTo`等会替换当前页面栈的方法无法建立`opener`关系，
+  注意：`invoke`方法仅仅是尝试调用，若不存在`opener`页面或`opener`页面不存在对应的方法，也不会抛错，这比较适用于某个页面多次把数据回传给上一个页面的场景，并且也不关心`opener`页面或`opener`页面的方法是否存在  
 
 <a id="getPageInstance"></a>
 
