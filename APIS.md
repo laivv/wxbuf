@@ -615,7 +615,7 @@
   注意：`observers`只能对单一的`key`进行响应，暂不支持对`key`路径响应
 
   以下是一个正反例子：    
-  
+
   ```js
   Page({
     data: {
@@ -986,7 +986,7 @@
   例子：
 
   ```js
-  // 宿主页面
+  // 页面
   Page({
     provide: {
       rootName: '这是page数据',
@@ -1015,7 +1015,7 @@
   例子：
 
   ```js
-  // 宿主页面
+  // 页面
   Page({
     data: {
       number: 1
@@ -1040,7 +1040,36 @@
   ```
   要注意的是，小程序中的父子组件关系并不是`jsx`中的那种父子标签（slot）嵌套的关系，而是父组件在`json`文件中的`usingComponents`里导入了某个子组件，并且在`wxml`里使用了子组件，这样即形成父子组件关系，而将组件标签嵌套进另一个组件的`slot`中并不形成父子关系。    
 
-  另一个要注意的是，只能在组件的`attached`生命周期及其之后的生命周期才能获取到`inject`的数据，因为只有在`attached`阶段才能确定其父组件是谁，在`created`阶段由于无法确定父组件，所以无法获取`inject`数据
+  另一个要注意的是，只能在组件的`attached`及其之后的生命周期才能获取到通过`inject`注入的上层数据，因为只有在`attached`阶段才能确定其父组件是谁，在`created`阶段由于无法确定父组件，所以无法获取到通过`inject`注入的上层数据   
+
+  例子：
+
+  ```js
+  // 页面
+  Page({
+    data: {
+      number: 1
+    },
+    provide() {
+      return {
+        pageNumber: this.data.number
+      }
+    }
+  })
+  ```
+  ```js
+  // 子组件
+  Component({
+    inject: ['pageNumber'],
+    lifetimes: {
+      created() {
+        console.log(this.data.pageNumber) // undefined
+      }
+      attached(){
+        console.log(this.data.pageNumber) // 1
+      }
+    }
+  })
 
 <a id="pull-down-refresh"></a>
 
