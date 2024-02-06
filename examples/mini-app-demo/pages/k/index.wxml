@@ -1,5 +1,5 @@
 <view class="text-gray">全局UI事件拦截是指在全局对某个页面或者组件中的事件进行前置拦截，常用于对按钮进行权限控制，不仅仅是tap类型事件，也包括其它事件，如longPress、touchStart、touchMove、touchEnd、input、blur、focus、confirm等等一系列事件</view>
 <view class="text-gray mt-16">以下两个按钮绑定了同一个handler，但有一个会被拦截无法执行</view>
 <view class="btn mt-16" bind:tap="handle">正常执行</view>
-<view class="btn mt-16" bind:tap="handle" data-permission="1">无法执行</view>
+<view class="btn mt-16" bind:tap="handle" data-not-allowed>无法执行</view>
 <view class="text-gray mt-16">要了解为什么第二个按钮被拦截，请查看app.js中onUIEventDispatch回调钩子的逻辑</view>

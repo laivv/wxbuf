@@ -112,14 +112,15 @@ App({
     }
   },
   onUIEventDispatch(event, next) {
-    if (event.currentTarget.dataset.permission) {
+    const { dataset } = event.currentTarget
+    if (dataset.notAllowed) {
       return wx.showToast({
         title: '你没有此操作权限',
         icon: 'error'
       })
     }
     // 给目标handler传递第二个参数，减少取dataset的解构层数
-    next(event, event.currentTarget.dataset)
+    next(event, dataset)
   },
   onGlobalDataChange(newVal, oldVal) {
     console.log('来自App.js的消息,全局数据改变了, 新旧值分别是:', newVal, oldVal)
