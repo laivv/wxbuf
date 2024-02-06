@@ -17,11 +17,11 @@
 * [***clearStorageSync*** (): `void`](#clear-storage-sync) 同步清空storage    
 
 ### 【新增】Page实例方法
-* [***invoke*** (`fnName`: string, `...args`: any[]): `void`](#invoke) 尝试调用opener页面的方法   
+* [***invoke*** (`fnName`: string, `...args`: any[]): `any`](#invoke) 尝试调用opener页面的方法   
 ### 【新增】Component实例方法
 * [***getPageInstance*** (): `pageInstance`](#getPageInstance) 获取所在页面的实例
 * [***getUrlParams*** (): `object`](#getUrlParams) 获取所在页面的url参数(同page的onLoad钩子回调参数一致，只能在ready之后调用)
-* [***invoke*** (`fnName`: string, `...args`: any[]): `void`](#invoke) 尝试调用所在页面的opener页面的方法
+* [***invoke*** (`fnName`: string, `...args`: any[]): `any`](#invoke) 尝试调用所在页面的opener页面的方法
 ### 【新增】Page(option)构造器选项
 * [***option.computed*** ](#computed) 声明计算属性
 * [***option.observers*** ](#observers) 声明字段变化监听器

@@ -941,7 +941,7 @@ Page = function (option) {
   }
   option[`${userConfig.methodPrefix}invoke`] = function (fnName, ...args) {
     if (this.$opener && isFunction(this.$opener[fnName])) {
-      this.$opener[fnName](...args)
+     return this.$opener[fnName](...args)
     }
   }
   extendCommonMethods(option)
