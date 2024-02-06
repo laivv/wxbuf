@@ -77,7 +77,7 @@
 * [***wx.getTabBarPages*** (): `string[]`  ](#getTabBarPages) 获取tabbar的页面路径列表
 * [***wx.isTabBarPage*** (`url`: string): `boolean`  ](#isTabBarPage) 判断一个url是否是tabbar页面
 * [***wx.getConfigJson*** (`url`: string): `object`  ](#getConfigJson) 获取页面的原始json文件信息
-* [***wx.fireEvent*** (`eventName`: string, `value`: any): `void`  ](#fire-event) 派发一个事件（同实例fireEvent方法）
+* [***wx.fireEvent*** (`eventName`: string, `value`: any): `void`  ](#wx-fireEvent) 派发一个事件（同实例fireEvent方法）
 ### 【更新】wx对象
 * [***wx.switchTab*** (`option`: object): `void` ](#wx-switch-tab) switchTab现在支持在url上携带query参数
 ### 【新增】全局监听器 `wxbuf.watch(option)`
@@ -146,7 +146,7 @@
     }
   })
   ```
-  也可以使用`wx.fireEvent`，但推荐优先使用实例上的`fireEvent`，这样便于追踪事件是从哪个页面或组件发出来的，`wx.fireEvent`无法做到这一点，`wx.fireEvent`更适合在没有`this`上下文的js文件中使用   
+  也可以使用[wx.fireEvent](#wx-fireEvent)，但推荐优先使用实例上的`fireEvent`，这样便于追踪事件是从哪个页面或组件发出来的，`wx.fireEvent`无法做到这一点，[wx.fireEvent](#wx-fireEvent)更适合在没有`this`上下文的js文件中使用   
 
   例子：
   ```js
@@ -1322,31 +1322,31 @@
 
 * ***wx.openPage*** (`option`: object): `promise`  
 
-  说明：打开新页面， 效果与实例方法[openPage](#open-page)一样， 可代替`wx.navigateTo`
+  说明：打开新页面， 效果与实例方法[openPage](#open-page)一样， 可代替`wx.navigateTo`，推荐优先使用实例上的`openPage`方法   
 
 <a id="wx-replace-page"></a>
 
 * ***wx.replacePage*** (`option`: object): `void`  
 
-  说明：打开新页面替换当前页面栈，效果与实例方法[replacePage](#replace-page)一样，可代替`wx.redirectTo`
+  说明：打开新页面替换当前页面栈，效果与实例方法[replacePage](#replace-page)一样，可代替`wx.redirectTo`，推荐优先使用实例上的`replacePage`方法   
 
 <a id="wx-finish"></a>
 
 * ***wx.finish*** (`value`?: any): `void`  
 
-  说明：关闭当前页面，效果与实例方法[finish](#finish)一样，可代替`wx.navigateBack`
+  说明：关闭当前页面，效果与实例方法[finish](#finish)一样，可代替`wx.navigateBack`，推荐优先使用实例上的`finish`方法  
 
 <a id="wx-get-global-data"></a>
 
 * ***wx.getGlobalData*** (`key`: string): `any`  
 
-  说明：获取全局数据(globalData)，效果与实例方法[getGlobalData](#get-global-data)一样
+  说明：获取全局数据(globalData)，效果与实例方法[getGlobalData](#get-global-data)一样，推荐优先使用实例上的`getGlobalData`方法  
 
 <a id="wx-set-global-data"></a>
 
 * ***wx.setGlobalData*** (`key`: string, `value`: any): `void`  
 
-  说明：修改全局数据(globalData)，效果与实例方法[setGlobalData](#set-global-data)一样
+  说明：修改全局数据(globalData)，效果与实例方法[setGlobalData](#set-global-data)一样，推荐优先使用实例上的`setGlobalData`方法  
 
 <a id="getNavigateBarTitle"></a>
 
@@ -1370,7 +1370,13 @@
 
 * ***wx.getConfigJson*** (`url`: string): `object`  
 
-  说明：获取页面对应的json文件内容，目前仅能获取到主包中页面的json信息，不稳定，不建议使用
+  说明：获取页面对应的json文件内容，目前仅能获取到主包中页面的json信息，不稳定，不建议使用  
+
+<a id="wx-fireEvent"></a>
+
+* ***wx.fireEvent*** (`name`: string, value?: any): `void`  
+
+  说明：派发一个事件，和实例方法[fireEvent](#fire-event)功能一样
 
 ## 【更新】wx
 <a id="wx-switch-tab"></a>
