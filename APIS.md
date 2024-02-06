@@ -529,8 +529,9 @@
   ```js
   // /pages/detail/index.js
   Page({
-    getUserId() {
-      return '1'
+    onLoad(options) {
+      console.log(options.a) // '1'
+      console.log(options.b) // '2'
     }
   })
   ```  
