@@ -1,4 +1,4 @@
-## <center>wxbuf API目录</center>
+## <center>API目录</center>
 ### 【新增】Page、App、Component、Behavior实例方法
 * [***fireEvent*** (`eventName`: string, `value`: any): `void`](#fire-event) 派发一个事件
 * [***openPage*** (`option`: object): `promise`](#open-page)打开新页面
@@ -19,14 +19,14 @@
 ### 【新增】Page实例方法
 * [***invoke*** (`fnName`: string, `...args`: any[]): `void`](#invoke) 尝试调用opener页面的方法   
 ### 【新增】Component实例方法
-* [***getPageInstance*** (): `pageInstance`](#get-page) 获取所在页面的实例
-* [***getUrlParams*** (): `object`](#get-url-params) 获取所在页面的url参数(同page的onLoad钩子回调参数一致，只能在ready之后调用)
+* [***getPageInstance*** (): `pageInstance`](#getPageInstance) 获取所在页面的实例
+* [***getUrlParams*** (): `object`](#getUrlParams) 获取所在页面的url参数(同page的onLoad钩子回调参数一致，只能在ready之后调用)
 * [***invoke*** (`fnName`: string, `...args`: any[]): `void`](#invoke) 尝试调用所在页面的opener页面的方法
 ### 【新增】Page(option)构造器选项
 * [***option.computed*** ](#computed) 声明计算属性
 * [***option.observers*** ](#observers) 声明字段变化监听器
 * [***option.listeners*** ](#listeners) 声明全局事件监听器
-* [***option.onWakeup*** ](#onwakeup) 非首次onShow时调用
+* [***option.onWakeup*** ](#onWakeup) 非首次onShow时调用
 * [***option.onSwitchTab*** ](#onSwitchTab) 当页面是tabbar时，在非首次onShow页面时调用，可接收参数
 * [***option.mixinGlobalData*** ](#mixin-global-data) 混入globalData并保持一致
 * [***option.mixinStorage*** ](#mixin-storage) 混入storage并保持一致
@@ -43,7 +43,7 @@
 * [***option.pageLifeTimes.pullDownRefresh*** ](#pull-down-refresh) 所在页面onPullDownRefresh
 * [***option.pageLifeTimes.reachBottom*** ](#reach-bottom) 所在页面onReachBottom
 * [***option.pageLifeTimes.pageScroll*** ](#page-scroll) 所在页面onPageScroll
-* [***option.pageLifeTimes.switchTab*** ](#page-switch-tab) 所在tabbar页面发生onSwitchTab时调用   
+* [***option.pageLifeTimes.switchTab*** ](#com-switchTab) 所在tabbar页面发生onSwitchTab时调用   
 * [***option.pageMethods*** ](#page-methods) 向所在页面安装方法
 * [***option.provide*** ](#provide) 向后代组件提供数据
 * [***option.inject*** ](#inject) 获取来自上层组件提供的数据（配合provide使用）
@@ -62,22 +62,22 @@
 * [***option.onGlobalDataChange*** ](#on-global-data-change) 监听globalData变化
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.beforePageEnter*** ](#before-route-enter) 新页面加载前进行回调
-* [***option.onPageLoad*** ](#on-page-load) 页面onLoad进行回调
+* [***option.onPageLoad*** ](#onPageLoad) 页面onLoad进行回调
 * [***option.onPageShow*** ](#on-route-change) 页面onShow时回调
 * [***option.onPageShareAppMessage*** ](#onPageShareAppMessage) 当页面分享给好友时进行回调，可劫持并修改参数
 * [***option.onPageShareTimeline*** ](#onPageShareTimeline) 当页面分享到朋友圈时进行回调，可劫持并修改参数
-* [***option.onUIEventDispatch*** ](#on-uievent-dispatch) UI标准事件触发时的前置拦截器
+* [***option.onUIEventDispatch*** ](#onUIEventDispatch) UI标准事件触发时的前置拦截器
 ### 【新增】wx对象上新增工具方法
 * [***wx.openPage*** (`option`: object): `promise` ](#wx-open-page) 打开一个页面
 * [***wx.replacePage*** (`option`: object): `void` ](#wx-replace-page) 打开一个页面替换当前页面栈
 * [***wx.finish*** (`value`?: any): `void`  ](#wx-finish) 关闭当前页面
 * [***wx.getGlobalData*** (`key`: string): `any`  ](#wx-get-global-data) 获取全局数据
 * [***wx.setGlobalData*** (`key`: string, `value`: any): `any`  ](#wx-set-global-data) 设置全局数据
-* [***wx.getNavigateBarTitle*** (): `string`  ](#wx-getNavigateBarTitle) 获取当前页的导航栏title
-* [***wx.getTabBarPages*** (): `string[]`  ](#wx-getTabBarPages) 获取tabbar的页面路径列表
-* [***wx.isTabBarPage*** (`url`: string): `boolean`  ](#wx-isTabBarPage) 判断一个url是否是tabbar页面
-* [***wx.getConfigJson*** (`url`: string): `object`  ](#wx-getConfigJson) 获取页面的原始json文件信息
-* [***wx.fireEvent*** (`eventName`: string, `value`: any): `void`  ](#wx-fireEvent) 派发一个全局事件（同实例上的fireEvent）
+* [***wx.getNavigateBarTitle*** (): `string`  ](#getNavigateBarTitle) 获取当前页的导航栏title
+* [***wx.getTabBarPages*** (): `string[]`  ](#getTabBarPages) 获取tabbar的页面路径列表
+* [***wx.isTabBarPage*** (`url`: string): `boolean`  ](#isTabBarPage) 判断一个url是否是tabbar页面
+* [***wx.getConfigJson*** (`url`: string): `object`  ](#getConfigJson) 获取页面的原始json文件信息
+* [***wx.fireEvent*** (`eventName`: string, `value`: any): `void`  ](#fire-event) 派发一个事件（同实例fireEvent方法）
 ### 【更新】wx对象
 * [***wx.switchTab*** (`option`: object): `void` ](#wx-switch-tab) switchTab现在支持在url上携带query参数
 ### 【新增】全局监听器 `wxbuf.watch(option)`
@@ -143,6 +143,17 @@
   Page({
     handleBtnTap() {
       this.fireEvent('updateOk', 'hello')
+    }
+  })
+  ```
+  也可以使用`wx.fireEvent`，但推荐优先使用实例上的`fireEvent`，这样便于追踪事件是从哪个页面或组件发出来的，`wx.fireEvent`无法做到这一点，`wx.fireEvent`更适合在没有`this`上下文的js文件中使用   
+
+  例子：
+  ```js
+  //request.js
+  http.response.intercepter.use(res => {
+    if(res.code === 403) {
+      wx.fireEvent('loginOut')
     }
   })
   ```
@@ -410,6 +421,140 @@
   适用于： `app` 、`page`、 `component`、 `behavior`  
 
   说明：同步清空`storage`, 可代替`wx.clearStorageSync`    
+<a id="invoke"></a>
+
+* ***invoke*** (`fnName`: string, ...args: any[]): `any`   
+  适用于： `page`、 `component`  
+
+  说明：尝试调用opener页面的方法  
+  例子：
+
+  ```js
+  // pages/pageA/index.js
+  // opener页面
+  Page({
+    data: {
+      selected: null
+    },
+    handleTap() {
+      this.openPage({
+        url: '/pages/select/index',
+      })
+    },
+    onSelect(selected) {
+      this.setData({ selected })
+    }
+  })
+  ```  
+
+  ```js
+  // pages/select/index.js
+  // 子页面
+  Page({
+    handleItemTap(item){
+      this.invoke('onSelect', item)
+    }
+  })
+  ```  
+  `opener`是指打开前当页面的页面，类似于浏览器js环境中的`window.opener`；使用`openPage`打开新页面可以建立`opener`关系，使用`reLaunch`或`redirectTo`等会替换当前页面栈的方法无法建立`opener`关系，
+  注意：`invoke`方法仅仅是尝试调用，若不存在`opener`页面或`opener`页面不存在对应的方法，也不会抛错，这比较适用于父子页面的数据多次回传的场景    
+
+<a id="getPageInstance"></a>
+
+* ***getPageInstance*** (): `page`   
+  适用于： `component`  
+
+  说明：获取当前组件所在页面的实例    
+
+  例子：
+
+  ```html
+  <!-- pageA.wxml -->
+  <comA />
+  ```
+
+  ```js
+  // pageA.js
+  Page({
+    getUserId() {
+      return '1'
+    }
+  })
+  ```  
+  ```json
+  /** pageA.json **/
+  {
+    "usingComponents": {
+     "comA": "./comA/index"
+    }
+  }
+  ```
+
+  ```js
+  // ./comA/index.js
+  Component({
+    handleItemTap(item){
+     console.log(this.getPageInstance().getUserId()) // '1'
+    }
+  })
+  ```  
+<a id="getUrlParams"></a>    
+
+* ***getUrlParams*** (): `object`   
+  适用于： `component`  
+
+  说明：获取当前组件所在页面的url参数，获取的结果同所在页面的生命周期`onLoad(options)`的回调参数`options`一致   
+
+  注意： 请在组件的`ready`生命周期及其之后再获取url参数，在`created`、`attached`中无法获得正确结果
+
+
+  例子：
+  
+  ```js
+  // pageA.js
+  Page({
+    handleTap() {
+      wx.navigateTo({
+        url: "/pages/detail/index?a=1&b=2"
+      })
+    }
+  })
+  ```
+
+  ```html
+  <!-- /pages/detail/index.wxml -->
+  <comA />
+  ```
+
+  ```js
+  // /pages/detail/index.js
+  Page({
+    getUserId() {
+      return '1'
+    }
+  })
+  ```  
+  ```json
+  /** /pages/detail/index.json **/
+  {
+    "usingComponents": {
+     "comA": "./comA/index"
+    }
+  }
+  ```
+
+  ```js
+  // ./comA/index.js
+  Component({
+    lifetimes: {
+      ready() {
+        const urlParams = this.getUrlParams()
+        console.log(urlParams.a) // '1'
+        console.log(urlParams.b) // '2'
+      }
+    }
+  })
+  ```  
 ## 【增加】构造器option
 
 <a id="computed"></a>
@@ -505,6 +650,55 @@
     }
   })
   ```   
+
+<a id="onWakeup"></a>
+  
+* ***option.onWakeup*** : `()=> void`  
+  适用于：  `page` 
+
+  说明：页面非首次`onShow`时调用，和`onShow`唯一的区别是`onShow`是每次都会调用，而`onWakeup`则在第二次及以后才会调用    
+
+<a id="onSwitchTab"></a>
+  
+* ***option.onSwitchTab*** : `(options: object) => void`  
+  适用于：  `page` 
+
+  说明：若当前页面是`tabbar`页面，在第二次及之后页面`onShow`的时候会调用此钩子，并且此钩子可以接收来自`wx.switchTab`的参数传递；非tabbar页面此钩子不会调用
+
+  例子：  
+
+  ```js
+  // /pageA.js
+  Page({
+    // 第一次点击
+    handleFirstTap() {
+      wx.switchTab({
+        url: '/pages/my/index?a=1'
+      })
+    },
+    // 第二次点击
+    handleSecondTap() {
+      wx.switchTab({
+        url: '/pages/my/index?a=2'
+      })
+    },
+  })
+  ```
+
+  ```js
+  // /pages/my/index.js
+  // 此页面是tabbar页面
+  Page({
+    // 首次进入页面在onLoad钩子接收wx.switchTab参数
+    onLoad(options) {
+      console.log(options.a) // '1'
+    },
+    // 非首次(第二次onShow及之后)在onSwitchTab钩子接收wx.switchTab参数
+    onSwitchTab(options) {
+      console.log(options.a) // '2'
+    }
+  })
+  ```
 
 <a id="mixin-global-data"></a>    
 
@@ -835,7 +1029,69 @@
 * ***option.pageLifeTimes.pageScroll(e): void***   
   适用于： `component`、`behavior`    
 
-  说明：所在页面`onPageScroll`时回调， 注意：不要大量使用此钩子，否则将引发性能问题
+  说明：所在页面`onPageScroll`时回调， 注意：不要大量使用此钩子，否则将引发性能问题   
+
+<a id="com-switchTab"></a>
+  
+* ***option.pageLifeTimes.switchTab*** : `(options: object) => void`  
+  适用于：  `component` 
+
+  说明：若当前组件所在页面是`tabbar`页面，在页面第二次及之后`onShow`的时候会调用此钩子，并且此钩子可以接收来自`wx.switchTab`的参数传递；非tabbar页面此钩子不会调用
+
+  例子：  
+
+  ```js
+  // /pageA.js
+  Page({
+    // 第一次点击
+    handleFirstTap() {
+      wx.switchTab({
+        url: '/pages/my/index?a=1'
+      })
+    },
+    // 第二次点击
+    handleSecondTap() {
+      wx.switchTab({
+        url: '/pages/my/index?a=2'
+      })
+    },
+  })
+  ```
+
+  ```js
+  // /pages/my/index.js
+  // 此页面是tabbar页面
+  Page({
+    // 首次进入页面在onLoad钩子接收wx.switchTab参数
+    onLoad(options) {
+      console.log(options.a) // '1'
+    },
+    // 非首次(第二次onShow及之后)在onSwitchTab钩子接收wx.switchTab参数
+    onSwitchTab(options) {
+      console.log(options.a) // '2'
+    }
+  })
+  ```
+  ```js
+  // 此组件在 /pages/my/index 页面中使用
+  Component({
+    lifetimes: {
+      // 首次在ready钩子及之后的生命周期通过this.getUrlParams()获取wx.switchTab参数
+      // 在ready之前的生命周期调用this.getUrlParams()不会得到正确结果
+      ready() {
+        const urlParams = this.getUrlParams()
+        console.log(urlParams.a) // '1'
+      }
+    },
+    pageLifetimes: {
+      // 非首次onShow在switchTab钩子接收wx.switchTab参数 
+      switchTab(options) {
+        console.log(options.a) // '2'
+      }
+    }
+  })
+  ```
+  为什么`pageLifetimes.switchTab`不设计成每次切入tabbar页面时都调用呢？这是因为很多组件并不会在页面初次打开时就存在，可能要等到调用接口后才会展示出来，此时已经错过了所在tabbar页面的`onSwitchTab`生命周期，所以这种设计机制和小程序组件内置的生命周期（如`pageLifetimes.show`）保持一致
 
 <a id="page-methods"></a>
 
@@ -896,6 +1152,15 @@
   参数：`pageConfig`为要打开页面的原始.json文件内容信息，利用此信息可以做个性化的路由拦截（如权限控制）      
   注意：只能拦截通过js调用打开的页面，正常启动或通过外链启动进入的页面无法拦截    
 
+<a id="onPageLoad"></a>
+
+* ***option.onPageLoad(option)： void***    
+  适用于： `app`  
+
+  说明：页面onLoad时回调    
+
+  参数：`option`为页面的信息   
+
 <a id="on-route-change"></a>
 
 * ***option.onPageShow(page)： void***    
@@ -903,7 +1168,90 @@
 
   说明：页面onShow时回调    
 
-  参数：`page`为相应的页面
+  参数：`page`为相应的页面  
+
+<a id="onPageShareAppMessage"></a>
+
+* ***option.onPageShareAppMessage(`page`: page, `options`: object, `object`: object)： object | undefined***    
+  适用于： `app`  
+
+  说明：页面`onShareAppMessage`时调用， 可以返回一个`object`来劫持修改原始的分享信息，若不返回数据，则表示不修改原始分享信息
+
+  参数：`page`为对应的页面    
+  参数：`options`为对应的页面执行`onShareAppMessage`后返回的数据    
+  参数：`object`为对应的页面的`onShareAppMessage`原始的回调参数   
+
+  注意：此钩子并不能阻止页面的分享功能，仅仅是在分享发生时提供统一修改的机会  
+
+<a id="onPageShareTimeline"></a>
+
+* ***option.onPageShareTimeline(`page`: page, `options`: object)： object | undefined***    
+  适用于： `app`  
+
+  说明：页面`onShareTimeline`时调用， 可以返回一个`object`来劫持修改原始的分享信息，若不返回数据，则表示不修改原始分享信息
+
+  参数：`page`为对应的页面    
+  参数：`options`为对应的页面执行`onShareTimeline`后返回的数据    
+
+  注意：此钩子并不能阻止页面的分享功能，仅仅是在分享发生时提供统一修改的机会    
+
+<a id="onUIEventDispatch"></a>
+
+* ***option.onUIEventDispatch(`event`: event, `next`: Function)： void***    
+  适用于： `app` 
+
+  说明：对于视图层绑定的事件`handler`进行统一的前置处理，此钩子可以拦截页面上所有视图层绑定的事件回调的执行
+
+  参数：`event`为原始的event对象  
+  参数：`next`是一个方法， 若调用，则表示继续执行绑定的原始`handler`，否则拦截      
+
+  例子：
+
+  ```js
+  //app.js
+  App({
+    onUIEventDispatch(event, next) {
+      const { dataset } = event.currentTarget
+      if (dataset.notAllowed) {
+        return wx.showToast({
+          title: '你没有此操作权限',
+          icon: 'error'
+        })
+      }
+      // 给目标handler传递第二个参数，减少目标handler取dataset的解构层数
+      // 注意，目标handler的第一个参数原封不动传回去，因为绑定的事件第一个参数原本就是event，若强行改动容易出现问题
+      next(event, dataset)
+    }
+  })
+  ```
+
+  ```xml
+  <!-- pageA.wxml -->
+  <view bindtap="handleA" data-name="123">正常执行</view>  
+  <view bindtap="handleB" data-not-allowed >无操作权限</view>  
+  ```
+
+  ```js
+  // pageA.js
+  Page({
+    // 正常执行
+    handleA(event, dataset) {
+      wx.showToast({
+        title: '执行成功',
+        icon: 'none'
+      })
+      console.log(dataset.name) // '123'
+    }
+    // 被拦截，无法执行
+    handleB() {
+      wx.showToast({
+        title: '执行成功',
+        icon: 'none'
+      })
+    }
+  })
+  ```
+
 
 ##  【增加】wx对象增加工具方法
 
@@ -936,6 +1284,30 @@
 * ***wx.setGlobalData*** (`key`: string, `value`: any): `void`  
 
   说明：修改全局数据(globalData)，效果与实例方法[setGlobalData](#set-global-data)一样
+
+<a id="getNavigateBarTitle"></a>
+
+* ***wx.getNavigateBarTitle*** (): `string`  
+
+  说明：获取当前页面的导航栏title，不适用于自定义导航栏，此方法返回不是很准确，建议暂不使用
+
+<a id="getTabBarPages"></a>
+
+* ***wx.getTabBarPages*** (): `string[]`  
+
+  说明：获取所有tabbar页面的url列表   
+
+<a id="isTabBarPage"></a>
+
+* ***wx.isTabBarPage*** (`url`: string): `boolean`  
+
+  说明：判断一个路径url是否是tabbar页面 
+
+<a id="getConfigJson"></a>
+
+* ***wx.getConfigJson*** (`url`: string): `object`  
+
+  说明：获取页面对应的json文件内容，目前仅能获取到主包中页面的json信息，不稳定，不建议使用
 
 ## 【更新】wx
 <a id="wx-switch-tab"></a>
