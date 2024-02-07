@@ -12,4 +12,5 @@
 <view class="btn" bind:tap="handle" data-url="/pages/l/index">异步更新视图</view>
 <view class="btn" bind:tap="handle" data-url="/pages/m/index">全局监听各种UI事件</view>
 <view class="btn" bind:tap="handle" data-url="/pages/n/index">在组件中监听页面的钩子</view>
+<view class="btn" bind:tap="handle" data-url="/pages/p/index">在页面中调用组件内部方法</view>
 <view class="btn" bind:tap="handle" data-url="/pages/z/index">其它更多功能</view>
