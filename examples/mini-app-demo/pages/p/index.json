@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "c-picker": "../../components/c-picker/index"
+  }
+}

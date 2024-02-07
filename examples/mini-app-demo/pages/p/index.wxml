@@ -1,0 +1,7 @@
+<view>你选择的值是：{{value1}}</view>
+<view bind:tap="handleA" class="btn mt-16">点击打开picker</view>
+
+<view class="mt-16">你选择的值是：{{value2}}</view>
+<view bind:tap="handleB" class="btn mt-16">点击打开picker</view>
+
+<c-picker />
