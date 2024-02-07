@@ -7,22 +7,14 @@
     "lib": "lib"
   },
   "scripts": {
-    "build": "set NODE_ENV=production && rollup -c"
+    "build": "set NODE_ENV=production && rollup -c&&shx cp -rf ./dist/ ./examples/mini-app-demo/lib/"
   },
   "type": "module",
   "author": "laivv",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.23.5",
-    "@babel/preset-env": "^7.23.5",
-    "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-terser": "^0.4.4",
-    "javascript-obfuscator": "^4.1.0",
     "rollup": "^4.6.1",
-    "rollup-plugin-copy": "^3.5.0",
-    "rollup-plugin-obfuscator": "^1.1.0"
-  },
-  "dependencies": {
-    "@rollup/plugin-babel": "^6.0.4"
+    "shx": "^0.3.4"
   }
 }

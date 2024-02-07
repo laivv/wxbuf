@@ -2,7 +2,7 @@
 
 # 快速入门
 
-  此文档仅介绍较常用的功能，要查看所有api，请查看[API文档大全](https://gitee.com/laivv/wxbuf/blob/master/APIS.md)
+  此文档仅介绍较常用的功能，要查看所有api，请查看[API文档大全](https://gitee.com/laivv/wxbuf/blob/master/docs/APIS.md)
 
 
 ## 跨组件通信
@@ -401,4 +401,4 @@
 [小程序demo](https://gitee.com/laivv/wxbuf/tree/master/examples/mini-app-demo)
 
 ## 更多详细API请参考以下链接
-[API文档大全](https://gitee.com/laivv/wxbuf/blob/master/APIS.md)
+[API文档大全](https://gitee.com/laivv/wxbuf/blob/master/docs/APIS.md)

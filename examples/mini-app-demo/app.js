@@ -1,4 +1,4 @@
-import wxbuf from './lib/wxbuf.min'
+import wxbuf from './lib/dist/wxbuf.min'
 
 wxbuf.global.extend('getAppName', function () {
   return '我的小程序'
