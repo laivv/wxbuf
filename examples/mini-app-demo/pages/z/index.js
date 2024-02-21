@@ -18,5 +18,12 @@ Page({
     wx.navigateTo({
       url: '/pages/o/index?count=10&list=[1,2,3]&isTrue=true&error=null&ndef=undefined&emptyStr=&id=157892112014121020112',
     })
+  },
+  async handleE() {
+    await new Promise(resolve => setTimeout(resolve, 3000))
+    wx.showToast({
+      title: '提交成功',
+      icon: 'none'
+    })
   }
 })

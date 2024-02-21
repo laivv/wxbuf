@@ -1,0 +1,46 @@
+.btn-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-wrap.loading {
+  opacity: 0.6;
+}
+.btn-wrap.loading.btn:active {
+  background-color: rgb(25, 175, 83);
+}
+.btn-wrap.loading .btn-circular {
+  display: inline-block;
+}
+
+@keyframes loading-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.btn-circular {
+  display: none;
+  position: relative;
+  height: 32rpx;
+  width: 32rpx;
+  border: solid 2rpx #fff;
+  border-radius: 50%;
+  animation: loading-rotate 1.5s linear infinite;
+  margin-right: 8rpx;
+}
+
+.btn-circular::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -2rpx;
+  right: 4rpx;
+  height: 6rpx;
+  width: 6rpx;
+  background-color: #fff;
+}

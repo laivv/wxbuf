@@ -53,6 +53,10 @@ page, view {
 .pd-8{
   padding: 16rpx;
 }
+.py-16{
+  padding-top: 32rpx;
+  padding-bottom: 32rpx;
+}
 .bold {
   font-weight: bold;
 }

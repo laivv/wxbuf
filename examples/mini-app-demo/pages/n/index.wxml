@@ -6,16 +6,9 @@
   <comA />
   <comB />
 </view>
-<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-<view class="text-gray mt-32">尝试下拉页面，滚动页面到底</view>
-<view class="text-gray mt-32 mb-16">尝试下拉页面，滚动页面到底</view>
+<view class="text-gray py-16" wx:for="{{n}}" wx:key="index">
+  尝试下拉页面，滚动页面到底{{item + 1}}
+</view>
+
 
 <loading loadData="handleLoadMore" text="正在加载下一页..." />

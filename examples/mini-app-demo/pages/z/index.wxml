@@ -2,3 +2,4 @@
 <view class="btn" bind:tap="handleB">调用顶层全局方法</view>
 <view class="btn" bind:tap="handleC">调用page公共方法</view>
 <view class="btn" bind:tap="handleD">page的url参数反序列化</view>
+<c-btn onClick="handleE" loading-text="提交中...，点击已禁用">此按钮自动防抖</c-btn>

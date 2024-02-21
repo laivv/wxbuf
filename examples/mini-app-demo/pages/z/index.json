@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "",
   "usingComponents": {
+    "c-btn": "../../components/c-btn/index"
   }
 }

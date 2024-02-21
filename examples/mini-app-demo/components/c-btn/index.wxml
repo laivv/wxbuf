@@ -1,0 +1,9 @@
+<view 
+  bind:tap="{{loading ? '' : 'handleTap'}}" 
+  class="class btn-wrap btn text-center {{loading ? 'loading': ''}}" 
+  style="{{style}}"
+>
+  <view class="btn-circular"></view>
+  <view wx:if="{{loadingText && loading}}">{{loadingText}}</view>
+  <slot wx:else></slot>
+</view>
