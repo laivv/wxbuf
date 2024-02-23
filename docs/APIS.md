@@ -44,7 +44,7 @@
 * [***option.pageLifeTimes.reachBottom*** ](#reach-bottom) 所在页面onReachBottom
 * [***option.pageLifeTimes.pageScroll*** ](#page-scroll) 所在页面onPageScroll
 * [***option.pageLifeTimes.switchTab*** ](#com-switchTab) 所在tabbar页面发生onSwitchTab时调用   
-* [***option.pageMethods*** ](#page-methods) 向所在页面安装方法
+* [***option.exportMethods*** ](#page-methods) 向所在父组件实例挂载方法
 * [***option.provide*** ](#provide) 向后代组件提供数据
 * [***option.inject*** ](#inject) 获取来自上层组件提供的数据（配合provide使用）
 ### 【新增】Behavior(option)构造器选项
@@ -1157,18 +1157,18 @@
 
 <a id="page-methods"></a>
 
-* ***option.pageMethods: object***   
+* ***option.exportMethods: object***   
   适用于： `component`   
 
-  说明：向所在的page实例挂载方法    
+  说明：向所在的父组件实例挂载方法    
 
   例子：    
 
   ```js
   // 组件 list.js
   Component({
-    pageMethods: {
-      // 此方法将挂载到使用此组件的page的this对象上
+    exportMethods: {
+      // 此方法将挂载到父组件的this对象上
       refreshList() {
         this.getData()
       }
@@ -1201,7 +1201,7 @@
     }
   })
   ```
-  注意，如果组件所在page已有同名方法，则不会向该page挂载方法；如果组件被page使用多次，则只会挂载第一个组件的方法，所以要向page挂载方法就要避免组件在同一个page中被多次使用，以防引起混乱。
+  注意，如果父组件已有同名方法，则不会挂载方法；如果组件被父组件使用多次，则只会挂载第一个组件的方法，所以要向父组件挂载方法就要避免组件在同一个父组件中被多次使用，以防引起混乱。
 
 <a id="before-route-enter"></a>
 

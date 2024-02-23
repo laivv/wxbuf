@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "c-picker": "../../components/c-picker/index"
+    "c-picker": "../../components/c-picker/index",
+    "comA": "./comA/index"
   }
 }

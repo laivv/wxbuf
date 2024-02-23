@@ -950,26 +950,26 @@ Page = function (option) {
 }
 
 const installPageMethods = function (option, context) {
-  const { pageMethods } = option
-  if (pageMethods) {
-    const page = getPageInstance(context)
-    for (let key in pageMethods) {
-      const fn = pageMethods[key]
-      if (pageMethods.hasOwnProperty(key) && isFunction(fn) && !page[key]) {
-        page[key] = fn.bind(context)
-        page[key].$installedBy = context
+  const { exportMethods } = option
+  if (exportMethods) {
+    const parent = context.selectOwnerComponent()
+    for (let key in exportMethods) {
+      const fn = exportMethods[key]
+      if (exportMethods.hasOwnProperty(key) && isFunction(fn) && !parent[key]) {
+        parent[key] = fn.bind(context)
+        parent[key].$installedBy = context
       }
     }
   }
 }
 
 const uninstallPageMethods = function (option, context) {
-  const { pageMethods } = option
-  if (pageMethods) {
-    const page = getPageInstance(context)
-    for (let key in pageMethods) {
-      if (page[key] && page[key].$installedBy === context) {
-        delete page[key]
+  const { exportMethods } = option
+  if (exportMethods) {
+    const parent = context.selectOwnerComponent()
+    for (let key in exportMethods) {
+      if (parent[key] && parent[key].$installedBy === context) {
+        delete parent[key]
       }
     }
   }

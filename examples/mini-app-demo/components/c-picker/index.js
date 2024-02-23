@@ -1,8 +1,8 @@
 Component({
-  // 向所在page挂载方法
-  pageMethods:{
+  // 向父组件实例挂载方法
+  exportMethods:{
     showPicker ({ onOk, ...option }) {
-      this.showPicker(option)
+      this.openPicker(option)
       return new Promise((resolve, reject) => {
         this.data.resolve = resolve
         this.data.reject = reject
@@ -16,7 +16,7 @@ Component({
     reject: null
   },
   methods: {
-    showPicker(option) {
+    openPicker(option) {
       this.setData({ visible: true, ...option })
     },
     async onSelected({ currentTarget: { dataset: { value } } }) {
