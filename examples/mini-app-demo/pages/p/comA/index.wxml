@@ -1,0 +1,7 @@
+<view class="boder pd-16">
+  <view class="bold">
+    组件A
+  </view>
+  <view class="btn mt-16" bind:tap="handle">打开picker</view>
+</view>
+<c-picker />
