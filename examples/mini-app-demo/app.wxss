@@ -22,11 +22,15 @@ page, view {
 .mt-16 {
   margin-top: 32rpx;
 }
-.mt-32 {
-  margin-top: 64rpx;
-}
 .mb-16 {
   margin-bottom: 32rpx;
+}
+.my-16{
+  margin-top: 32rpx;
+  margin-bottom: 32rpx;
+}
+.mt-32 {
+  margin-top: 64rpx;
 }
 .mr-8 {
   margin-right: 16rpx;
@@ -37,11 +41,25 @@ page, view {
 .text-center {
   text-align: center;
 }
+.text-bold{
+  font-weight: bold;
+}
 .text-gray {
   color:#888;
 }
 .boder {
   border: solid 2rpx #aaa;
+}
+.fixed-top-left{
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.x-full {
+  width: 100%;
+}
+.y-full {
+  height: 100%;
 }
 .full {
   width: 100%;
@@ -57,6 +75,12 @@ page, view {
   padding-top: 32rpx;
   padding-bottom: 32rpx;
 }
+.pb-16{
+  padding-bottom: 32rpx;
+}
 .bold {
   font-weight: bold;
+}
+.bg-white {
+  background-color: #fff;
 }

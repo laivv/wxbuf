@@ -4,7 +4,7 @@
   "usingComponents": {
     "comA": "./comA/index",
     "comB": "./comB/index",
-    "loading": "./loading/index"
+    "c-loading": "../../components/c-loading/index"
   },
   "onReachBottomDistance": 10
 }

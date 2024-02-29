@@ -1,0 +1,36 @@
+.picker-container {
+  display: none;
+}
+
+.picker-container.picker-container-show {
+  display: block;
+}
+
+.picker-mask {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  overflow: hidden;
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+.picker-mask.picker-mask-open {
+  opacity: 1;
+}
+
+.picker-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translateY(100%);
+  transition: all 0.3s;
+}
+
+.picker-mask.picker-mask-open .picker-body {
+  transform: translateY(0%);
+}
