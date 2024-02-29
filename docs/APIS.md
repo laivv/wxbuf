@@ -1501,6 +1501,8 @@ wxbuf.config({
   enableGlobalShareAppMessage: true,
   // 开启所有页面分享到朋友圈（优先使用页面自己的分享函数）
   enableGlobalShareTimeline: true,
+  // 指定全局数据的key
+  globalDataKey: 'globalData'
 })
 
 App({

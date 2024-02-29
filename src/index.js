@@ -47,6 +47,8 @@ let userConfig = {
   methodPrefix: '',
   parseUrlArgs: false,
   enableGlobalShareAppMessage: false,
+  enableGlobalShareTimeline: false,
+  globalDataKey: 'globalData'
 }
 
 let appOption = {}
@@ -380,17 +382,18 @@ const clearStorageSync = function () {
 }
 
 const getGlobalData = function (key) {
-  const app = getApplication()
-  return app.globalData ? (key ? app.globalData[key] : app.globalData) : undefined
+  const data = getApplication()[userConfig.globalDataKey]
+  return data ? (key ? data[key] : data) : undefined
 }
 
 const setGlobalData = function (key, value) {
+  const { globalDataKey } = userConfig
   const app = getApplication()
-  if (!app.globalData) {
-    app.globalData = {}
+  if (!app[globalDataKey]) {
+    app[globalDataKey] = {}
   }
-  const oldValue = app.globalData[key]
-  app.globalData[key] = value
+  const oldValue = app[globalDataKey][key]
+  app[globalDataKey][key] = value
   updateMixinsAsync({ [key]: value }, { [key]: oldValue }, 'globalData')
 }
 
@@ -400,14 +403,14 @@ const getCurrentPage = function () {
 }
 
 const initMixinData = function (option, context) {
-  const { globalData } = getApp();
+  const gData = getApp()[userConfig.globalDataKey];
   ['GlobalData', 'Storage'].forEach(name => {
     const mixinKeys = option[`mixin${name}`]
     if (isArray(mixinKeys)) {
       const data = {}
       mixinKeys.forEach(key => {
         const [sourceKey, targetKey] = getRealKey(key)
-        data[targetKey] = name === 'GlobalData' ? globalData[sourceKey] : getStorageSync(sourceKey)
+        data[targetKey] = name === 'GlobalData' ? gData[sourceKey] : getStorageSync(sourceKey)
       })
       context.setData(data)
     }
@@ -741,11 +744,12 @@ Object.defineProperty(globalThis, 'getSavedPages', {
 
 
 App = function (option = {}) {
-
+  const { globalDataKey } = userConfig
   appOption = option
-  if (option.globalData) {
-    option.globalData = defineReactive(option.globalData, updateMixinsAsync)
+  if(!isObject(option[globalDataKey])) {
+    option[globalDataKey] = {}
   }
+  option[globalDataKey] = defineReactive(option[globalDataKey], updateMixinsAsync)
 
   const onLaunch = function (...args) {
     fixGetApp(this)

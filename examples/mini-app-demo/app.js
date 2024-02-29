@@ -82,6 +82,8 @@ wxbuf.config({
   enableGlobalShareAppMessage: true,
   // 开启所有页面分享到朋友圈
   enableGlobalShareTimeline: true,
+  // 指定app中哪个key被wxbuf作为全局数据来管理
+  globalDataKey: 'globalData'
 })
 
 App({
