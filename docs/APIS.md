@@ -4,8 +4,8 @@
 * [***openPage*** (`option`: object): `promise`](#open-page)打开新页面
 * [***replacePage*** (`option`: object): `void`](#replace-page) 打开新页面替换当前页面栈 
 * [***finish***(`value`?: any): `void`](#finish)  关闭当前页面
-* [***getStore*** (`key`: string): `any`](#get-global-data)   获取store
-* [***setStore*** (`key`: string, `value`: any): `void`](#set-global-data) 设置store
+* [***getStore*** (`key`: string): `any`](#get-global-data)   获取全局数据（store）
+* [***setStore*** (`key`: string, `value`: any): `void`](#set-global-data) 设置全局数据（store）
 * [***setStorage*** (`option`: object): `void`](#set-storage) 异步设置storage
 * [***removeStorage*** (`option`: object): `void`](#remove-storage)  异步移除storage
 * [***getStorageSync*** (`key`: string): `any`](#get-storage-sync) 同步获取storage
@@ -28,17 +28,17 @@
 * [***option.listeners*** ](#listeners) 声明全局事件监听器
 * [***option.onWakeup*** ](#onWakeup) 非首次onShow时调用
 * [***option.onSwitchTab*** ](#onSwitchTab) 当页面是tabbar时，在非首次onShow页面时调用，可接收参数
-* [***option.mixinStore*** ](#mixin-global-data) 混入store并保持一致
-* [***option.mixinStorage*** ](#mixin-storage) 混入storage并保持一致
-* [***option.onStoreChange*** ](#on-global-data-change) 监听store变化
+* [***option.mixinStore*** ](#mixin-global-data) 使用响应式的全局数据（store）
+* [***option.mixinStorage*** ](#mixin-storage) 使用响应式的storage数据
+* [***option.onStoreChange*** ](#on-global-data-change) 监听全局数据（store）变化
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.provide*** ](#provide) 向后代组件提供数据
 ### 【新增】Component(option)构造器选项
 * [***option.computed***  ](#computed) 声明计算属性
 * [***option.listeners***  ](#listeners) 声明全局事件监听器
-* [***option.mixinStore***  ](#mixin-global-data) 混入store并保持一致
-* [***option.mixinStorage***  ](#mixin-storage) 混入storage并保持一致
-* [***option.onStoreChange*** ](#on-global-data-change) 监听store变化
+* [***option.mixinStore***  ](#mixin-global-data) 使用响应式的全局数据（store）
+* [***option.mixinStorage***  ](#mixin-storage) 使用响应式的storage数据
+* [***option.onStoreChange*** ](#on-global-data-change) 监听全局数据（store）变化
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.pageLifeTimes.pullDownRefresh*** ](#pull-down-refresh) 所在页面onPullDownRefresh
 * [***option.pageLifeTimes.reachBottom*** ](#reach-bottom) 所在页面onReachBottom
@@ -50,16 +50,16 @@
 ### 【新增】Behavior(option)构造器选项
 * [***option.computed***  ](#computed) 声明计算属性
 * [***option.listeners***  ](#listeners) 声明全局事件监听器
-* [***option.mixinStore***  ](#mixin-global-data) 混入store并保持一致
-* [***option.mixinStorage***  ](#mixin-storage) 混入storage并保持一致
-* [***option.onStoreChange*** ](#on-global-data-change) 监听store变化
+* [***option.mixinStore***  ](#mixin-global-data) 使用响应式的全局数据（store）
+* [***option.mixinStorage***  ](#mixin-storage) 使用响应式的storage数据
+* [***option.onStoreChange*** ](#on-global-data-change) 监听全局数据（store）变化
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.pageLifeTimes.pullDownRefresh*** ](#pull-down-refresh) 所在页面onPullDownRefresh
 * [***option.pageLifeTimes.reachBottom*** ](#reach-bottom) 所在页面onReachBottom
 * [***option.pageLifeTimes.pageScroll*** ](#page-scroll) 所在页面onPageScroll
 ### 【新增】App(option)构造器选项
 * [***option.listeners***  ](#listeners) 声明全局事件监听器
-* [***option.onStoreChange*** ](#on-global-data-change) 监听store变化
+* [***option.onStoreChange*** ](#on-global-data-change) 监听全局数据（store）变化
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.beforePageEnter*** ](#before-route-enter) 新页面加载前进行回调
 * [***option.onPageLoad*** ](#onPageLoad) 页面onLoad进行回调
@@ -72,8 +72,8 @@
 * [***wx.openPage*** (`option`: object): `promise` ](#wx-open-page) 打开一个页面
 * [***wx.replacePage*** (`option`: object): `void` ](#wx-replace-page) 打开一个页面替换当前页面栈
 * [***wx.finish*** (`value`?: any): `void`  ](#wx-finish) 关闭当前页面
-* [***wx.getStore*** (`key`: string): `any`  ](#wx-get-global-data) 获取全局数据
-* [***wx.setStore*** (`key`: string, `value`: any): `any`  ](#wx-set-global-data) 设置全局数据
+* [***wx.getStore*** (`key`: string): `any`  ](#wx-get-global-data) 获取全局数据（store）
+* [***wx.setStore*** (`key`: string, `value`: any): `any`  ](#wx-set-global-data) 设置全局数据（store）
 * [***wx.getNavigateBarTitle*** (): `string`  ](#getNavigateBarTitle) 获取当前页的导航栏title
 * [***wx.getTabBarPages*** (): `string[]`  ](#getTabBarPages) 获取tabbar的页面路径列表
 * [***wx.isTabBarPage*** (`url`: string): `boolean`  ](#isTabBarPage) 判断一个url是否是tabbar页面
@@ -740,7 +740,9 @@
 * ***option.mixinStore*** : `array<string>`   
   适用于： `page` 、`component` 、`behavior`   
 
-  说明：将`App`中`store`的值`混入`到当前实例的data字段中并且保持同步， 和[mixinStorage](#mixin-storage)的机制一样   
+  说明：使用响应式的全局数据（store），声明此配置将自动同步全局数据到当前实例的data字段中，并且后续自动保持一致， 和[mixinStorage](#mixin-storage)的机制一样   
+
+  此功能适用于页面视图随着全局数据的变化自动更新的场景  
 
   例子：  
 
@@ -812,7 +814,9 @@
 * ***mixinStorage*** : `array<string>`  
   适用于： `page` 、`component` 、`behavior`   
 
-  说明：将`storage`的值`混入`到当前实例的data字段中并且保持同步，和[mixinStore](#mixin-global-data)的机制一样      
+  说明：使用响应式的`storage`，声明此配置将自动同步`storage`的数据到当前实例的data字段中，并且后续自动保持一致，和[mixinStore](#mixin-global-data)的机制一样      
+
+  此功能适用于页面视图随着storage数据的变化自动更新的场景  
 
   例子：  
 

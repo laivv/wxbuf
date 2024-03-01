@@ -117,9 +117,9 @@
   })
   ```
 
-## 使用全局数据，响应式更新！
+## 使用响应式的全局数据
   
-  在构造器选项中配置`mixinStore`字段来将`store`的值设置到当前实例的data字段中，并且后续一直保持同步，即依赖的globalData的`key`值一但变化，当前实例引用的值也跟着变化！    
+  响应式全局数据的优点是可以自动更新视图，在构造器选项中配置`mixinStore`字段来将`store`的值设置到当前实例的data字段中，并且后续一直保持同步，即依赖的全局数据的`key`值一但变化，当前实例引用的值也跟着变化！    
   如果需要实时保持一致，应当用此方式代替传统的`getStore(key)`或`getApp().globalData.xxx`的取值方式
 
   例子：  
@@ -151,9 +151,9 @@
   })
   ```
  
-## 使用storage数据，响应式更新！
+## 使用响应式的storage
 
-在构造器选项中配置`mixinStorage`字段来将`storage`的值设置到当前实例的data字段中，并且后续一值保持同步，这和`mixinStore`的机制一样，如果需要实时保持一致，应该放弃使用传统的`wx.getStorage`、`wx.getStorageSync`来取值，而应该用此方式
+响应式`storage`的优点是可以自动更新视图，在构造器选项中配置`mixinStorage`字段来将`storage`的值设置到当前实例的data字段中，并且后续一值保持同步，这和`mixinStore`的机制一样，如果需要实时保持一致，应该放弃使用传统的`wx.getStorage`、`wx.getStorageSync`来取值，而应该用此方式
 
   例子：  
 
@@ -175,7 +175,7 @@
   })    
   ```   
  
-## 可以对store和storage进行变化监听！
+## 对store和storage进行变化监听
 
   你可能不需要响应式的`storage`和`store`，但需要监听它们的变化，因此`wxbuf`提供了`onStorageChange`与`onStoreChange`回调钩子，可以使用它们来监听变化
 
@@ -283,7 +283,7 @@
   })
   ```
 
-## page observers
+## 页面的observers
   page支持`observers`了，在构造器选项中声明`observers`来监听`data`对象中某个字段值的变化，和`compontent`中的`observers`功能一样  
 
   例子：
