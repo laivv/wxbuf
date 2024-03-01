@@ -67,7 +67,7 @@
 * [***option.onPageUnload*** ](#onPageUnload) 页面onUnload时回调
 * [***option.onPageShareAppMessage*** ](#onPageShareAppMessage) 当页面分享给好友时进行回调，可劫持并修改参数
 * [***option.onPageShareTimeline*** ](#onPageShareTimeline) 当页面分享到朋友圈时进行回调，可劫持并修改参数
-* [***option.onUIEventDispatch*** ](#onUIEventDispatch) UI标准事件触发时的前置拦截器
+* [***option.onEventDispatch*** ](#onEventDispatch) UI标准事件触发时的前置拦截器
 ### 【新增】wx对象上新增工具方法
 * [***wx.openPage*** (`option`: object): `promise` ](#wx-open-page) 打开一个页面
 * [***wx.replacePage*** (`option`: object): `void` ](#wx-replace-page) 打开一个页面替换当前页面栈
@@ -1264,9 +1264,9 @@
 
   注意：此钩子并不能阻止页面的分享功能，仅仅是在分享发生时提供统一修改的机会    
 
-<a id="onUIEventDispatch"></a>
+<a id="onEventDispatch"></a>
 
-* ***option.onUIEventDispatch(`event`: event, `next`: Function)： void***    
+* ***option.onEventDispatch(`event`: event, `next`: Function)： void***    
   适用于： `app` 
 
   说明：对于视图层绑定的事件`handler`进行统一的前置处理，此钩子可以拦截页面上所有视图层绑定的事件回调的执行
@@ -1279,7 +1279,7 @@
   ```js
   //app.js
   App({
-    onUIEventDispatch(event, next) {
+    onEventDispatch(event, next) {
       const { dataset } = event.currentTarget
       if (dataset.notAllowed) {
         return wx.showToast({

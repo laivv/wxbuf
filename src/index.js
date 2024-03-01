@@ -123,14 +123,14 @@ const initProxyTap = function (options, isPage = true) {
           callUserHook(this, 'on' + upperCase(e.type, 0), extend(e, { path: getPageInstance(this).route }))
         }
         if (fn) {
-          if (appOption.onUIEventDispatch && isEvent(e) && !e._ignore) {
+          if (appOption.onEventDispatch && isEvent(e) && !e._ignore) {
             let prevent = true
             let args = [e]
             const next = function () {
               prevent = false
               args = [].slice.call(arguments, 0)
             }
-            appOption.onUIEventDispatch.call(getApp(), e, next)
+            appOption.onEventDispatch.call(getApp(), e, next)
             defProperty(e, '_ignore', true)
             if (!prevent) {
               return fn.apply(this, args)

@@ -115,7 +115,7 @@ App({
       return false
     }
   },
-  onUIEventDispatch(event, next) {
+  onEventDispatch(event, next) {
     const { dataset } = event.currentTarget
     if (dataset.notAllowed) {
       return wx.showToast({
