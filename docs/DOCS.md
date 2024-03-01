@@ -70,9 +70,9 @@
   ```
   因此，可以指定`params`字段来代替字符串拼接，并且`params`中的字段还可以是对象，比自己拼接更方便；`body`方式则是通过内存传递参数
 
-## 获取globalData全局数据
+## 获取全局数据
 
-  我们提供了实例方法`getGlobalData`来获取全局数据 ，可以代替 `getApp().globalData[key]` 
+  我们提供了实例方法`getStore`来获取全局数据 ，可以代替 `getApp().globalData[key]` 
 
   例子：
 
@@ -88,7 +88,7 @@
   // page.js
   Page({
     handleTap() {
-      const count = this.getGlobalData('count') // 相当于getApp().globalData.count
+      const count = this.getStore('count') // 相当于getApp().globalData.count
       console.log(count) // 1
     }
   })
@@ -96,7 +96,7 @@
 
 ## 修改全局数据
 
-  使用实例方法`setGlobalData`来修改全局数据以获得响应式更新   
+  使用实例方法`setStore`来修改全局数据以获得响应式更新   
 
   例子：
   ```js
@@ -111,16 +111,16 @@
   // page.js
   Page({
     handleTap() {
-      this.setGlobalData('count', 2)
+      this.setStore('count', 2)
       console.log(getApp().globalData.count) // 2
     }
   })
   ```
 
-## 使用全局状态（数据），响应式更新！
+## 使用全局数据，响应式更新！
   
-  在构造器选项中配置`mixinGlobalData`字段来将`globalData`的值设置到当前实例的data字段中，并且后续一直保持同步，即依赖的globalData的`key`值一但变化，当前实例引用的值也跟着变化！    
-  如果需要实时保持一致，应当用此方式代替传统的`getGlobalData(key)`或`getApp().globalData.xxx`的取值方式
+  在构造器选项中配置`mixinStore`字段来将`store`的值设置到当前实例的data字段中，并且后续一直保持同步，即依赖的globalData的`key`值一但变化，当前实例引用的值也跟着变化！    
+  如果需要实时保持一致，应当用此方式代替传统的`getStore(key)`或`getApp().globalData.xxx`的取值方式
 
   例子：  
 
@@ -137,23 +137,23 @@
   ```js
   // page.js
   Page({
-    mixinGlobalData: ['count', 'appVersion'],
+    mixinStore: ['count', 'appVersion'],
     onLoad() {
       console.log(this.data.count) // 1
       console.log(this.data.appVersion) // '1.0'
     },
     handleTap() {
-      this.setGlobalData('count', 2)
+      this.setStore('count', 2)
       console.log(this.data.count) // 2
-      console.log(this.getGlobalData('count')) // 2
+      console.log(this.getStore('count')) // 2
       console.log(getApp().globalData.count) // 2
     }
   })
   ```
  
-## 使用storage状态（数据），响应式更新！
+## 使用storage数据，响应式更新！
 
-在构造器选项中配置`mixinStorage`字段来将`storage`的值设置到当前实例的data字段中，并且后续一值保持同步，这和`mixinGlobalData`的机制一样，如果需要实时保持一致，应该放弃使用传统的`wx.getStorage`、`wx.getStorageSync`来取值，而应该用此方式
+在构造器选项中配置`mixinStorage`字段来将`storage`的值设置到当前实例的data字段中，并且后续一值保持同步，这和`mixinStore`的机制一样，如果需要实时保持一致，应该放弃使用传统的`wx.getStorage`、`wx.getStorageSync`来取值，而应该用此方式
 
   例子：  
 
@@ -175,9 +175,9 @@
   })    
   ```   
  
-## 可以对globalData和storage进行变化监听！
+## 可以对store和storage进行变化监听！
 
-  你可能不需要响应式的`storage`和`globalData`，但需要监听它们的变化，因此`wxbuf`提供了`onStorageChange`与`onGlobalDataChange`回调钩子，可以使用它们来监听变化
+  你可能不需要响应式的`storage`和`store`，但需要监听它们的变化，因此`wxbuf`提供了`onStorageChange`与`onStoreChange`回调钩子，可以使用它们来监听变化
 
   例子：
   ```js
@@ -187,7 +187,7 @@
       console.log(kvs) 
       console.log(oldKvs) 
     },
-    onGlobalDataChange(kvs, oldKvs) {
+    onStoreChange(kvs, oldKvs) {
       console.log(kvs) 
       console.log(oldKvs) 
     }

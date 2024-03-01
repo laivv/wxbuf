@@ -1,4 +1,4 @@
-<view class="text-gray">wxbuf的全局状态数据更新机制是数据同步，视图异步更新，你可以在修改后立即获取到新的值，但视图更新会推迟</view>
+<view class="text-gray">wxbuf的全局数据更新机制是数据同步，视图异步更新，你可以在修改后立即获取到新的值，但视图更新会推迟</view>
 <view class="mt-16">globalData.appCount: {{appCount}}</view>
 
 <view class="btn mt-16" bind:tap="handle">修改10000次globalData.appCount</view>

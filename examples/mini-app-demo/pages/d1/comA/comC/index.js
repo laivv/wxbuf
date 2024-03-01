@@ -1,8 +1,8 @@
 Component({
-  mixinGlobalData: ['appCount'],
+  mixinStore: ['appCount'],
   methods: {
     handle() {
-      this.setGlobalData('appCount', this.data.appCount + 1)
+      this.setStore('appCount', this.data.appCount + 1)
     }
   }
 })

@@ -1,4 +1,4 @@
 <view>globalData.appCount: {{appCount}}</view>
-<view class="btn mt-16" bind:tap="handleUpdateGlobalData">点击修改globalData</view>
+<view class="btn mt-16" bind:tap="handleUpdateStoreData">点击修改store</view>
 <view class="mt-16">storage.count: {{count}}</view>
 <view class="btn mt-16" bind:tap="handleUpdateStorage">点击修改Storage</view>

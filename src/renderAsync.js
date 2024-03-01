@@ -10,12 +10,12 @@ import { pages, components } from './instance'
 
 const MIXIN_NAMES = {
   storage: 'mixinStorage',
-  globalData: 'mixinGlobalData'
+  store: 'mixinStore'
 }
 
 const HOOK_NAMES = {
   storage: 'onStorageChange',
-  globalData: 'onGlobalDataChange'
+  store: 'onStoreChange'
 }
 
 let timer = null
@@ -23,7 +23,7 @@ let models = []
 let _cb = null
 
 const doUpdateView = function (context, option) {
-  if (option.mixinGlobalData || option.mixinStorage) {
+  if (option.mixinStore || option.mixinStorage) {
     const data = {}
     models.forEach(({ kvs, name }) => {
       const mixinKeys = option[MIXIN_NAMES[name]] || []

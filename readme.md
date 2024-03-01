@@ -5,10 +5,10 @@
 为什么叫`wxbuf`？玩过游戏的都知道加`buff`就是增加状态，变强的意思。这就是取名`wxbuf`的原因。    
 
 `wxbuf`对小程序原生API进行了扩展，增加了以下功能
-* 支持全局状态管理（任意页面或组件引用的globalData自动保持一致）
-* 支持storage管理（任意页面或组件引用的storage自动保持一致）
+* 支持store全局状态管理（任意页面或组件引用的store自动保持一致）
+* 支持storage状态管理（任意页面或组件引用的storage自动保持一致）
 * 支持更易用的跨组件跨页面通信方式，彻底解决通信问题
-* 支持globalData、storage变化监听
+* 支持store、storage变化监听
 * 更方便的page间数据传递方式
 * 支持跨组件层级传递数据
 * Page、Component支持computed计算属性
@@ -67,11 +67,11 @@ App({
   // 监听storage变化
   onStorageChange(kvs, oldKvs) {
     if(Object.keys(kvs).includes('token')) {
-      this.setGlobalData('isLogin', kvs.token ? true : false)
+      this.setStore('isLogin', kvs.token ? true : false)
     }
   },
-  // 监听globalData变化
-  onGlobalDataChange(kvs, oldKvs) {
+  // 监听全局数据变化
+  onStoreChange(kvs, oldKvs) {
  
   },
   // 路由变化钩子
@@ -86,14 +86,13 @@ App({
     // 获取storage
     const isLogin = this.getStorageSync('token') ? true : false
     // 修改全局数据
-    this.setGlobalData('isLogin', isLogin)
-    if(!this.globalData.isLogin){
+    this.setStore('isLogin', isLogin)
+    if(!this.getStore('isLogin')){
       //打开一个新页面，等待并接收该页面关闭时的回传数据
      const acceptData = await this.openPage({ url: '/pages/login/index' })
      console.log(acceptData)
     }
   }
-
   // ...
 })
 ```
@@ -102,8 +101,8 @@ App({
 Page({
   // 声明事件监听器
   listeners: {},
-  // 同步globalData
-  mixinGlobalData: [
+  // 同步全局数据
+  mixinStore: [
     'isLogin',
     // 与当前page data中的字段冲突，这里重命名
     'version -> appVersion'
@@ -114,8 +113,8 @@ Page({
   onStorageChange(kvs, oldKvs){
 
   },
-  //globalData变化监听
-  onGlobalDataChange(kvs, oldKvs){
+  //全局数据变化监听
+  onStoreChange(kvs, oldKvs){
 
   },
   data: {

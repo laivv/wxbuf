@@ -1,15 +1,15 @@
 Page({
-  mixinGlobalData: ['appCount'],
+  mixinStore: ['appCount'],
   mixinStorage: ['count'],
-  handleUpdateGlobalData() {
-    this.setGlobalData('appCount', this.getGlobalData('appCount') + 1)
+  handleUpdateStoreData() {
+    this.setStore('appCount', this.getStore('appCount') + 1)
   },
   handleUpdateStorage() {
     this.setStorageSync('count', this.getStorageSync('count') + 1)
   },
-  onGlobalDataChange(kvs, oldKvs) {
+  onStoreChange(kvs, oldKvs) {
     wx.showToast({
-      title: 'globalData被修改啦',
+      title: 'store被修改啦',
       icon: 'none'
     })
   },

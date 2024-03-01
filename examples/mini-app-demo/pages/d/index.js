@@ -1,6 +1,6 @@
 
 Page({
-  mixinGlobalData: ['appCount'],
+  mixinStore: ['appCount'],
   handle() {
     this.openPage({
       url: '/pages/d1/index'

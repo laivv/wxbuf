@@ -48,7 +48,7 @@ let userConfig = {
   parseUrlArgs: false,
   enableGlobalShareAppMessage: false,
   enableGlobalShareTimeline: false,
-  globalDataKey: 'globalData'
+  storeKey: 'globalData'
 }
 
 let appOption = {}
@@ -381,20 +381,20 @@ const clearStorageSync = function () {
   return _clearStorageSync.apply(wx, arguments)
 }
 
-const getGlobalData = function (key) {
-  const data = getApplication()[userConfig.globalDataKey]
+const getStore = function (key) {
+  const data = getApplication()[userConfig.storeKey]
   return data ? (key ? data[key] : data) : undefined
 }
 
-const setGlobalData = function (key, value) {
-  const { globalDataKey } = userConfig
+const setStore = function (key, value) {
+  const { storeKey } = userConfig
   const app = getApplication()
-  if (!app[globalDataKey]) {
-    app[globalDataKey] = {}
+  if (!app[storeKey]) {
+    app[storeKey] = {}
   }
-  const oldValue = app[globalDataKey][key]
-  app[globalDataKey][key] = value
-  updateMixinsAsync({ [key]: value }, { [key]: oldValue }, 'globalData')
+  const oldValue = app[storeKey][key]
+  app[storeKey][key] = value
+  updateMixinsAsync({ [key]: value }, { [key]: oldValue }, 'store')
 }
 
 const getCurrentPage = function () {
@@ -403,14 +403,14 @@ const getCurrentPage = function () {
 }
 
 const initMixinData = function (option, context) {
-  const gData = getApp()[userConfig.globalDataKey];
-  ['GlobalData', 'Storage'].forEach(name => {
+  const gData = getApp()[userConfig.storeKey];
+  ['Store', 'Storage'].forEach(name => {
     const mixinKeys = option[`mixin${name}`]
     if (isArray(mixinKeys)) {
       const data = {}
       mixinKeys.forEach(key => {
         const [sourceKey, targetKey] = getRealKey(key)
-        data[targetKey] = name === 'GlobalData' ? gData[sourceKey] : getStorageSync(sourceKey)
+        data[targetKey] = name === 'Store' ? gData[sourceKey] : getStorageSync(sourceKey)
       })
       context.setData(data)
     }
@@ -431,8 +431,8 @@ const extendCommonMethods = function (option) {
   const { methodPrefix: pref } = userConfig
   option[`${pref}openPage`] = openPage
   option[`${pref}replacePage`] = replacePage
-  option[`${pref}getGlobalData`] = getGlobalData
-  option[`${pref}setGlobalData`] = setGlobalData
+  option[`${pref}getStore`] = getStore
+  option[`${pref}setStore`] = setStore
   option[`${pref}getStorageSync`] = getStorageSync
   option[`${pref}setStorageSync`] = setStorageSync
   option[`${pref}removeStorageSync`] = removeStorageSync
@@ -711,7 +711,7 @@ const defineReactive = function (option, fn) {
     set(target, key, value) {
       const oldValue = target[key]
       if (oldValue !== value) {
-        fn && fn({ [key]: value }, { [key]: oldValue }, 'globalData')
+        fn && fn({ [key]: value }, { [key]: oldValue }, 'store')
       }
       target[key] = value
       return true
@@ -744,12 +744,12 @@ Object.defineProperty(globalThis, 'getSavedPages', {
 
 
 App = function (option = {}) {
-  const { globalDataKey } = userConfig
+  const { storeKey } = userConfig
   appOption = option
-  if(!isObject(option[globalDataKey])) {
-    option[globalDataKey] = {}
+  if(!isObject(option[storeKey])) {
+    option[storeKey] = {}
   }
-  option[globalDataKey] = defineReactive(option[globalDataKey], updateMixinsAsync)
+  option[storeKey] = defineReactive(option[storeKey], updateMixinsAsync)
 
   const onLaunch = function (...args) {
     fixGetApp(this)
@@ -886,7 +886,7 @@ const createOnLoad = function (option) {
       option: params,
       path: this.route
     })
-    callAppHook('onPageLoad', {
+    callAppHook('onPageLoad', this, {
       option: params,
       path: this.route
     })
@@ -936,7 +936,10 @@ Page = function (option) {
   initGlobalShareTimeline(option)
   overwriteFn(option, 'onLoad', createOnLoad(option))
   createOnShow(option)
-  overwriteFn(option, 'onUnload', function () { removePage(this) })
+  overwriteFn(option, 'onUnload', function () { 
+    removePage(this) 
+    callAppHook('onPageUnload', this)
+  })
   overwriteFn(option, 'onPullDownRefresh', createLifeTime('pullDownRefresh', 'onPagePullDownRefresh'))
   overwriteFn(option, 'onReachBottom', createLifeTime('reachBottom', 'onPageReachBottom'))
   overwriteFn(option, 'onPageScroll', createLifeTime('pageScroll', 'onPageScroll'))
@@ -1114,8 +1117,8 @@ const _global = {
 const fnsBakup = {
   openPage: wx.openPage,
   replacePage: wx.replacePage,
-  getGlobalData: wx.getGlobalData,
-  setGlobbalData: wx.setGlobalData,
+  getStore: wx.getStore,
+  setGlobbalData: wx.setStore,
   finish: wx.finish,
   getNavigateBarTitle: wx.getNavigateBarTitle,
   getTabBarPages: wx.getTabBarPages,
@@ -1129,8 +1132,8 @@ function initWx() {
   const { methodPrefix: pref } = userConfig
   wx[`${pref}openPage`] = openPage
   wx[`${pref}replacePage`] = replacePage
-  wx[`${pref}getGlobalData`] = getGlobalData
-  wx[`${pref}setGlobalData`] = setGlobalData
+  wx[`${pref}getStore`] = getStore
+  wx[`${pref}setStore`] = setStore
   wx[`${pref}finish`] = function (data) {
     finish(data, getCurrentPage())
   }
@@ -1171,8 +1174,8 @@ const wxbuf = {
   clearStorageSync,
   batchSetStorage,
   batchSetStorageSync,
-  setGlobalData,
-  getGlobalData,
+  setStore,
+  getStore,
   reLaunch,
   navigateTo,
   redirectTo,

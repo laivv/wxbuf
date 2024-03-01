@@ -82,8 +82,8 @@ wxbuf.config({
   enableGlobalShareAppMessage: true,
   // 开启所有页面分享到朋友圈
   enableGlobalShareTimeline: true,
-  // 指定app中哪个key被wxbuf作为全局数据来管理
-  globalDataKey: 'globalData'
+  // 指定app中哪个key值被作为store数据来管理
+  storeKey: 'globalData'
 })
 
 App({
@@ -103,9 +103,11 @@ App({
   },
   onPageShareTimeline(page, options) {
   },
-  onPageLoad(option) {
+  onPageLoad(page, options) {
   },
   onPageShow(page) {
+  },
+  onPageUnload(page) {
   },
   beforePageEnter(option, config) {
     if (config.requiredAuth) {
@@ -124,7 +126,7 @@ App({
     // 给目标handler传递第二个参数，减少取dataset的解构层数
     next(event, dataset)
   },
-  onGlobalDataChange(newVal, oldVal) {
+  onStoreChange(newVal, oldVal) {
     console.log('来自App.js的消息,全局数据改变了, 新旧值分别是:', newVal, oldVal)
   },
   onStorageChange(newVal, oldVal) {

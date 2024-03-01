@@ -1,3 +1,3 @@
 Page({
-  mixinGlobalData: ['appCount'],
+  mixinStore: ['appCount'],
 })

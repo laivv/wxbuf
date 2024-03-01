@@ -4,8 +4,8 @@
 * [***openPage*** (`option`: object): `promise`](#open-page)打开新页面
 * [***replacePage*** (`option`: object): `void`](#replace-page) 打开新页面替换当前页面栈 
 * [***finish***(`value`?: any): `void`](#finish)  关闭当前页面
-* [***getGlobalData*** (`key`: string): `any`](#get-global-data)   获取globalData
-* [***setGlobalData*** (`key`: string, `value`: any): `void`](#set-global-data) 设置globalData
+* [***getStore*** (`key`: string): `any`](#get-global-data)   获取store
+* [***setStore*** (`key`: string, `value`: any): `void`](#set-global-data) 设置store
 * [***setStorage*** (`option`: object): `void`](#set-storage) 异步设置storage
 * [***removeStorage*** (`option`: object): `void`](#remove-storage)  异步移除storage
 * [***getStorageSync*** (`key`: string): `any`](#get-storage-sync) 同步获取storage
@@ -28,17 +28,17 @@
 * [***option.listeners*** ](#listeners) 声明全局事件监听器
 * [***option.onWakeup*** ](#onWakeup) 非首次onShow时调用
 * [***option.onSwitchTab*** ](#onSwitchTab) 当页面是tabbar时，在非首次onShow页面时调用，可接收参数
-* [***option.mixinGlobalData*** ](#mixin-global-data) 混入globalData并保持一致
+* [***option.mixinStore*** ](#mixin-global-data) 混入store并保持一致
 * [***option.mixinStorage*** ](#mixin-storage) 混入storage并保持一致
-* [***option.onGlobalDataChange*** ](#on-global-data-change) 监听globalData变化
+* [***option.onStoreChange*** ](#on-global-data-change) 监听store变化
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.provide*** ](#provide) 向后代组件提供数据
 ### 【新增】Component(option)构造器选项
 * [***option.computed***  ](#computed) 声明计算属性
 * [***option.listeners***  ](#listeners) 声明全局事件监听器
-* [***option.mixinGlobalData***  ](#mixin-global-data) 混入globalData并保持一致
+* [***option.mixinStore***  ](#mixin-global-data) 混入store并保持一致
 * [***option.mixinStorage***  ](#mixin-storage) 混入storage并保持一致
-* [***option.onGlobalDataChange*** ](#on-global-data-change) 监听globalData变化
+* [***option.onStoreChange*** ](#on-global-data-change) 监听store变化
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.pageLifeTimes.pullDownRefresh*** ](#pull-down-refresh) 所在页面onPullDownRefresh
 * [***option.pageLifeTimes.reachBottom*** ](#reach-bottom) 所在页面onReachBottom
@@ -50,20 +50,21 @@
 ### 【新增】Behavior(option)构造器选项
 * [***option.computed***  ](#computed) 声明计算属性
 * [***option.listeners***  ](#listeners) 声明全局事件监听器
-* [***option.mixinGlobalData***  ](#mixin-global-data) 混入globalData并保持一致
+* [***option.mixinStore***  ](#mixin-global-data) 混入store并保持一致
 * [***option.mixinStorage***  ](#mixin-storage) 混入storage并保持一致
-* [***option.onGlobalDataChange*** ](#on-global-data-change) 监听globalData变化
+* [***option.onStoreChange*** ](#on-global-data-change) 监听store变化
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.pageLifeTimes.pullDownRefresh*** ](#pull-down-refresh) 所在页面onPullDownRefresh
 * [***option.pageLifeTimes.reachBottom*** ](#reach-bottom) 所在页面onReachBottom
 * [***option.pageLifeTimes.pageScroll*** ](#page-scroll) 所在页面onPageScroll
 ### 【新增】App(option)构造器选项
 * [***option.listeners***  ](#listeners) 声明全局事件监听器
-* [***option.onGlobalDataChange*** ](#on-global-data-change) 监听globalData变化
+* [***option.onStoreChange*** ](#on-global-data-change) 监听store变化
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.beforePageEnter*** ](#before-route-enter) 新页面加载前进行回调
 * [***option.onPageLoad*** ](#onPageLoad) 页面onLoad进行回调
 * [***option.onPageShow*** ](#on-route-change) 页面onShow时回调
+* [***option.onPageUnload*** ](#onPageUnload) 页面onUnload时回调
 * [***option.onPageShareAppMessage*** ](#onPageShareAppMessage) 当页面分享给好友时进行回调，可劫持并修改参数
 * [***option.onPageShareTimeline*** ](#onPageShareTimeline) 当页面分享到朋友圈时进行回调，可劫持并修改参数
 * [***option.onUIEventDispatch*** ](#onUIEventDispatch) UI标准事件触发时的前置拦截器
@@ -71,8 +72,8 @@
 * [***wx.openPage*** (`option`: object): `promise` ](#wx-open-page) 打开一个页面
 * [***wx.replacePage*** (`option`: object): `void` ](#wx-replace-page) 打开一个页面替换当前页面栈
 * [***wx.finish*** (`value`?: any): `void`  ](#wx-finish) 关闭当前页面
-* [***wx.getGlobalData*** (`key`: string): `any`  ](#wx-get-global-data) 获取全局数据
-* [***wx.setGlobalData*** (`key`: string, `value`: any): `any`  ](#wx-set-global-data) 设置全局数据
+* [***wx.getStore*** (`key`: string): `any`  ](#wx-get-global-data) 获取全局数据
+* [***wx.setStore*** (`key`: string, `value`: any): `any`  ](#wx-set-global-data) 设置全局数据
 * [***wx.getNavigateBarTitle*** (): `string`  ](#getNavigateBarTitle) 获取当前页的导航栏title
 * [***wx.getTabBarPages*** (): `string[]`  ](#getTabBarPages) 获取tabbar的页面路径列表
 * [***wx.isTabBarPage*** (`url`: string): `boolean`  ](#isTabBarPage) 判断一个url是否是tabbar页面
@@ -108,7 +109,8 @@
 * [***option.parseUrlArgs***](#global-config) 是否开启自动反序列化url参数
 * [***option.methodPrefix***](#global-config) 给wxbuf提供的实例或wx对象上的方法添加前缀
 * [***option.enableGlobalShareAppMessage***](#global-config) 是否开启所有页面分享给好友
-* [***option.enableGlobalShareTimeline***](#global-config) 是否开启所有页面分享到朋友圈
+* [***option.enableGlobalShareTimeline***](#global-config) 是否开启所有页面分享到朋友圈 
+* [***option.storeKey***](#global-config) 指定哪个key值被作为全局数据（store）进行管理，默认为'globalData'
 ### 【新增】全局扩展
 * [***wxbuf.global.extend(`varname`: string, `value`: any)***](#global-extend)  定义顶级全局变量
 * [***wxbuf.page.extend(`option`: object)***](#page-extend) 给所有page实例扩展方法
@@ -308,10 +310,10 @@
   })
   ```
   <a id="get-global-data"></a>
-* ***getGlobalData*** (`key`: string): `any`    
+* ***getStore*** (`key`: string): `any`    
   适用于：`app` 、 `page`、 `component`、 `behavior`   
 
-  说明：获取全局数据(`globalData`) ,  相当于 `getApp().globalData[key]` 的效果
+  说明：获取全局数据 ,  相当于 `getApp().globalData[key]` 的效果
 
   例子：
   ```js
@@ -326,19 +328,19 @@
   // page.js
   Page({
     handleTap() {
-      const count = this.getGlobalData('count') // 相当于getApp().globalData.count
+      const count = this.getStore('count') // 相当于getApp().globalData.count
       console.log(count) // 1
     }
   })
   ```
-  也可以用 [wx.getGlobalData](#wx-get-global-data)  来获取`globalData`
+  也可以用 [wx.getStore](#wx-get-global-data)  来获取全局数据
 
 <a id="set-global-data"></a> 
 
-* ***setGlobalData*** (`key`: string, `value`: any): `void`   
+* ***setStore*** (`key`: string, `value`: any): `void`   
   适用于： `app` 、`page`、 `component`、 `behavior`     
 
-  说明：设置全局数据(`globalData`)    
+  说明：设置全局数据
 
   例子：
   ```js
@@ -353,12 +355,12 @@
   // page.js
   Page({
     handleTap() {
-      this.setGlobalData('count', 2)
+      this.setStore('count', 2)
       console.log(getApp().globalData.count) // 2
     }
   })
   ```
-  也可以用[wx.setGlobalData](#wx-set-global-data)来设置`globalData`   
+  也可以用[wx.setStore](#wx-set-global-data)来设置`store`   
 
 <a id="set-storage"></a>
 
@@ -735,10 +737,10 @@
 
 <a id="mixin-global-data"></a>    
 
-* ***option.mixinGlobalData*** : `array<string>`   
+* ***option.mixinStore*** : `array<string>`   
   适用于： `page` 、`component` 、`behavior`   
 
-  说明：将`App`中`globalData`的值`混入`到当前实例的data字段中并且保持同步， 和[mixinStorage](#mixin-storage)的机制一样   
+  说明：将`App`中`store`的值`混入`到当前实例的data字段中并且保持同步， 和[mixinStorage](#mixin-storage)的机制一样   
 
   例子：  
 
@@ -755,20 +757,20 @@
   ```js
   // page.js
   Page({
-    mixinGlobalData: ['count', 'appVersion'],
+    mixinStore: ['count', 'appVersion'],
     onLoad() {
       console.log(this.data.count) // 1
       console.log(this.data.appVersion) // '1.0'
     },
     handleTap() {
-      this.setGlobalData('count', 2)
+      this.setStore('count', 2)
       console.log(this.data.count) // 2
-      console.log(this.getGlobalData('count')) // 2
+      console.log(this.getStore('count')) // 2
       console.log(getApp().globalData.count) // 2
     }
   })
   ```
-  `globalData`中的`key`名称可能与当前实例的`data`字段中的`key`重名，此时`mixinGlobalData`可以重命名，方式是将  `mixinGlobalData`指定的`array`中需要重命名的成员项写成`key->newKey`的形式   
+  `store`中的`key`名称可能与当前实例的`data`字段中的`key`重名，此时`mixinStore`可以重命名，方式是将  `mixinStore`指定的`array`中需要重命名的成员项写成`key->newKey`的形式   
 
   例子：
   ```js
@@ -784,7 +786,7 @@
   ```js
   // page.js
   Page({
-    mixinGlobalData: [
+    mixinStore: [
       'count->number', // 当前page的data对象中含有同名字段 `count`， 所以这里将count重命名为number
       'appVersion'
     ],
@@ -797,10 +799,10 @@
       console.log(this.data.appVersion) // '1.1'
     },
     handleTap() {
-      this.setGlobalData('count', 2)
+      this.setStore('count', 2)
       console.log(this.data.count) // 10
       console.log(this.data.number) // 2
-      console.log(this.getGlobalData('count')) // 2
+      console.log(this.getStore('count')) // 2
       console.log(getApp().globalData.count) // 2
     }
   })
@@ -810,7 +812,7 @@
 * ***mixinStorage*** : `array<string>`  
   适用于： `page` 、`component` 、`behavior`   
 
-  说明：将`storage`的值`混入`到当前实例的data字段中并且保持同步，和[mixinGlobalData](#mixin-global-data)的机制一样      
+  说明：将`storage`的值`混入`到当前实例的data字段中并且保持同步，和[mixinStore](#mixin-global-data)的机制一样      
 
   例子：  
 
@@ -902,10 +904,10 @@
 
 <a id="on-global-data-change"></a>
 
-* ***option.onGlobalDataChange(`kvs`: object, `oldKvs`: object)***    
+* ***option.onStoreChange(`kvs`: object, `oldKvs`: object)***    
   适用于： `app`、 `page` 、`component`、 `behavior`    
 
-  说明：当`globalData`更新时进行回调，
+  说明：当`store`更新时进行回调，
   回调参数：`kvs`为新值， `oldKvs`为旧值   
 
   例子：
@@ -920,7 +922,7 @@
   ```js
   // pageA.js
   Page({
-    onGlobalDataChange(kvs, oldKvs) {
+    onStoreChange(kvs, oldKvs) {
       console.log(kvs) 
       console.log(oldKvs) 
 
@@ -930,7 +932,7 @@
   ```js
   // componentC.js
   Component({
-    onGlobalDataChange(kvs, oldKvs) {
+    onStoreChange(kvs, oldKvs) {
       console.log(kvs) 
       console.log(oldKvs)
 
@@ -941,7 +943,7 @@
   // pageB.js
   Page({
     onLoad() {
-      this.setGlobalData('count', 2)
+      this.setStore('count', 2)
     }
   })
   ```
@@ -1217,12 +1219,13 @@
 
 <a id="onPageLoad"></a>
 
-* ***option.onPageLoad(option)： void***    
+* ***option.onPageLoad(page, option)： void***    
   适用于： `app`  
 
   说明：页面onLoad时回调    
 
-  参数：`option`为页面的信息   
+  参数：`page`为页面实例    
+  参数：`option`为页面的信息    
 
 <a id="on-route-change"></a>
 
@@ -1338,15 +1341,15 @@
 
 <a id="wx-get-global-data"></a>
 
-* ***wx.getGlobalData*** (`key`: string): `any`  
+* ***wx.getStore*** (`key`: string): `any`  
 
-  说明：获取全局数据(globalData)，效果与实例方法[getGlobalData](#get-global-data)一样，推荐优先使用实例上的`getGlobalData`方法  
+  说明：获取全局数据，效果与实例方法[getStore](#get-global-data)一样，推荐优先使用实例上的`getStore`方法  
 
 <a id="wx-set-global-data"></a>
 
-* ***wx.setGlobalData*** (`key`: string, `value`: any): `void`  
+* ***wx.setStore*** (`key`: string, `value`: any): `void`  
 
-  说明：修改全局数据(globalData)，效果与实例方法[setGlobalData](#set-global-data)一样，推荐优先使用实例上的`setGlobalData`方法  
+  说明：修改全局数据，效果与实例方法[setStore](#set-global-data)一样，推荐优先使用实例上的`setStore`方法  
 
 <a id="getNavigateBarTitle"></a>
 
@@ -1502,7 +1505,7 @@ wxbuf.config({
   // 开启所有页面分享到朋友圈（优先使用页面自己的分享函数）
   enableGlobalShareTimeline: true,
   // 指定全局数据的key
-  globalDataKey: 'globalData'
+  storeKey: 'globalData'
 })
 
 App({
