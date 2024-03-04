@@ -958,8 +958,8 @@ Page = function (option) {
 
 const installExportMethods = function (option, context) {
   const { exportMethods } = option
-  if (exportMethods) {
-    const parent = context.selectOwnerComponent()
+  const parent = context.selectOwnerComponent()
+  if (exportMethods && parent) {
     for (let key in exportMethods) {
       const fn = exportMethods[key]
       if (exportMethods.hasOwnProperty(key) && isFunction(fn) && !parent[key]) {
@@ -972,8 +972,8 @@ const installExportMethods = function (option, context) {
 
 const uninstallPageMethods = function (option, context) {
   const { exportMethods } = option
-  if (exportMethods) {
-    const parent = context.selectOwnerComponent()
+  const parent = context.selectOwnerComponent()
+  if (exportMethods && parent) {
     for (let key in exportMethods) {
       if (parent[key] && parent[key].$installedBy === context) {
         delete parent[key]
@@ -1023,12 +1023,14 @@ const factory = function (option, constructr) {
     if (isComponent) {
       installExportMethods(option, this)
       const parent = this.selectOwnerComponent()
-      if (!parent.$components) {
-        parent.$components = []
+      if (parent) {
+        if (!parent.$components) {
+          parent.$components = []
+        }
+        parent.$components.push(this)
+        this.$parent = parent
+        initInject(option, this)
       }
-      parent.$components.push(this)
-      this.$parent = parent
-      initInject(option, this)
       callAppHook('onComponentAttached', this)
     }
     return _attached.apply(this, arguments)
@@ -1044,20 +1046,22 @@ const factory = function (option, constructr) {
     if (com.type === 'component') {
       uninstallPageMethods(com.option, this)
       const parent = this.selectOwnerComponent()
-      if (parent.$components) {
-        const index = parent.$components.indexOf(this)
-        if (index > -1) {
-          parent.$components.splice(index, 1)
-          this.$parent = null
-        }
-      }
-      if (this.$parentProvides) {
-        this.$parentProvides.forEach(parent => {
-          const index = parent.$provideWatchers.findIndex(w => w.context === this)
+      if (parent) {
+        if (parent.$components) {
+          const index = parent.$components.indexOf(this)
           if (index > -1) {
-            parent.$provideWatchers.splice(index, 1)
+            parent.$components.splice(index, 1)
+            this.$parent = null
           }
-        })
+        }
+        if (this.$parentProvides) {
+          this.$parentProvides.forEach(parent => {
+            const index = parent.$provideWatchers.findIndex(w => w.context === this)
+            if (index > -1) {
+              parent.$provideWatchers.splice(index, 1)
+            }
+          })
+        }
       }
       callAppHook('onComponentDetached', this)
     }
