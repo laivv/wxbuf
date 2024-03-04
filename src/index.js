@@ -261,7 +261,7 @@ const fireEvent = function (name, value) {
     if (isFunction(page.getTabBar)) {
       const customTabbar = page.getTabBar()
       if (customTabbar && isFunction(customTabbar.setData)) {
-        notify(customTabbar, customTabbar.listeners)
+        notify(customTabbar, customTabbar.$constructorOptions.listeners)
       }
     }
   })
@@ -285,7 +285,7 @@ const updateMixinsAsync = function (kvs, oldkvs, name) {
     if (isFunction(page.getTabBar)) {
       const customTabbar = page.getTabBar()
       if (customTabbar && isFunction(customTabbar.setData)) {
-        updateDataSync(customTabbar, customTabbar[mixinName])
+        updateDataSync(customTabbar, customTabbar.$constructorOptions[mixinName])
       }
     }
   })
@@ -1029,11 +1029,7 @@ const factory = function (option, constructr) {
     const isComponent = constructr === _Component
     // custom tabbar need this
     if (isComponent) {
-      this.listeners = option.listeners
-      this.mixinStore = option.mixinStore
-      this.mixinStorage = option.mixinStorage
-      this.onStoreChange = option.onStoreChange
-      this.onStorageChange = option.onStorageChange
+      this.$constructorOptions = option
     }
     const page = getPageInstance(this)
     // fix: 自定义tabbar无法走detached钩子会内存泄露

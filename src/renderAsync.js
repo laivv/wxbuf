@@ -20,7 +20,7 @@ const HOOK_NAMES = {
 
 let timer = null
 let models = []
-let _cb = null
+let callAppHook = null
 
 const doUpdateView = function (context, option) {
   if (option.mixinStore || option.mixinStorage) {
@@ -47,7 +47,7 @@ const doUpdateView = function (context, option) {
 }
 
 export function renderViewAsync(model, cb) {
-  if (!_cb) { _cb = cb }
+  if (!callAppHook) { callAppHook = cb }
   stopUpdateView()
   updateModel(model)
   updateView()
@@ -78,14 +78,14 @@ function updateView() {
       if (isFunction(page.getTabBar)) {
         const customTabbar = page.getTabBar()
         if (customTabbar && isFunction(customTabbar.setData)) {
-          doUpdateView(customTabbar, customTabbar)
+          doUpdateView(customTabbar, customTabbar.$constructorOptions)
         }
       }
     })
     components.forEach(({ context, option }) => doUpdateView(context, option))
     models.forEach(({ kvs, oldkvs, name }) => {
       const hookName = `on${upperCase(name, 0)}Change`
-      _cb(hookName, kvs, oldkvs)
+      callAppHook(hookName, kvs, oldkvs)
     })
     models = []
   }, 0)
