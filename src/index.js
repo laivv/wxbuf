@@ -746,7 +746,7 @@ Object.defineProperty(globalThis, 'getSavedPages', {
 App = function (option = {}) {
   const { storeKey } = userConfig
   appOption = option
-  if(!isObject(option[storeKey])) {
+  if (!isObject(option[storeKey])) {
     option[storeKey] = {}
   }
   option[storeKey] = defineReactive(option[storeKey], updateMixinsAsync)
@@ -936,8 +936,8 @@ Page = function (option) {
   initGlobalShareTimeline(option)
   overwriteFn(option, 'onLoad', createOnLoad(option))
   createOnShow(option)
-  overwriteFn(option, 'onUnload', function () { 
-    removePage(this) 
+  overwriteFn(option, 'onUnload', function () {
+    removePage(this)
     callAppHook('onPageUnload', this)
   })
   overwriteFn(option, 'onPullDownRefresh', createLifeTime('pullDownRefresh', 'onPagePullDownRefresh'))
@@ -948,7 +948,7 @@ Page = function (option) {
   }
   option[`${userConfig.methodPrefix}invoke`] = function (fnName, ...args) {
     if (this.$opener && isFunction(this.$opener[fnName])) {
-     return this.$opener[fnName](...args)
+      return this.$opener[fnName](...args)
     }
   }
   extendCommonMethods(option)
@@ -956,7 +956,7 @@ Page = function (option) {
   return _Page(option)
 }
 
-const installPageMethods = function (option, context) {
+const installExportMethods = function (option, context) {
   const { exportMethods } = option
   if (exportMethods) {
     const parent = context.selectOwnerComponent()
@@ -990,9 +990,10 @@ const factory = function (option, constructr) {
   option = option || {}
   option.methods = option.methods || {}
   option.lifetimes = option.lifetimes || {}
-  const _created = option.lifetimes.created || option.created
-  const _attached = option.lifetimes.attached || option.attached
-  const _detached = option.lifetimes.detached || option.detached
+  const _created = option.lifetimes.created || option.created || noop
+  const _attached = option.lifetimes.attached || option.attached || noop
+  const _ready = option.lifetimes.ready || option.ready || noop
+  const _detached = option.lifetimes.detached || option.detached || noop
 
   const created = function () {
     try {
@@ -1001,9 +1002,10 @@ const factory = function (option, constructr) {
       initMixinData(option, this)
       initPageRouter(this)
     } catch (e) { }
-    if (_created) {
-      return _created.apply(this, arguments)
+    if (constructr === _Component) {
+      callAppHook('onComponentCreated', this)
     }
+    return _created.apply(this, arguments)
   }
   const attached = function () {
     const isComponent = constructr === _Component
@@ -1019,7 +1021,7 @@ const factory = function (option, constructr) {
     this.$page = page
     initMixinData(option, this)
     if (isComponent) {
-      installPageMethods(option, this)
+      installExportMethods(option, this)
       const parent = this.selectOwnerComponent()
       if (!parent.$components) {
         parent.$components = []
@@ -1027,10 +1029,14 @@ const factory = function (option, constructr) {
       parent.$components.push(this)
       this.$parent = parent
       initInject(option, this)
+      callAppHook('onComponentAttached', this)
     }
-    if (_attached) {
-      return _attached.apply(this, arguments)
-    }
+    return _attached.apply(this, arguments)
+  }
+
+  const ready = function () {
+    callAppHook('onComponentReady', this)
+    return _ready.apply(this, arguments)
   }
 
   const detached = function () {
@@ -1053,14 +1059,14 @@ const factory = function (option, constructr) {
           }
         })
       }
+      callAppHook('onComponentDetached', this)
     }
-    if (_detached) {
-      return _detached.apply(this, arguments)
-    }
+    return _detached.apply(this, arguments)
   }
 
   option.lifetimes.created = created
   option.lifetimes.attached = attached
+  option.lifetimes.ready = ready
   option.lifetimes.detached = detached
   initProxyTap(option.methods, false)
 

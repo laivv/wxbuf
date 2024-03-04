@@ -126,6 +126,14 @@ App({
     // 给目标handler传递第二个参数，减少取dataset的解构层数
     next(event, dataset)
   },
+  onComponentCreated(com) {
+  },
+  onComponentAttached(com) {
+  },
+  onComponentReady(com) {
+  },
+  onComponentDetached(com) {
+  },
   onStoreChange(newVal, oldVal) {
     console.log('来自App.js的消息,全局数据改变了, 新旧值分别是:', newVal, oldVal)
   },

@@ -67,7 +67,11 @@
 * [***option.onPageUnload*** ](#onPageUnload) 页面onUnload时回调
 * [***option.onPageShareAppMessage*** ](#onPageShareAppMessage) 当页面分享给好友时进行回调，可劫持并修改参数
 * [***option.onPageShareTimeline*** ](#onPageShareTimeline) 当页面分享到朋友圈时进行回调，可劫持并修改参数
-* [***option.onEventDispatch*** ](#onEventDispatch) UI标准事件触发时的前置拦截器
+* [***option.onEventDispatch*** ](#onEventDispatch) UI标准事件触发时的前置拦截器    
+* [***option.onComponentCreated*** ](#onComponentCreated) 组件在created时回调   
+* [***option.onComponentAttached*** ](#onComponentAttached) 组件在attached时回调    
+* [***option.onComponentReady*** ](#onComponentReady) 组件在ready时回调   
+* [***option.onComponentDetached*** ](#onComponentDetached) 组件在detached时回调    
 ### 【新增】wx对象上新增工具方法
 * [***wx.openPage*** (`option`: object): `promise` ](#wx-open-page) 打开一个页面
 * [***wx.replacePage*** (`option`: object): `void` ](#wx-replace-page) 打开一个页面替换当前页面栈
@@ -1238,6 +1242,53 @@
   说明：页面onShow时回调    
 
   参数：`page`为相应的页面  
+
+<a id="onPageShareAppMessage"></a>  
+
+<a id="onPageUnload"></a> 
+
+* ***option.onPageUnload(page)： void***    
+  适用于： `app`  
+
+  说明：页面onUnload时回调    
+
+  参数：`page`为相应的页面  
+
+<a id="onComponentCreated"></a> 
+
+* ***option.onComponentCreated(com)： void***    
+  适用于： `app`  
+
+  说明：组件created时回调    
+
+  参数：`com`为对应的组件 
+
+<a id="onComponentAttached"></a> 
+
+* ***option.onComponentAttached(com)： void***    
+  适用于： `app`  
+
+  说明：组件attached时回调    
+
+  参数：`com`为对应的组件 
+
+<a id="onComponentReady"></a> 
+
+* ***option.onComponentReady(com)： void***    
+  适用于： `app`  
+
+  说明：组件ready时回调    
+
+  参数：`com`为对应的组件 
+
+<a id="onComponentDetached"></a> 
+
+* ***option.onComponentDetached(com)： void***    
+  适用于： `app`  
+
+  说明：组件detached时回调    
+
+  参数：`com`为对应的组件
 
 <a id="onPageShareAppMessage"></a>
 
