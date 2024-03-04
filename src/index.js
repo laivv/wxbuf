@@ -1032,6 +1032,8 @@ const factory = function (option, constructr) {
       this.listeners = option.listeners
       this.mixinStore = option.mixinStore
       this.mixinStorage = option.mixinStorage
+      this.onStoreChange = option.onStoreChange
+      this.onStorageChange = option.onStorageChange
     }
     const page = getPageInstance(this)
     // fix: 自定义tabbar无法走detached钩子会内存泄露
