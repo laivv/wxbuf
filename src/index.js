@@ -255,7 +255,16 @@ const fireEvent = function (name, value) {
       listeners[name].call(context, event)
     }
   }
-  _pages.forEach(page => notify(page, page.listeners))
+  _pages.forEach(page => {
+    notify(page, page.listeners)
+    // notify custom tabbar
+    if (isFunction(page.getTabBar)) {
+      const customTabbar = page.getTabBar()
+      if (customTabbar && isFunction(customTabbar.setData)) {
+        notify(customTabbar, customTabbar.listeners)
+      }
+    }
+  })
   _components.forEach(({ context, option }) => notify(context, option.listeners))
   notify(getApp(), appOption.listeners)
 }
@@ -270,7 +279,16 @@ const updateMixinsAsync = function (kvs, oldkvs, name) {
       }
     })
   }
-  _pages.forEach(page => updateDataSync(page, page[mixinName]))
+  _pages.forEach(page => {
+    updateDataSync(page, page[mixinName])
+    //update tabbar component
+    if (isFunction(page.getTabBar)) {
+      const customTabbar = page.getTabBar()
+      if (customTabbar && isFunction(customTabbar.setData)) {
+        updateDataSync(customTabbar, customTabbar[mixinName])
+      }
+    }
+  })
   _components.forEach(({ context, option }) => updateDataSync(context, option[mixinName]))
   renderViewAsync({ kvs, oldkvs, name }, callAppHook)
 }
@@ -998,8 +1016,8 @@ const factory = function (option, constructr) {
   const created = function () {
     try {
       initContext(this)
-      initComputed(option, this)
-      initMixinData(option, this)
+      // initComputed(option, this)
+      // initMixinData(option, this)
       initPageRouter(this)
     } catch (e) { }
     if (constructr === _Component) {
@@ -1009,16 +1027,26 @@ const factory = function (option, constructr) {
   }
   const attached = function () {
     const isComponent = constructr === _Component
+    // custom tabbar need this
+    if (isComponent) {
+      this.listeners = option.listeners
+      this.mixinStore = option.mixinStore
+      this.mixinStorage = option.mixinStorage
+    }
     const page = getPageInstance(this)
-    addCom({
-      context: this,
-      option,
-      type: isComponent ? 'component' : 'behavior',
-      page
-    })
+    // fix: 自定义tabbar无法走detached钩子会内存泄露
+    if (page.route) {
+      addCom({
+        context: this,
+        option,
+        type: isComponent ? 'component' : 'behavior',
+        page
+      })
+    }
     this.$route = page.route
     this.$feature = page.$feature
     this.$page = page
+    initComputed(option, this)
     initMixinData(option, this)
     if (isComponent) {
       installExportMethods(option, this)

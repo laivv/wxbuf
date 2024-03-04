@@ -72,7 +72,16 @@ function stopUpdateView() {
 
 function updateView() {
   timer = setTimeout(function () {
-    pages.forEach(page => doUpdateView(page, page))
+    pages.forEach(page => {
+      doUpdateView(page, page)
+      //update tabbar component
+      if (isFunction(page.getTabBar)) {
+        const customTabbar = page.getTabBar()
+        if (customTabbar && isFunction(customTabbar.setData)) {
+          doUpdateView(customTabbar, customTabbar)
+        }
+      }
+    })
     components.forEach(({ context, option }) => doUpdateView(context, option))
     models.forEach(({ kvs, oldkvs, name }) => {
       const hookName = `on${upperCase(name, 0)}Change`

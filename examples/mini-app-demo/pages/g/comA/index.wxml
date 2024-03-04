@@ -1,0 +1,7 @@
+<view class="boder pd-16 mt-16">
+  <view class="bold">组件A</view>
+  <view>
+    {{totalText}}
+  </view>
+  <view class="btn mt-16" bind:tap="handle">修改数量</view>
+</view>
