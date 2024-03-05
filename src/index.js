@@ -898,6 +898,18 @@ const createOnShow = function (option) {
       path: this.route
     })
     callAppHook('onPageShow', this)
+    // fix bug: tabbar pageLifetime.show not work
+    if (isFunction(this.getTabBar)) {
+      const tabbar = this.getTabBar()
+      if (
+        isFunction(tabbar.setData) &&
+        tabbar.$constructorOptions &&
+        tabbar.$constructorOptions.pageLifetimes &&
+        tabbar.$constructorOptions.pageLifetimes.onShow
+      ) {
+        tabbar.$constructorOptions.pageLifetimes.onShow.call(tabbar)
+      }
+    }
 
     const ret = fn.call(this)
 
