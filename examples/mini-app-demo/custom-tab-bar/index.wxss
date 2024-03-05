@@ -1,0 +1,24 @@
+.tabbar {
+  box-shadow: 0 -6rpx 6rpx #eee;
+}
+
+.tabbar-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.tabbar-active {
+  color: rgb(6, 161, 32);
+}
+
+.badge {
+  color: #fff;
+  background-color: red;
+  display: inline-block;
+  border-radius: 50%;
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  bottom: 20rpx;
+  left: 20rpx;
+}

@@ -1,0 +1,17 @@
+<view class="flex-y-center bg-white tabbar pd-8">
+  <view 
+    wx:for="{{list}}" 
+    wx:key="pagePath" 
+    data-url="/{{item.pagePath}}" 
+    bindtap="handleSwitchTab" 
+    class="flex-1 text-center"
+  >
+    <view class="relative inline">
+      <view wx:if="{{item.count}}" class="badge">{{item.count}}</view>
+      <image class="tabbar-icon" src="{{item.pagePath === route ? item.selectedIconPath : item.iconPath}}" />
+    </view>
+    <view class="text-12 {{item.pagePath === route ? 'tabbar-active' : ''}}">
+      {{item.text}}
+    </view>
+  </view>
+</view>
