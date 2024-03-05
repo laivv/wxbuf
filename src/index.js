@@ -852,6 +852,17 @@ const processSwitchTab = function (context) {
   }
 }
 
+const getPageTabbar = context => {
+  if (isFunction(context.getTabBar)) {
+    const tabbar = context.getTabBar()
+    if (tabbar && isFunction(tabbar.setData)) {
+      return tabbar
+    }
+    return null
+  }
+  return null
+}
+
 const createOnLoad = function (option) {
   return function (params) {
     addPage(this)
@@ -869,12 +880,15 @@ const createOnLoad = function (option) {
     this.$route = this.route
     parseOption(params, !userConfig.parseUrlArgs)
     this.$params = params
-    // if (isTabBarPage(this.route)) {
-    //   if (this.onSwitchTab) {
-    //     this.onSwitchTab(params || {})
-    //   }
-    //   createLifeTime('switchTab').call(this, params || {})
-    // }
+
+    // relation tabbar to page
+    const tabbar = getPageTabbar(this)
+    if (tabbar) {
+      tabbar.$page = this
+      tabbar.$feature = this.$feature
+      tabbar.$route = this.route
+    }
+
     callUserHook(this, 'onPageLoad', {
       option: params,
       path: this.route
@@ -886,7 +900,17 @@ const createOnLoad = function (option) {
   }
 }
 
-
+const callTabbarPageLifetime = (pageContext, hookName, argv) => {
+  const tabbar = getPageTabbar(pageContext)
+  if (
+    tabbar &&
+    tabbar.$constructorOptions &&
+    tabbar.$constructorOptions.pageLifetimes &&
+    tabbar.$constructorOptions.pageLifetimes[hookName]
+  ) {
+    tabbar.$constructorOptions.pageLifetimes[hookName].call(tabbar, argv)
+  }
+}
 
 const createOnShow = function (option) {
   const fn = option.onShow || noop
@@ -899,17 +923,7 @@ const createOnShow = function (option) {
     })
     callAppHook('onPageShow', this)
     // fix bug: tabbar pageLifetime.show not work
-    if (isFunction(this.getTabBar)) {
-      const tabbar = this.getTabBar()
-      if (
-        isFunction(tabbar.setData) &&
-        tabbar.$constructorOptions &&
-        tabbar.$constructorOptions.pageLifetimes &&
-        tabbar.$constructorOptions.pageLifetimes.onShow
-      ) {
-        tabbar.$constructorOptions.pageLifetimes.onShow.call(tabbar)
-      }
-    }
+    callTabbarPageLifetime(this, 'show')
 
     const ret = fn.call(this)
 
@@ -930,6 +944,7 @@ const createLifeTime = function (hook, userHook) {
         option.pageLifetimes[hook].apply(context, arguments)
       }
     })
+    callTabbarPageLifetime(this, hook, e)
   }
 }
 
@@ -1014,7 +1029,7 @@ const factory = function (option, constructr) {
   }
   const attached = function () {
     const isComponent = constructr === _Component
-    // custom tabbar need this
+    // save constructor Options to instance
     if (isComponent) {
       this.$constructorOptions = option
     }
