@@ -1020,7 +1020,7 @@ const factory = function (option, constructr) {
     }
     const page = getPageInstance(this)
     // fix: 自定义tabbar无法走detached钩子会内存泄露
-    if (page) {
+    if (page.route) {
       addCom({
         context: this,
         option,
