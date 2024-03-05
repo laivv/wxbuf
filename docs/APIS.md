@@ -109,6 +109,7 @@
 ### 【新增】全局方法   
 * [***getApplication():AppInstance***](#getapplication) 获取app实例
 * [***getSavedPages():page[]***](#getsavedpages) 获取所有未销毁的page实例
+* [***getSavedTabBars():component[]***](#getSavedTabBars) 获取tabbar实例列表
 ### 【新增】全局配置 wxbuf.config(option)
 * [***option.parseUrlArgs***](#global-config) 是否开启自动反序列化url参数
 * [***option.methodPrefix***](#global-config) 给wxbuf提供的实例或wx对象上的方法添加前缀

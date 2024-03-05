@@ -22,7 +22,7 @@
 * Component支持向所在的page安装方法
 * 全局扩展page、component的实例方法
 * 支持定义顶级全局变量
-* 修复wx官方自定义tabbar组件中的pageLifetimes不工作的问题
+* 修正wx官方自定义tabbar组件中的pageLifetimes不工作的问题
 * 更多功能请查看文档
 ---
 ## 起步
