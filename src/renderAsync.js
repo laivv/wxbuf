@@ -6,7 +6,7 @@ import {
   getRealKey,
   isFunction
 } from "./util"
-import { pages, components } from './instance'
+import { getSavedPages, getSavedComs } from './instance'
 
 const MIXIN_NAMES = {
   storage: 'mixinStorage',
@@ -72,7 +72,7 @@ function stopUpdateView() {
 
 function updateView() {
   timer = setTimeout(function () {
-    pages.forEach(page => {
+    getSavedPages().forEach(page => {
       doUpdateView(page, page)
       //update tabbar component
       if (isFunction(page.getTabBar)) {
@@ -82,7 +82,7 @@ function updateView() {
         }
       }
     })
-    components.forEach(({ context, option }) => doUpdateView(context, option))
+    getSavedComs().forEach(({ context, option }) => doUpdateView(context, option))
     models.forEach(({ kvs, oldkvs, name }) => {
       const hookName = `on${upperCase(name, 0)}Change`
       callAppHook(hookName, kvs, oldkvs)

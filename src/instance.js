@@ -1,5 +1,8 @@
-export const pages = []
-export const components = []
+import { isFunction } from "./util"
+
+const pages = []
+const components = []
+
 
 export function addPage(ob) {
   pages.push(ob)
@@ -25,4 +28,25 @@ export function removeCom(context) {
     components.splice(index, 1)
   }
   return com
+}
+
+export function getSavedPages() {
+  return pages.slice(0)
+}
+
+export function getSavedComs() {
+  return components.slice(0)
+}
+
+export function getSavedTabBars() {
+  const tabbars = []
+  pages.forEach(page => {
+    if (isFunction(page.getTabBar)) {
+      const tabbar = page.getTabBar()
+      if (tabbar && isFunction(tabbar.setData)) {
+        tabbars.push(tabbar)
+      }
+    }
+  })
+  return tabbars
 }

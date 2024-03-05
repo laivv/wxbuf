@@ -33,8 +33,9 @@ import {
   addPage,
   removeCom,
   removePage,
-  pages as _pages,
-  components as _components,
+  getSavedPages,
+  getSavedComs,
+  getSavedTabBars
 } from './instance'
 import path from './path'
 import { Watcher } from './hookWatcher'
@@ -255,17 +256,10 @@ const fireEvent = function (name, value) {
       listeners[name].call(context, event)
     }
   }
-  _pages.forEach(page => {
-    notify(page, page.listeners)
-    // notify custom tabbar
-    if (isFunction(page.getTabBar)) {
-      const customTabbar = page.getTabBar()
-      if (customTabbar && isFunction(customTabbar.setData)) {
-        notify(customTabbar, customTabbar.$constructorOptions.listeners)
-      }
-    }
-  })
-  _components.forEach(({ context, option }) => notify(context, option.listeners))
+  getSavedPages().forEach(page => notify(page, page.listeners))
+  getSavedComs().forEach(({ context, option }) => notify(context, option.listeners))
+  // notify custom tabbar
+  getSavedTabBars().forEach(tabbar => notify(tabbar, tabbar.$constructorOptions.listeners))
   notify(getApp(), appOption.listeners)
 }
 
@@ -279,17 +273,10 @@ const updateMixinsAsync = function (kvs, oldkvs, name) {
       }
     })
   }
-  _pages.forEach(page => {
-    updateDataSync(page, page[mixinName])
-    //update tabbar component
-    if (isFunction(page.getTabBar)) {
-      const customTabbar = page.getTabBar()
-      if (customTabbar && isFunction(customTabbar.setData)) {
-        updateDataSync(customTabbar, customTabbar.$constructorOptions[mixinName])
-      }
-    }
-  })
-  _components.forEach(({ context, option }) => updateDataSync(context, option[mixinName]))
+  getSavedPages().forEach(page => updateDataSync(page, page[mixinName]))
+  getSavedComs().forEach(({ context, option }) => updateDataSync(context, option[mixinName]))
+  //update tabbar
+  getSavedTabBars().forEach(tabbar => updateDataSync(tabbar, tabbar.$constructorOptions[mixinName]))
   renderViewAsync({ kvs, oldkvs, name }, callAppHook)
 }
 
@@ -743,23 +730,11 @@ const fixGetApp = function (app) {
   _app = app
 }
 
-Object.defineProperty(globalThis, 'getApplication', {
-  value: function () {
-    return getApp() || _app
-  },
-  configurable: false,
-  writable: false,
-  enumerable: false
+defProperty(globalThis, 'getApplication', function () {
+  return getApp() || _app
 })
-Object.defineProperty(globalThis, 'getSavedPages', {
-  value: function () {
-    return _pages.slice(0)
-  },
-  configurable: false,
-  writable: false,
-  enumerable: false
-})
-
+defProperty(globalThis, 'getSavedPages', getSavedPages)
+defProperty(globalThis, 'getSavedTabBars', getSavedTabBars)
 
 App = function (option = {}) {
   const { storeKey } = userConfig
@@ -938,7 +913,7 @@ const createOnShow = function (option) {
 const createLifeTime = function (hook, userHook) {
   return function (e) {
     callUserHook(this, userHook, extend({ path: this.route }, e || {}))
-    _components.forEach(({ context, page, option }) => {
+    getSavedComs().forEach(({ context, page, option }) => {
       if (page === this && option.pageLifetimes && option.pageLifetimes[hook]) {
         option.pageLifetimes[hook].apply(context, arguments)
       }
@@ -1033,7 +1008,7 @@ const factory = function (option, constructr) {
     }
     const page = getPageInstance(this)
     // fix: 自定义tabbar无法走detached钩子会内存泄露
-    if (page.route) {
+    if (page) {
       addCom({
         context: this,
         option,

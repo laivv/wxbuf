@@ -60,7 +60,7 @@ export const getPageInstance = function (context) {
   let p, page
   p = page = context.selectOwnerComponent()
   if (page === null) {
-    return context
+    return context.route ? context : null
   }
   while (p = page.selectOwnerComponent()) {
     page = p
