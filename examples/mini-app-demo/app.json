@@ -37,6 +37,7 @@
   "usingComponents": {
   },
   "tabBar": {
+    "custom": true,
     "list": [
       {
         "pagePath": "pages/home/index",

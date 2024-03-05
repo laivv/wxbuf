@@ -12,7 +12,7 @@ Page({
     })
   },
   handleC() {
-    this.showToast('这个toast方法定义在app.js中')
+    this.showToast('这个页面toast方法定义在app.js中')
   },
   handleD() {
     wx.navigateTo({

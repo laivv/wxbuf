@@ -1,7 +1,7 @@
 import wxbuf from './lib/dist/wxbuf.min'
 
 wxbuf.global.extend('getAppName', function () {
-  return '我的小程序'
+  return '这段文字由app.js中定义的全局方法提供'
 })
 
 wxbuf.page.extend({
@@ -97,7 +97,20 @@ App({
   },
   globalData: {
     appVersion: 'v1.0',
-    appCount: 1
+    appCount: 1,
+    tabbars: [{
+      "pagePath": "pages/home/index",
+      "text": "首页",
+      "iconPath": "/images/home.png",
+      "selectedIconPath": "/images/home1.png"
+    },
+    {
+      "pagePath": "pages/my/index",
+      "text": "我的",
+      "iconPath": "/images/my.png",
+      "selectedIconPath": "/images/my1.png",
+      count: 10
+    }]
   },
   onPageShareAppMessage(page, options, object) {
   },

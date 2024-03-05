@@ -1,7 +1,9 @@
 page {
   padding: 32rpx;
 }
-page, view {
+
+page,
+view {
   box-sizing: border-box;
 }
 
@@ -13,74 +15,125 @@ page, view {
   border-radius: 8rpx;
   color: #fff;
 }
+
 .btn:active {
   background-color: rgb(28, 141, 71);
 }
+
 .btn+.btn {
   margin-top: 16rpx;
 }
+
 .mt-16 {
   margin-top: 32rpx;
 }
+
 .mb-16 {
   margin-bottom: 32rpx;
 }
-.my-16{
+.mb-32 {
+  margin-bottom: 64rpx;
+}
+.mb-64 {
+  margin-bottom: 128rpx;
+}
+
+.my-16 {
   margin-top: 32rpx;
   margin-bottom: 32rpx;
 }
+
 .mt-32 {
   margin-top: 64rpx;
 }
+
 .mr-8 {
   margin-right: 16rpx;
 }
+
 .mr-16 {
   margin-right: 32rpx;
 }
+
 .text-center {
   text-align: center;
 }
-.text-bold{
+
+.text-bold {
   font-weight: bold;
 }
+
 .text-gray {
-  color:#888;
+  color: #888;
 }
+
+.text-12 {
+  font-size: 24rpx;
+}
+
 .boder {
   border: solid 2rpx #aaa;
 }
-.fixed-top-left{
+
+.fixed-top-left {
   position: fixed;
   top: 0;
   left: 0;
 }
+
 .x-full {
   width: 100%;
 }
+
 .y-full {
   height: 100%;
 }
+
 .full {
   width: 100%;
   height: 100%;
 }
-.pd-16{
+
+.pd-16 {
   padding: 32rpx;
 }
-.pd-8{
+
+.pd-8 {
   padding: 16rpx;
 }
-.py-16{
+
+.py-16 {
   padding-top: 32rpx;
   padding-bottom: 32rpx;
 }
-.pb-16{
+
+.pb-16 {
   padding-bottom: 32rpx;
 }
+
 .bold {
   font-weight: bold;
 }
+
 .bg-white {
   background-color: #fff;
+}
+.inline {
+  display: inline;
+}
+.flex-y-center {
+  display: flex;
+  align-items: center;
+}
+
+.flex-x-center {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-1 {
+  flex: 1
+}
+.relative {
+  position: relative;
 }
