@@ -1,13 +1,19 @@
+const dataSource = {
+  text: '这是page',
+  value: 'page',
+  desc: '这是page desc',
+}
+
 Page({
   data: {
-    value: 123
+    ...dataSource,
+    count: 1
   },
   // 要传递给后代的数据
   provide: {
-    name: '这是page的name',
-    desc: '这是page的desc',
+    ...dataSource,
     updatePageData() {
-      this.setData({ value: this.data.value + 1 })
+      this.setData({ count: this.data.count + 1 })
     }
   }
 })

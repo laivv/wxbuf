@@ -1,7 +1,11 @@
 <view class="full pd-16">
   <view class="bold">page</view>
-  <view class="mt-16">data.count的值是: {{count}}</view>
-  <view class="btn mt-16" bind:tap="handle">修改count的值</view>
+  <view class="mt-16">text: {{text}}</view>
+  <view class="mt-16">number: {{number}}</view>
+  <view class="mt-16">count: {{count}}</view>
+  <view class="mt-16">total: {{total}}</view>
+  <view class="btn mt-16" bind:tap="handleA">修改count</view>
+  <view class="btn mt-16" bind:tap="handleB">修改total</view>
   <view class="mt-16">
     <comA />
   </view>

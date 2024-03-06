@@ -1,15 +1,15 @@
 Component({
   data: {
-    number: 100,
+    count: 100,
   },
   provide() {
     return {
-      comNumber: this.data.number
+      count: this.data.count
     }
   },
   methods: {
     handle() {
-      this.setData({ number: this.data.number + 1 })
+      this.setData({ count: this.data.count + 1 })
     }
   }
 })

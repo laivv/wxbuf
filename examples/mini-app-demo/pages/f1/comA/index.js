@@ -1,6 +1,9 @@
+const dataSource = {
+  text: '这是组件A',
+  value: 'comA'
+}
+
 Component({
-  provide: {
-    name: '这是组件A的name',
-    text: '这是组件A的text'
-  }
+  data: dataSource,
+  provide: dataSource
 })

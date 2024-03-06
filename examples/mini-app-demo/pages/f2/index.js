@@ -1,18 +1,27 @@
+const text = '这是page'
 Page({
   data: {
-    count: 1
+    text,
+    count: 1,
+    number: 10,
+    total: 123
   },
   // 要传递给后代的数据
   provide(){
     return {
-      pageText: '这是page的静态数据',
-      pageCount: this.data.count,
-      pageDataUpdate() {
-        this.setData({ count: this.data.count + 1 })
+      text,
+      count: this.data.count,
+      number: this.data.number,
+      total: this.data.total,
+      updatePageData() {
+        this.setData({ number: this.data.number + 1 })
       }
     }
   },
-  handle() {
+  handleA() {
     this.setData({ count: this.data.count + 1 })
+  },
+  handleB() {
+    this.setData({ total: this.data.total + 1 })
   }
 })

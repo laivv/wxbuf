@@ -2,8 +2,8 @@
   <view class="bold">
     组件A
   </view>
-  <view class="mt-16">data.number的值是: {{number}}</view>
-  <view class="btn mt-16" bind:tap="handle">修改number的值</view>
+  <view class="mt-16">count: {{count}}</view>
+  <view class="btn mt-16" bind:tap="handle">修改count</view>
   <view class="mt-16">
     <comC />
   </view>

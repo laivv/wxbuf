@@ -25,10 +25,17 @@ Component({
         }, 16)
       })
     },
-    async onSelected({ currentTarget: { dataset: { value } } }) {
+    async onSelected(e, { value }) {
+      if (this.pending) return
       this.resolve && this.resolve(value)
       if (this.onOk) {
-        await this.onOk(value)
+        this.pending = true
+        try {
+          await this.onOk(value)
+        }
+        finally {
+          this.pending = false
+        }
       }
       this.close()
     },

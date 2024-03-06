@@ -2,6 +2,8 @@
   <view class="bold">
     组件A
   </view>
+  <view class="mt-16">text: {{text}}</view>
+  <view class="mt-16">value: {{value}}</view>
   <view class="mt-16">
     <comC />
   </view>

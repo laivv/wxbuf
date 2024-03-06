@@ -2,8 +2,8 @@
   <view class="bold">
     组件C
   </view>
-  <view class="mt-16">name：{{name}}</view>
-  <view class="mt-16">text：{{text}}</view>
-  <view class="mt-16">desc：{{desc}}</view>
-  <view class="mt-16 btn" bind:tap="handle">点击调用由page提供的方法</view>
+  <view class="mt-16">text: {{text}}</view>
+  <view class="mt-16">value: {{value}}</view>
+  <view class="mt-16">desc: {{desc}}</view>
+  <view class="mt-16 btn" bind:tap="handle">点击修改page的count</view>
 </view>

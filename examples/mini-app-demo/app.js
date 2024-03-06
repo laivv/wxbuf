@@ -97,20 +97,7 @@ App({
   },
   globalData: {
     appVersion: 'v1.0',
-    appCount: 1,
-    tabbars: [{
-      "pagePath": "pages/home/index",
-      "text": "首页",
-      "iconPath": "/images/home.png",
-      "selectedIconPath": "/images/home1.png"
-    },
-    {
-      "pagePath": "pages/my/index",
-      "text": "我的",
-      "iconPath": "/images/my.png",
-      "selectedIconPath": "/images/my1.png",
-      count: 10
-    }]
+    appCount: 1
   },
   onPageShareAppMessage(page, options, object) {
   },
