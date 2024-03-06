@@ -7,22 +7,22 @@ Component({
   },
   data: {
     list: [{
-      "pagePath": "pages/home/index",
-      "text": "首页",
-      "iconPath": "/images/home.png",
-      "selectedIconPath": "/images/home1.png"
+      pagePath: "pages/home/index",
+      text: "首页",
+      iconPath: "/images/home.png",
+      selectedIconPath: "/images/home1.png"
     },
     {
-      "pagePath": "pages/my/index",
-      "text": "我的",
-      "iconPath": "/images/my.png",
-      "selectedIconPath": "/images/my1.png",
+      pagePath: "pages/my/index",
+      text: "我的",
+      iconPath: "/images/my.png",
+      selectedIconPath: "/images/my1.png",
       count: 10
     }]
   },
   methods: {
     handleSwitchTab(e, { url }) {
-      wx.switchTab({ url: url })
+      wx.switchTab({ url })
     }
   }
 })

@@ -2,11 +2,16 @@ import {
   extend,
   hasOwn,
   isEmpty,
-  upperCase,
   getRealKey,
   isFunction
 } from "./util"
-import { getSavedPages, getSavedComs } from './instance'
+import {
+  getSavedComs,
+  getSavedPages,
+  getSavedTabBars
+} from './instance'
+
+import { callAppHook } from "./appConfig"
 
 const MIXIN_NAMES = {
   storage: 'mixinStorage',
@@ -20,7 +25,7 @@ const HOOK_NAMES = {
 
 let timer = null
 let models = []
-let callAppHook = null
+
 
 const doUpdateView = function (context, option) {
   if (option.mixinStore || option.mixinStorage) {
@@ -46,8 +51,7 @@ const doUpdateView = function (context, option) {
   })
 }
 
-export function renderViewAsync(model, cb) {
-  if (!callAppHook) { callAppHook = cb }
+export function renderViewAsync(model) {
   stopUpdateView()
   updateModel(model)
   updateView()
@@ -72,21 +76,10 @@ function stopUpdateView() {
 
 function updateView() {
   timer = setTimeout(function () {
-    getSavedPages().forEach(page => {
-      doUpdateView(page, page)
-      //update tabbar component
-      if (isFunction(page.getTabBar)) {
-        const customTabbar = page.getTabBar()
-        if (customTabbar && isFunction(customTabbar.setData)) {
-          doUpdateView(customTabbar, customTabbar.$constructorOptions)
-        }
-      }
-    })
+    getSavedPages().forEach(page => doUpdateView(page, page))
     getSavedComs().forEach(({ context, option }) => doUpdateView(context, option))
-    models.forEach(({ kvs, oldkvs, name }) => {
-      const hookName = `on${upperCase(name, 0)}Change`
-      callAppHook(hookName, kvs, oldkvs)
-    })
+    getSavedTabBars().forEach(tabbar => doUpdateView(tabbar, tabbar.$constructorOptions))
+    models.forEach(({ kvs, oldkvs, name }) => callAppHook(HOOK_NAMES[name], kvs, oldkvs))
     models = []
   }, 0)
 }

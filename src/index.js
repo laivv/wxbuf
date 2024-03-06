@@ -42,6 +42,7 @@ import { Watcher } from './hookWatcher'
 import { builtInHooks } from './builtInHooks'
 import { storageCache } from './storageCache'
 import { renderViewAsync } from './renderAsync'
+import { saveAppConfig, callAppHook, getAppConfig } from './appConfig'
 
 const userWatcher = new Watcher()
 let userConfig = {
@@ -52,7 +53,7 @@ let userConfig = {
   storeKey: 'globalData'
 }
 
-let appOption = {}
+
 const extendFns = {
   page: {},
   component: {}
@@ -105,11 +106,6 @@ const callUserHook = function (context, hook, ...args) {
   userWatcher.invoke(hook, context, ...args)
 }
 
-const callAppHook = function (hook) {
-  if (isFunction(appOption[hook])) {
-    return appOption[hook].apply(getApp(), [].slice.call(arguments, 1))
-  }
-}
 
 const initProxyTap = function (options, isPage = true) {
   for (let key in options) {
@@ -124,14 +120,14 @@ const initProxyTap = function (options, isPage = true) {
           callUserHook(this, 'on' + upperCase(e.type, 0), extend(e, { path: getPageInstance(this).route }))
         }
         if (fn) {
-          if (appOption.onEventDispatch && isEvent(e) && !e._ignore) {
+          if (getAppConfig('onEventDispatch') && isEvent(e) && !e._ignore) {
             let prevent = true
             let args = [e]
             const next = function () {
               prevent = false
               args = [].slice.call(arguments, 0)
             }
-            appOption.onEventDispatch.call(getApp(), e, next)
+            callAppHook('onEventDispatch', e, next)
             defProperty(e, '_ignore', true)
             if (!prevent) {
               return fn.apply(this, args)
@@ -260,7 +256,7 @@ const fireEvent = function (name, value) {
   getSavedComs().forEach(({ context, option }) => notify(context, option.listeners))
   // notify custom tabbar
   getSavedTabBars().forEach(tabbar => notify(tabbar, tabbar.$constructorOptions.listeners))
-  notify(getApp(), appOption.listeners)
+  notify(getApp(), getAppConfig('listeners'))
 }
 
 const updateMixinsAsync = function (kvs, oldkvs, name) {
@@ -275,9 +271,8 @@ const updateMixinsAsync = function (kvs, oldkvs, name) {
   }
   getSavedPages().forEach(page => updateDataSync(page, page[mixinName]))
   getSavedComs().forEach(({ context, option }) => updateDataSync(context, option[mixinName]))
-  //update tabbar
   getSavedTabBars().forEach(tabbar => updateDataSync(tabbar, tabbar.$constructorOptions[mixinName]))
-  renderViewAsync({ kvs, oldkvs, name }, callAppHook)
+  renderViewAsync({ kvs, oldkvs, name })
 }
 
 
@@ -563,7 +558,7 @@ const initGlobalShareAppMessage = function (page) {
         title: getNavigateBarTitle(),
         url: `${this.route}${this.$rawParamsQuery ? `?${this.$rawParamsQuery}` : ''}`,
       }
-      if (appOption.onPageShareAppMessage) {
+      if (getAppConfig('onPageShareAppMessage')) {
         const ret = callAppHook('onPageShareAppMessage', this, options, object)
         if (isObject(ret)) {
           options = ret
@@ -579,7 +574,7 @@ const initShareAppMessage = function (page) {
   if (cb) {
     page.onShareAppMessage = function (object) {
       let options = cb.call(this, object)
-      if (appOption.onPageShareAppMessage) {
+      if (getAppConfig('onPageShareAppMessage')) {
         const ret = callAppHook('onPageShareAppMessage', this, options, object)
         if (isObject(ret)) {
           options = ret
@@ -597,7 +592,7 @@ const initGlobalShareTimeline = function (page) {
         title: getNavigateBarTitle(),
         query: this.$rawParamsQuery,
       }
-      if (appOption.onPageShareTimeline) {
+      if (getAppConfig('onPageShareTimeline')) {
         const ret = callAppHook('onPageShareTimeline', this, options)
         if (isObject(ret)) {
           options = ret
@@ -613,7 +608,7 @@ const initShareTimeline = function (page) {
   if (cb) {
     page.onShareTimeline = function () {
       let options = cb.call(this)
-      if (appOption.onPageShareTimeline) {
+      if (getAppConfig('onPageShareTimeline')) {
         const ret = callAppHook('onPageShareTimeline', this, options)
         if (isObject(ret)) {
           options = ret
@@ -738,7 +733,7 @@ defProperty(globalThis, 'getSavedTabBars', getSavedTabBars)
 
 App = function (option = {}) {
   const { storeKey } = userConfig
-  appOption = option
+  saveAppConfig(option)
   if (!isObject(option[storeKey])) {
     option[storeKey] = {}
   }
@@ -1018,8 +1013,6 @@ const factory = function (option, constructr) {
   const created = function () {
     try {
       initContext(this)
-      // initComputed(option, this)
-      // initMixinData(option, this)
       initPageRouter(this)
     } catch (e) { }
     if (constructr === _Component) {
