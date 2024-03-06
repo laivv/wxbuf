@@ -1,4 +1,4 @@
 <view>你选择的值是：{{value}}</view>
-<view bind:tap="handleA" class="btn mt-16">点击打开picker</view>
+<view bind:tap="handleA" class="btn mt-16 mb-16">点击打开picker</view>
 <comA/>
 <c-picker />
