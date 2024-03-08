@@ -83,10 +83,21 @@ wxbuf.config({
   // 开启所有页面分享到朋友圈
   enableGlobalShareTimeline: true,
   // 指定app中哪个key值被作为store数据来管理
-  storeKey: 'globalData'
+  storeKey: 'globalData',
+
 })
 
 App({
+  mixinStore: {
+    namespace: '$store',
+    page: ['appVersion', 'appCount'],
+    component: ['appVersion', 'appCount']
+  },
+  mixinStorage: {
+    namespace: '$storage',
+    page: ['appVersion', 'appCount'],
+    component: ['appVersion', 'appCount']
+  },
   listeners: {
     dataChange(event) {
       wx.showToast({

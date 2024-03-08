@@ -4,7 +4,7 @@ Page({
   },
   computed: {
     totalText() {
-      return `总数量是${this.data.total}`
+      return `总数是：${this.data.total}`
     }
   },
   handle() {
