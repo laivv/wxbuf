@@ -1,0 +1,20 @@
+.list-item {
+  width: 100%;
+  padding: 24rpx 16rpx;
+  border-bottom: solid 1rpx #eee;
+  color:#666;
+  background-color: #fff;
+}
+.list-item:first-child {
+  border-top: solid 1rpx #eee;
+}
+.list-item::after {
+  content: '';
+  display: block;
+  height: 16rpx;
+  width: 16rpx;
+  border: solid 2rpx rgba(176, 179, 184, 1);
+  transform: rotate(45deg);
+  border-left: none;
+  border-bottom: none;
+}

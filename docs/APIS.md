@@ -44,7 +44,7 @@
 * [***option.pageLifeTimes.reachBottom*** ](#reach-bottom) 所在页面onReachBottom
 * [***option.pageLifeTimes.pageScroll*** ](#page-scroll) 所在页面onPageScroll
 * [***option.pageLifeTimes.switchTab*** ](#com-switchTab) 所在tabbar页面发生onSwitchTab时调用   
-* [***option.exportMethods*** ](#page-methods) 向所在父组件实例挂载方法
+* [***option.exports*** ](#page-methods) 向所在的父组件实例暴露方法 
 * [***option.provide*** ](#provide) 向后代组件提供数据
 * [***option.inject*** ](#inject) 获取来自上层组件提供的数据（配合provide使用）
 ### 【新增】Behavior(option)构造器选项
@@ -1167,51 +1167,113 @@
 
 <a id="page-methods"></a>
 
-* ***option.exportMethods: object***   
+* ***option.exports: object***   
   适用于： `component`   
 
-  说明：向所在的父组件实例挂载方法    
+  说明：向所在的父组件实例暴露方法    
 
   例子：    
 
   ```js
   // 组件 list.js
   Component({
-    exportMethods: {
-      // 此方法将挂载到父组件的this对象上
-      refreshList() {
-        this.getData()
+    exports: {
+      methods: {
+         // 此方法将挂载到父组件的this对象上
+        fetchList() {
+          this.fetchData()
+        }
       }
     },
     methods: {
-      getData() {
+      fetchData() {
         console.log('组件-获取数据中')
       }
     }
   })
   ```
-  ```json
-  // page.json
 
-  {
-    "usingComponents": {
-      "list": "./list"
-    }
-  }
-  ```
-  ```html
+  ```xml
   <!--page.wxml -->
+  <!-- 使用list组件 -->
   <list></list>
   ```
   ```js
   // page.js
   Page({
     handleTap() {
-      this.refreshList() // 组件-获取数据中
+      this.fetchList() // 组件-获取数据中
     }
   })
   ```
-  注意，如果父组件已有同名方法，则不会挂载方法；如果组件被父组件使用多次，则只会挂载第一个组件的方法，所以要向父组件挂载方法就要避免组件在同一个父组件中被多次使用，以防引起混乱。
+  `exports`也可以指定命名空间    
+
+  例子：    
+  ```js
+  Component({
+    exports: {
+      namespace: '$mycom',
+      methods: {
+        //...
+      }
+    }
+  })
+  ```
+  指定命名空间后，父组件以`this.$mycom.methodName()`的方式调用子组件提供的方法    
+  `exports`还可以写成函数形式，但函数必须返回一个对象   
+  例子：    
+  ```js
+  Component({
+    exports() {
+      return  {
+        namespace: '$mycom',
+        methods: {
+          //...
+        }
+      }
+    }
+  })
+  ```
+  命名空间还可以是动态的，这需要将`exports`写成函数形式来配合实现    
+
+  例子：    
+  ```js
+  // my-form 组件
+  Component({
+    properties: {
+      ref: String
+    },
+    exports() {
+      return  {
+        namespace: this.data.ref,
+        methods: {
+          resetFields:() {},
+          setFieldsValue:(data) {},
+        }
+      }
+    }
+  })
+  ```
+
+  ```xml
+  <!-- page.wxml -->
+  <!-- 使用 my-form 组件-->
+  <my-form ref="$form">
+    <custom-input label="姓名" name="name" />
+    <custom-input label="电活" name="phone" />
+  </my-form>
+  ```
+  ```js
+  //page.js
+  Page({
+    onTap() {
+      this.$form.resetFileds()
+      this.$form.setFieldsValue({ name: 'wxbuf', phone: 18000000000 })
+    }
+  })
+  ```
+  注间： 动态命名空间在组件`attached`阶段一但确定则不会再变动，即便你后期再修改将不起作用     
+  注意，如果父组件已有同名方法或命名空间，则不会挂载方法；如果组件被父组件使用多次，则只会挂载第一个组件的方法，所以要向父组件挂载方法就要避免组件在同一个父组件中被多次使用，以防引起混乱。
 
 <a id="before-route-enter"></a>
 

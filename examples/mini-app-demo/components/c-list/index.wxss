@@ -1,0 +1,9 @@
+.list {
+  margin-top: 16rpx;
+}
+
+.list-title {
+  padding: 8rpx 16rpx;
+  font-size: 24rpx;
+  color: #aaa;
+}

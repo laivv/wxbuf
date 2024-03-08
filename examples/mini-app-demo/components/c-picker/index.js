@@ -1,12 +1,20 @@
 Component({
+  properties: {
+    ref: String
+  },
   // 向父组件实例挂载方法
-  exportMethods: {
-    showPicker(option) {
-      this.openPicker(option)
-      return new Promise((resolve, reject) => {
-        this.resolve = resolve
-        this.reject = reject
-      })
+  exports() {
+    return {
+      namespace: this.data.ref,
+      methods: {
+        showPicker(option) {
+          this.openPicker(option)
+          return new Promise((resolve, reject) => {
+            this.resolve = resolve
+            this.reject = reject
+          })
+        }
+      }
     }
   },
   methods: {

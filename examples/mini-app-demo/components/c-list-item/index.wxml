@@ -1,0 +1,5 @@
+<view class="list-item flex-y-center" bind:tap="handle">
+  <view class="flex-1">
+    <slot></slot>  
+  </view>
+</view>

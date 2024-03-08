@@ -25,5 +25,10 @@ Page({
       title: '提交成功',
       icon: 'none'
     })
+  },
+  handleF() {
+    wx.navigateTo({
+      url: '/pages/test/index',
+    })
   }
 })

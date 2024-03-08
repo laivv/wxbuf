@@ -1,16 +1,32 @@
-<view class="btn" bind:tap="handle" data-url="/pages/a/index">向新页面传递数据</view>
-<view class="btn" bind:tap="handle" data-url="/pages/b/index">向上一个页面回传数据</view>
-<view class="btn" bind:tap="handle" data-url="/pages/c/index">跨页跨组件通信</view>
-<view class="btn" bind:tap="handle" data-url="/pages/d/index">响应式的store</view>
-<view class="btn" bind:tap="handle" data-url="/pages/e/index">响应式的storage</view>
-<view class="btn" bind:tap="handle" data-url="/pages/f/index">跨级传递数据</view>
-<view class="btn" bind:tap="handle" data-url="/pages/g/index">计算属性</view>
-<view class="btn" bind:tap="handle" data-url="/pages/h/index">页面observers</view>
-<view class="btn" bind:tap="handle" data-url="/pages/i/index">全局路由拦截</view>
-<view class="btn" bind:tap="handle" data-url="/pages/j/index">storage与store变化监听</view>
-<view class="btn" bind:tap="handle" data-url="/pages/k/index">全局UI事件拦截</view>
-<view class="btn" bind:tap="handle" data-url="/pages/l/index">异步更新视图</view>
-<view class="btn" bind:tap="handle" data-url="/pages/m/index">全局监听各种UI事件</view>
-<view class="btn" bind:tap="handle" data-url="/pages/n/index">在组件中监听页面的钩子</view>
-<view class="btn" bind:tap="handle" data-url="/pages/p/index">调用组件内部暴露的方法</view>
-<view class="btn mb-64" bind:tap="handle" data-url="/pages/z/index">其它更多功能</view>
+<view class="pb-64">
+  <c-list title="数据传递">
+    <c-list-item url="/pages/a/index">向新页面传递数据</c-list-item>
+    <c-list-item url="/pages/b/index">向上一个页面回传数据</c-list-item>
+    <c-list-item url="/pages/f/index">跨级传递数据</c-list-item>
+  </c-list>
+  <c-list title="通信">
+    <c-list-item url="/pages/c/index">跨页跨组件通信</c-list-item>
+  </c-list>
+  <c-list title="状态管理">
+    <c-list-item url="/pages/d/index">响应式的store</c-list-item>
+    <c-list-item url="/pages/e/index">响应式的storage</c-list-item>
+  </c-list>
+  <c-list title="拦截器">
+    <c-list-item url="/pages/i/index">全局路由拦截</c-list-item>
+    <c-list-item url="/pages/k/index">全局UI事件拦截</c-list-item>
+  </c-list>
+  <c-list title="特色功能">
+    <c-list-item url="/pages/g/index">计算属性</c-list-item>
+    <c-list-item url="/pages/h/index">页面observers</c-list-item>
+    <c-list-item url="/pages/p/index">调用组件内部暴露的方法</c-list-item>
+  </c-list>
+  <c-list title="视图">
+    <c-list-item url="/pages/l/index">异步更新视图</c-list-item>
+  </c-list>
+  <c-list title="事件监听">
+    <c-list-item url="/pages/j/index">storage与store变化监听</c-list-item>
+    <c-list-item url="/pages/n/index">在组件中监听页面的钩子</c-list-item>
+    <c-list-item url="/pages/m/index">全局监听各种UI事件</c-list-item>
+  </c-list>
+
+</view>

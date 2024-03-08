@@ -3,6 +3,7 @@
     组件A
   </view>
   <view>你选择的值是：{{value}}</view>
-  <view class="btn mt-16" bind:tap="handle">打开picker</view>
+  <view class="btn mt-16 mb-16" bind:tap="handle">打开picker</view>
+  <view bind:tap="handleB" class="btn mt-16 mb-16">{{ install ? '卸载picker组件' : '安装picker组件' }}</view>
 </view>
-<c-picker />
+<c-picker ref="$picker" wx:if="{{install}}"/>

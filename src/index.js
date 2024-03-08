@@ -38,13 +38,13 @@ import {
   getSavedTabBars
 } from './instance'
 import path from './path'
-import { Watcher } from './hookWatcher'
 import { builtInHooks } from './builtInHooks'
 import { storageCache } from './storageCache'
 import { renderViewAsync } from './renderAsync'
+import { callUserHook, watchHook } from './hookConfig'
 import { saveAppConfig, callAppHook, getAppConfig } from './appConfig'
 
-const userWatcher = new Watcher()
+
 let userConfig = {
   methodPrefix: '',
   parseUrlArgs: false,
@@ -100,10 +100,6 @@ const extendUserMethods = function (option, target) {
       option[key] = fn
     }
   }
-}
-
-const callUserHook = function (context, hook, ...args) {
-  userWatcher.invoke(hook, context, ...args)
 }
 
 
@@ -972,24 +968,40 @@ Page = function (option) {
 }
 
 const installExportMethods = function (option, context) {
-  const { exportMethods } = option
+  let { exports } = option
   const parent = context.selectOwnerComponent()
-  if (exportMethods && parent) {
-    for (let key in exportMethods) {
-      const fn = exportMethods[key]
-      if (exportMethods.hasOwnProperty(key) && isFunction(fn) && !parent[key]) {
-        parent[key] = fn.bind(context)
-        parent[key].$installedBy = context
+  if (exports && parent) {
+    if (isFunction(exports)) {
+      exports = exports.call(context)
+    }
+    context.$exports = exports
+    const { namespace = null, methods = {} } = exports
+    if (namespace && parent[namespace]) return
+    let target = parent
+    if (namespace) {
+      target = parent[namespace] = { $installedBy: context }
+    }
+    for (let key in methods) {
+      const fn = methods[key]
+      if (methods.hasOwnProperty(key) && isFunction(fn) && !target[key]) {
+        target[key] = fn.bind(context)
+        target[key].$installedBy = context
       }
     }
   }
 }
 
-const uninstallPageMethods = function (option, context) {
-  const { exportMethods } = option
+const uninstallExportsMethods = function (option, context) {
   const parent = context.selectOwnerComponent()
-  if (exportMethods && parent) {
-    for (let key in exportMethods) {
+  const exports = context.$exports
+  if (!parent || !exports) return
+  const { namespace = null, methods = {} } = exports
+  if (namespace) {
+    if (parent[namespace] && parent[namespace].$installedBy === context) {
+      delete parent[namespace]
+    }
+  } else {
+    for (let key in methods) {
       if (parent[key] && parent[key].$installedBy === context) {
         delete parent[key]
       }
@@ -1065,7 +1077,7 @@ const factory = function (option, constructr) {
   const detached = function () {
     const com = removeCom(this)
     if (com.type === 'component') {
-      uninstallPageMethods(com.option, this)
+      uninstallExportsMethods(com.option, this)
       const parent = this.selectOwnerComponent()
       if (parent) {
         if (parent.$components) {
@@ -1123,10 +1135,6 @@ Component = function (option) {
 
 Behavior = function (option) {
   return factory(option, _Behavior)
-}
-
-function _watch(option = {}) {
-  userWatcher.add(option)
 }
 
 function _config(option = {}) {
@@ -1190,7 +1198,7 @@ function initWx() {
 }
 
 initWx()
-export const watch = _watch
+export const watch = watchHook
 export const config = _config
 export const page = _page
 export const component = _component

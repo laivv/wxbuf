@@ -1,6 +1,6 @@
 import { isObject, isEmpty } from './util'
 
-export class Watcher {
+class Watcher {
   constructor() {
     this.watchers = []
   }
@@ -18,4 +18,16 @@ export class Watcher {
     }
   }
 }
+
+let watcher = new Watcher()
+
+export const watchHook = (option = {}) => {
+  watcher.add(option)
+}
+
+export const callUserHook = function (context, hook, ...args) {
+  watcher.invoke(hook, context, ...args)
+}
+
+
 

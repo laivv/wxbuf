@@ -26,7 +26,8 @@
     "pages/n/index",
     "pages/o/index",
     "pages/p/index",
-    "pages/z/index"
+    "pages/more/index",
+    "pages/test/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -35,6 +36,12 @@
     "navigationBarTextStyle": "black"
   },
   "usingComponents": {
+    "c-btn": "./components/c-btn/index",
+    "c-picker": "./components/c-picker/index",
+    "c-loading": "./components/c-loading/index",
+    "c-echo": "./components/c-echo/index",
+    "c-list": "./components/c-list/index",
+    "c-list-item": "./components/c-list-item/index"
   },
   "tabBar": {
     "custom": true,
@@ -44,6 +51,12 @@
         "text": "首页",
         "iconPath": "/images/home.png",
         "selectedIconPath": "/images/home1.png"
+      },
+      {
+        "pagePath": "pages/more/index",
+        "text": "更多",
+        "iconPath": "/images/my.png",
+        "selectedIconPath": "/images/my1.png"
       },
       {
         "pagePath": "pages/my/index",

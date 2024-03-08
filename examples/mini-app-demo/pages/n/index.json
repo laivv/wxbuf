@@ -3,8 +3,7 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "comA": "./comA/index",
-    "comB": "./comB/index",
-    "c-loading": "../../components/c-loading/index"
+    "comB": "./comB/index"
   },
   "onReachBottomDistance": 10
 }

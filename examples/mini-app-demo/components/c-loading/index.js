@@ -1,6 +1,6 @@
 Component({
   properties: {
-    // 页面滚动到底加载数据的handler名称
+    // 加载数据的handler名称
     loadData: String,
     text: String
   },
