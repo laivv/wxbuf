@@ -1,3 +1,6 @@
+page {
+  padding: 32rpx;
+}
 page,
 view {
   box-sizing: border-box;
