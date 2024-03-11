@@ -1,0 +1,5 @@
+<view class="mt-32 text-center">版本号：{{$store.appVersion}}</view>
+<view class="mt-32 text-center">store.appCount：{{$store.appCount}}</view>
+<view class="mt-32 text-center">storage.count：{{$storage.count}}</view>
+<view class="btn mt-32" bind:tap="handleA">修改store.appCount</view>
+<view class="btn mt-32" bind:tap="handleB">修改storage.count</view>
