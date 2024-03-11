@@ -88,15 +88,15 @@ wxbuf.config({
 })
 
 App({
+  // 全局配置页面和组件公共的mixinStore
   mixinStore: {
     namespace: '$store',
-    page: ['appVersion', 'appCount'],
-    component: ['appVersion', 'appCount']
+    keys: ['appVersion', 'appCount'],
   },
+  // 全局配置页面和组件公共的mixinStorage
   mixinStorage: {
     namespace: '$storage',
-    page: ['appVersion', 'appCount'],
-    component: ['appVersion', 'appCount']
+    keys: ['count'],
   },
   listeners: {
     dataChange(event) {

@@ -14,6 +14,7 @@ import {
   isNumber,
   isString,
   upperCase,
+  deepClone,
   getRealKey,
   isFunction,
   parseOption,
@@ -25,6 +26,7 @@ import {
   mergePathQuery,
   getTabBarPages,
   getPageInstance,
+  getValueByKeypath,
   getPathWithOutQuery,
   getNavigateBarTitle,
 } from './util'
@@ -265,9 +267,37 @@ const updateMixinsAsync = function (kvs, oldkvs, name) {
       }
     })
   }
-  getSavedPages().forEach(page => updateDataSync(page, page[mixinName]))
-  getSavedComs().forEach(({ context, option }) => updateDataSync(context, option[mixinName]))
-  getSavedTabBars().forEach(tabbar => updateDataSync(tabbar, tabbar.$constructorOptions[mixinName]))
+  const updateAppDataSync = function (context) {
+    const mixinConfig = getAppConfig(mixinName)
+    if (!mixinConfig) return
+    const { keys: mixinKeys, namespace } = mixinConfig
+    mixinKeys.forEach((key) => {
+      const [sourceKey, targetKey] = getRealKey(key)
+      if (hasOwn(kvs, sourceKey)) {
+        if (namespace) {
+          if (!context.data[namespace]) {
+            context.data[namespace] = {}
+          }
+          context.data[namespace][targetKey] = kvs[sourceKey]
+        } else {
+          context.data[targetKey] = kvs[sourceKey]
+        }
+      }
+    })
+  }
+
+  getSavedPages().forEach(page => {
+    updateDataSync(page, page[mixinName])
+    updateAppDataSync(page)
+  })
+  getSavedComs().forEach(({ context, option }) => {
+    updateDataSync(context, option[mixinName])
+    updateAppDataSync(context)
+  })
+  getSavedTabBars().forEach(tabbar => {
+    updateDataSync(tabbar, tabbar.$constructorOptions[mixinName])
+    updateAppDataSync(tabbar)
+  })
   renderViewAsync({ kvs, oldkvs, name })
 }
 
@@ -413,6 +443,29 @@ const initMixinData = function (option, context) {
   })
 }
 
+const initAppMixinData = function (context) {
+  const gData = getApp()[userConfig.storeKey];
+  ['Store', 'Storage'].forEach(name => {
+    const mixinConfig = getAppConfig(`mixin${name}`)
+    if (!mixinConfig) return
+    const mixinKeys = mixinConfig.keys
+    const namespace = mixinConfig.namespace
+    if (isArray(mixinKeys)) {
+      const data = {}
+      mixinKeys.forEach(key => {
+        const [sourceKey, targetKey] = getRealKey(key)
+        data[targetKey] = name === 'Store' ? gData[sourceKey] : getStorageSync(sourceKey)
+      })
+      if (namespace) {
+        const _data = extend({}, context.data[namespace] || {}, data)
+        context.setData({ [namespace]: _data })
+      } else {
+        context.setData(data)
+      }
+    }
+  })
+}
+
 const overwriteFn = function (option, key, fn) {
   const oldFn = option[key]
   option[key] = function () {
@@ -510,15 +563,20 @@ const initObservers = function (option, context) {
   const observers = option.observers || {}
   if (isEmpty(observers)) return
   const setData = context.setData
-  context.setData = function (data) {
-    const old = extend({}, context.data)
-    setData.apply(context, arguments)
-    for (let key in data) {
+  context.setData = function () {
+    // const old = deepClone(this.data)
+    const old = {}
+    for (let key in observers) {
+      old[key] = getValueByKeypath(this.data, key)
+    }
+    setData.apply(this, arguments)
+    for (let key in observers) {
       const fn = observers[key]
-      if (data.hasOwnProperty(key) && isFunction(fn)) {
-        if (data[key] !== old[key]) {
-          fn.call(context, data[key], old[key])
-        }
+      const newVal = getValueByKeypath(this.data, key)
+      const oldVal = old[key]
+      // const oldVal = getValueByKeypath(old, key)
+      if (isFunction(fn) && newVal !== oldVal) {
+        fn.call(this, newVal, oldVal)
       }
     }
   }
@@ -865,6 +923,7 @@ const createOnLoad = function (option) {
     initFeature(this)
     initComputed(option, this)
     initMixinData(option, this)
+    initAppMixinData(this)
     initObservers(option, this)
     this.$rawParamsQuery = toQueryString(params)
     this.$rawParams = extend({}, params)
@@ -1053,6 +1112,7 @@ const factory = function (option, constructr) {
     this.$page = page
     initComputed(option, this)
     initMixinData(option, this)
+    initAppMixinData(this)
     if (isComponent) {
       installExportMethods(option, this)
       const parent = this.selectOwnerComponent()

@@ -11,7 +11,7 @@ import {
   getSavedTabBars
 } from './instance'
 
-import { callAppHook } from "./appConfig"
+import { callAppHook, getAppConfig } from "./appConfig"
 
 const MIXIN_NAMES = {
   storage: 'mixinStorage',
@@ -25,6 +25,25 @@ const HOOK_NAMES = {
 
 let timer = null
 let models = []
+
+const doAppUpdateView = function (context) {
+  models.forEach(({ kvs, name }) => {
+    const mixinName = MIXIN_NAMES[name]
+    const mixinConfig = getAppConfig(mixinName)
+    if (!mixinConfig) return
+    const { keys: mixinKeys, namespace } = mixinConfig
+    let data = namespace ? extend({}, context.data[namespace] || {}) : {}
+    mixinKeys.forEach((key) => {
+      const [sourceKey, targetKey] = getRealKey(key)
+      if (hasOwn(kvs, sourceKey)) {
+        data[targetKey] = kvs[sourceKey]
+      }
+    })
+    if (!isEmpty(data)) {
+      context.setData(namespace ? { [namespace]: data } : data)
+    }
+  })
+}
 
 
 const doUpdateView = function (context, option) {
@@ -43,6 +62,9 @@ const doUpdateView = function (context, option) {
       context.setData(data)
     }
   }
+}
+
+const callInstanceHook = function (context, option) {
   models.forEach(({ kvs, oldkvs, name }) => {
     const hook = option[HOOK_NAMES[name]]
     if (isFunction(hook)) {
@@ -76,9 +98,21 @@ function stopUpdateView() {
 
 function updateView() {
   timer = setTimeout(function () {
-    getSavedPages().forEach(page => doUpdateView(page, page))
-    getSavedComs().forEach(({ context, option }) => doUpdateView(context, option))
-    getSavedTabBars().forEach(tabbar => doUpdateView(tabbar, tabbar.$constructorOptions))
+    getSavedPages().forEach(page => {
+      doUpdateView(page, page)
+      doAppUpdateView(page)
+      callInstanceHook(page, page)
+    })
+    getSavedComs().forEach(({ context, option }) => {
+      doUpdateView(context, option)
+      doAppUpdateView(context)
+      callInstanceHook(context, option)
+    })
+    getSavedTabBars().forEach(tabbar => {
+      doUpdateView(tabbar, tabbar.$constructorOptions)
+      doAppUpdateView(tabbar)
+      callInstanceHook(tabbar, tabbar.$constructorOptions)
+    })
     models.forEach(({ kvs, oldkvs, name }) => callAppHook(HOOK_NAMES[name], kvs, oldkvs))
     models = []
   }, 0)

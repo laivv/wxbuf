@@ -601,27 +601,35 @@
 * ***option.observers*** : `object`     
   适用于： `page`   
 
-  说明：监听data对象中某个字段值的变化，和`compontent`中的`observers`功能一样  
+  说明：监听data对象中某个字段值的变化，和`compontent`中的`observers`功能一样，但也有少许区别 
 
   例子：
   ```js
   Page({
     data: {
-      count: 1
+      count: 1,
+      obj: { count: 1 }
     }
     observers: {
       count(newVal, oldVal) {
         //...
       }
+      'obj.count'(newVal, oldVal) {
+        //...
+      }
     },
-    handleTap() {
+    handleTapA() {
       this.setData({ count: 2 })
+    }
+    handleTapB() {
+      this.setData({ 'obj.count': 2 })
+      // this.setData({ obj: { count: 2 } })
     }
   })
   ```
-  注意：`observers`只能对单一的`key`进行响应，暂不支持对`key`路径响应
+  注意：`observers`监听的字段是引用类型时，需要在`setData`时设置一个不同的引用，否则监听器不会起作用
 
-  以下是一个正反例子：    
+  例子：    
 
   ```js
   Page({
@@ -631,24 +639,25 @@
       }
     }
     observers: {
-      // 正确
       obj(newVal, oldVal) {
        
       },
-      // 错误
-      'obj.count': function(newVal, oldVal) {
+      'obj.count'(newVal, oldVal) {
        
       },
     },
     onLoad() {
-      // 正确，observers正确响式
+      // 监听器obj正确响式
+      // 监听器obj.count正确响应
       this.setData({ obj: { count: 2 } })
-      // 错误，此方式observers不会响式
+      // 监听器obj不会响式
+      // 监听器obj.count会正确响应
       this.setData({ 'obj.count': 2 })
     }
   })
   ```
 
+注意：wxbuf提供的页面`observers`不支持通配符`**`
 
 <a id="listeners"></a>
   

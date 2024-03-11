@@ -1,2 +1,4 @@
 <view>count: {{count}}</view>
-<view class="mt-16 btn" bind:tap="handle">修改count</view>
+<view class="mt-16 btn" bind:tap="handleA">修改count</view>
+<view class="mt-16">obj.count: {{obj.count}}</view>
+<view class="mt-16 btn" bind:tap="handleB">修改obj.count</view>

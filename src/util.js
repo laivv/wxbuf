@@ -185,3 +185,59 @@ export const defProperty = function (target, k, v) {
     })
   }
 }
+
+export const getValueByKeypath = (data, keypath) => {
+  const keys = keypath.split(/\[|\]|\./).filter(Boolean).map(i => i.replace(/\'|\"/g, ''))
+  let val = undefined
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i]
+    try {
+      data = val = data[key]
+    } catch (e) {
+      return undefined
+    }
+  }
+  return val
+}
+
+const type = arg => {
+  return Object.prototype.toString
+    .call(arg)
+    .replace(/(^\[\w+\s+)|(\]$)/g, '')
+    .toLowerCase()
+}
+
+export const deepClone = (data) => {
+  const targetStack = []
+  const sourceStack = []
+
+  const clone = (data) => {
+    const typeName = type(data)
+    let ret
+    if (['array', 'object'].indexOf(typeName) > -1) {
+      const index = sourceStack.indexOf(data)
+      if (index > -1) {
+        return targetStack[index]
+      }
+      ret = typeName === 'array' ? [] : {}
+      targetStack.push(ret)
+      sourceStack.push(data)
+    }
+
+    if (typeName === 'array') {
+      data.forEach((item) => {
+        ret.push(clone(item))
+      })
+    } else if (typeName === 'object') {
+      for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+          ret[key] = clone(data[key])
+        }
+      }
+    } else {
+      return data
+    }
+    return ret
+  }
+  return clone(data)
+}
