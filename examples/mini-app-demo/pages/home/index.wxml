@@ -10,6 +10,7 @@
   <c-list title="状态管理">
     <c-list-item url="/pages/d/index">响应式的store</c-list-item>
     <c-list-item url="/pages/e/index">响应式的storage</c-list-item>
+    <c-list-item url="/pages/q/index">全局注入store或storage</c-list-item>
   </c-list>
   <c-list title="拦截器">
     <c-list-item url="/pages/i/index">全局路由拦截</c-list-item>

@@ -259,6 +259,8 @@ const fireEvent = function (name, value) {
 
 const updateMixinsAsync = function (kvs, oldkvs, name) {
   const mixinName = `mixin${upperCase(name, 0)}`
+  const injectName = `inject${upperCase(name, 0)}`
+  
   const updateDataSync = function (context, mixinKeys = []) {
     mixinKeys.forEach((key) => {
       const [sourceKey, targetKey] = getRealKey(key)
@@ -267,8 +269,9 @@ const updateMixinsAsync = function (kvs, oldkvs, name) {
       }
     })
   }
+
   const updateAppDataSync = function (context) {
-    const mixinConfig = getAppConfig(mixinName)
+    const mixinConfig = getAppConfig(injectName)
     if (!mixinConfig) return
     const { keys: mixinKeys, namespace } = mixinConfig
     mixinKeys.forEach((key) => {
@@ -446,7 +449,7 @@ const initMixinData = function (option, context) {
 const initAppMixinData = function (context) {
   const gData = getApp()[userConfig.storeKey];
   ['Store', 'Storage'].forEach(name => {
-    const mixinConfig = getAppConfig(`mixin${name}`)
+    const mixinConfig = getAppConfig(`inject${name}`)
     if (!mixinConfig) return
     const mixinKeys = mixinConfig.keys
     const namespace = mixinConfig.namespace

@@ -18,6 +18,11 @@ const MIXIN_NAMES = {
   store: 'mixinStore'
 }
 
+const INJECT_NAMES = {
+  storage: 'injectStorage',
+  store: 'injectStore'
+}
+
 const HOOK_NAMES = {
   storage: 'onStorageChange',
   store: 'onStoreChange'
@@ -28,7 +33,7 @@ let models = []
 
 const doAppUpdateView = function (context) {
   models.forEach(({ kvs, name }) => {
-    const mixinName = MIXIN_NAMES[name]
+    const mixinName = INJECT_NAMES[name]
     const mixinConfig = getAppConfig(mixinName)
     if (!mixinConfig) return
     const { keys: mixinKeys, namespace } = mixinConfig
@@ -73,11 +78,6 @@ const callInstanceHook = function (context, option) {
   })
 }
 
-export function renderViewAsync(model) {
-  stopUpdateView()
-  updateModel(model)
-  updateView()
-}
 
 function updateModel(model) {
   const index = models.findIndex(m => m.name === model.name)
@@ -116,6 +116,12 @@ function updateView() {
     models.forEach(({ kvs, oldkvs, name }) => callAppHook(HOOK_NAMES[name], kvs, oldkvs))
     models = []
   }, 0)
+}
+
+export function renderViewAsync(model) {
+  stopUpdateView()
+  updateModel(model)
+  updateView()
 }
 
 

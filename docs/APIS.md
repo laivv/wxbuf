@@ -59,6 +59,8 @@
 * [***option.pageLifeTimes.pageScroll*** ](#page-scroll) 所在页面onPageScroll
 ### 【新增】App(option)构造器选项
 * [***option.listeners***  ](#listeners) 声明全局事件监听器
+* [***option.injectStore***  ](#injectStore) 全局按需注入store到所有实例（page、component）
+* [***option.injectStorage***  ](#injectStorage) 全局按需注入storage到所有实例（page、component）
 * [***option.onStoreChange*** ](#on-global-data-change) 监听全局数据（store）变化
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.beforePageEnter*** ](#before-route-enter) 新页面加载前进行回调

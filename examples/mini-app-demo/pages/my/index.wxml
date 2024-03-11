@@ -1,2 +1,4 @@
 <view wx:if="{{data}}" class="mb-16">url参数：{{data}}</view>
 <comA />
+
+<view class="text-center mt-32">版本：{{$store.appVersion}}</view>

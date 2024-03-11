@@ -88,13 +88,13 @@ wxbuf.config({
 })
 
 App({
-  // 全局配置页面和组件公共的mixinStore
-  mixinStore: {
+  // 全局注入store到所有页面、组件
+  injectStore: {
     namespace: '$store',
     keys: ['appVersion', 'appCount'],
   },
-  // 全局配置页面和组件公共的mixinStorage
-  mixinStorage: {
+  // 全局注入storage到所有页面、组件
+  injectStorage: {
     namespace: '$storage',
     keys: ['count'],
   },
