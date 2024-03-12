@@ -8,7 +8,8 @@ import {
 import {
   getSavedComs,
   getSavedPages,
-  getSavedTabBars
+  getSavedTabBars,
+  getSavedAppBars
 } from './instance'
 
 import { callAppHook, getAppConfig } from "./appConfig"
@@ -108,10 +109,10 @@ function updateView() {
       doAppUpdateView(context)
       callInstanceHook(context, option)
     })
-    getSavedTabBars().forEach(tabbar => {
-      doUpdateView(tabbar, tabbar.$constructorOptions)
-      doAppUpdateView(tabbar)
-      callInstanceHook(tabbar, tabbar.$constructorOptions)
+    getSavedTabBars().concat(getSavedAppBars()).forEach(bar => {
+      doUpdateView(bar, bar.$constructorOptions)
+      doAppUpdateView(bar)
+      callInstanceHook(bar, bar.$constructorOptions)
     })
     models.forEach(({ kvs, oldkvs, name }) => callAppHook(HOOK_NAMES[name], kvs, oldkvs))
     models = []

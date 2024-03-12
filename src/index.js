@@ -37,7 +37,8 @@ import {
   removePage,
   getSavedPages,
   getSavedComs,
-  getSavedTabBars
+  getSavedTabBars,
+  getSavedAppBars
 } from './instance'
 import path from './path'
 import { builtInHooks } from './builtInHooks'
@@ -252,8 +253,8 @@ const fireEvent = function (name, value) {
   }
   getSavedPages().forEach(page => notify(page, page.listeners))
   getSavedComs().forEach(({ context, option }) => notify(context, option.listeners))
-  // notify custom tabbar
-  getSavedTabBars().forEach(tabbar => notify(tabbar, tabbar.$constructorOptions.listeners))
+  // notify custom tabbar and appbar [skyline]
+  getSavedTabBars().concat(getSavedAppBars()).forEach(bar => notify(bar, bar.$constructorOptions.listeners))
   notify(getApp(), getAppConfig('listeners'))
 }
 
@@ -297,9 +298,9 @@ const updateMixinsAsync = function (kvs, oldkvs, name) {
     updateDataSync(context, option[mixinName])
     updateAppDataSync(context)
   })
-  getSavedTabBars().forEach(tabbar => {
-    updateDataSync(tabbar, tabbar.$constructorOptions[mixinName])
-    updateAppDataSync(tabbar)
+  getSavedTabBars().concat(getSavedAppBars()).forEach(bar => {
+    updateDataSync(bar, bar.$constructorOptions[mixinName])
+    updateAppDataSync(bar)
   })
   renderViewAsync({ kvs, oldkvs, name })
 }
@@ -427,7 +428,7 @@ const setStore = function (key, value) {
 }
 
 const getCognateComponents = function () {
-  return getSavedComs().filter(c => c.is === this.is).concat(getSavedTabBars().filter(c => c.is === this.is))
+  return getSavedComs().concat(getSavedTabBars()).concat(getSavedAppBars()).filter(c => c.is === this.is)
 }
 
 const getCurrentPage = function () {
@@ -791,6 +792,7 @@ defProperty(globalThis, 'getApplication', function () {
 })
 defProperty(globalThis, 'getSavedPages', getSavedPages)
 defProperty(globalThis, 'getSavedTabBars', getSavedTabBars)
+defProperty(globalThis, 'getSavedAppBars', getSavedAppBars)
 
 App = function (option = {}) {
   const { storeKey } = userConfig

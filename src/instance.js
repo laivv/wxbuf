@@ -50,3 +50,16 @@ export function getSavedTabBars() {
   })
   return tabbars
 }
+// skyline support
+export function getSavedAppBars() {
+  const appbars = []
+  pages.forEach(page => {
+    if (isFunction(page.getAppBar)) {
+      const appbar = page.getAppBar()
+      if (appbar && isFunction(appbar.setData)) {
+        appbars.push(appbar)
+      }
+    }
+  })
+  return appbars
+}

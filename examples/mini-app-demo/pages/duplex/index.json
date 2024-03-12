@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "双向数据绑定",
   "usingComponents": {
-  }
+  },
+  "navigationStyle": "custom"
 }

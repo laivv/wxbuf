@@ -108,7 +108,7 @@ App({
   },
   globalData: {
     appVersion: 'v1.0',
-    appCount: 1
+    appCount: 0
   },
   onPageShareAppMessage(page, options, object) {
   },

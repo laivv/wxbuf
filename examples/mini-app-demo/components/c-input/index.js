@@ -19,7 +19,9 @@ Component({
       }
     },
     detached() {
-      this.$parent.setData = this.$_setData
+      if(this.$parent) {
+        this.$parent.setData = this.$_setData
+      }
     }
   },
   data: {
