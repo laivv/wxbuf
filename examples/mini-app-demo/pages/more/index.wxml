@@ -3,4 +3,4 @@
 <view class="btn" bind:tap="handleC">调用page公共方法</view>
 <view class="btn" bind:tap="handleD">page的url参数反序列化</view>
 <c-btn onClick="handleE" loading-text="提交中...，点击已禁用">此按钮自动防重复点击</c-btn>
-<view class="btn" bind:tap="handleF">双向绑定数据</view>
+<view class="btn" bind:tap="handleF">双向数据绑定</view>

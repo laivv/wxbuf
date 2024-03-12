@@ -17,7 +17,6 @@ Component({
       text: "更多",
       iconPath: "/images/my.png",
       selectedIconPath: "/images/my1.png",
-      count: 10
     },
     {
       pagePath: "pages/my/index",
