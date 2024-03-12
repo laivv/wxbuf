@@ -28,7 +28,7 @@ Page({
   },
   handleF() {
     wx.navigateTo({
-      url: '/pages/test/index',
+      url: '/pages/duplex/index',
     })
   }
 })

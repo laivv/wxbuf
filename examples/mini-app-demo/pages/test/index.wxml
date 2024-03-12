@@ -1,3 +1,0 @@
-<view class="mt-16" wx:for="{{list}}" wx:key="index">
-  <c-echo filter="formatDate" params="{{[item.date]}}" />
-</view>

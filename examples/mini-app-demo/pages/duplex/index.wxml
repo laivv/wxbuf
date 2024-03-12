@@ -1,0 +1,8 @@
+<view class="my-16">名称：</view>
+<c-input v-model="obj.name" placeholder="请输入名称" />
+<view class="my-16">手机号：</view>
+<c-input v-model="obj.phone" placeholder="请输入手机号" />
+
+<view class="btn mt-16" bind:tap="handle">修改输入框的值</view>
+<view class="mt-16 text-gray">名称：{{obj.name}}</view>
+<view class="mt-16 text-gray">手机号：{{obj.phone}}</view>

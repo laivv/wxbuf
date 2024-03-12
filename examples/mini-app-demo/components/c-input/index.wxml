@@ -1,0 +1,8 @@
+<input 
+  class="pd-8" 
+  placeholder="{{placeholder}}" 
+  type="text" 
+  bindinput="handleInput" 
+  value="{{value}}" 
+  style="background: #f5f5f5" 
+/>

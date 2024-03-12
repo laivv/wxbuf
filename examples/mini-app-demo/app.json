@@ -28,7 +28,7 @@
     "pages/p/index",
     "pages/q/index",
     "pages/more/index",
-    "pages/test/index"
+    "pages/duplex/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -42,7 +42,8 @@
     "c-loading": "./components/c-loading/index",
     "c-echo": "./components/c-echo/index",
     "c-list": "./components/c-list/index",
-    "c-list-item": "./components/c-list-item/index"
+    "c-list-item": "./components/c-list-item/index",
+    "c-input": "./components/c-input/index"
   },
   "tabBar": {
     "custom": true,
