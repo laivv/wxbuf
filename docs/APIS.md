@@ -1,5 +1,5 @@
 ## <center>API目录</center>
-### 【新增】Page、App、Component、Behavior实例方法
+### 【新增】Page、App、Component、Behavior共有的实例方法
 * [***fireEvent*** (`eventName`: string, `value`: any): `void`](#fire-event) 派发一个事件
 * [***openPage*** (`option`: object): `promise`](#open-page)打开新页面
 * [***replacePage*** (`option`: object): `void`](#replace-page) 打开新页面替换当前页面栈 
@@ -22,6 +22,7 @@
 * [***getPageInstance*** (): `pageInstance`](#getPageInstance) 获取所在页面的实例
 * [***getUrlParams*** (): `object`](#getUrlParams) 获取所在页面的url参数(同page的onLoad钩子回调参数一致，只能在ready之后调用)
 * [***invoke*** (`fnName`: string, `...args`: any[]): `any`](#invoke) 尝试调用所在页面的opener页面的方法
+* [***getCognateComponents*** (): `component[]`](#getCognateComponents) 获取同胞组件实例列表
 ### 【新增】Page(option)构造器选项
 * [***option.computed*** ](#computed) 声明计算属性
 * [***option.observers*** ](#observers) 声明字段变化监听器
@@ -189,7 +190,7 @@
     success?: (page) => void 
   }
   ```
-  以下是使用`name`来跳转页面【新特性】      
+  以下是使用`name`来跳转页面【试验性功能，仅支持定义在主包中的页面，谨慎使用】      
 
   例子：  
  
@@ -1294,7 +1295,7 @@
 
   说明：打开新页面前进行回调（路由守卫功能）, 可返回`布尔值`决定是否拦截页面    
   参数：`option`为要打开的页面相关信息,    
-  参数：`pageConfig`为要打开页面的原始.json文件内容信息，利用此信息可以做个性化的路由拦截（如权限控制），只有定义在主包中的页面能成功获取到其json信息， 分包暂无法获取，建议暂不使用此参数    
+  参数：`pageConfig`为要打开页面的原始.json文件内容信息，利用此信息可以做个性化的路由拦截（如权限控制），***只有定义在主包中的页面能成功获取到其json信息， 分包暂无法获取，建议暂不使用此参数***   
 
   注意：只能拦截通过js调用打开的页面，正常启动或通过外链启动进入的页面无法拦截    
 

@@ -260,7 +260,7 @@ const fireEvent = function (name, value) {
 const updateMixinsAsync = function (kvs, oldkvs, name) {
   const mixinName = `mixin${upperCase(name, 0)}`
   const injectName = `inject${upperCase(name, 0)}`
-  
+
   const updateDataSync = function (context, mixinKeys = []) {
     mixinKeys.forEach((key) => {
       const [sourceKey, targetKey] = getRealKey(key)
@@ -424,6 +424,10 @@ const setStore = function (key, value) {
   const oldValue = app[storeKey][key]
   app[storeKey][key] = value
   updateMixinsAsync({ [key]: value }, { [key]: oldValue }, 'store')
+}
+
+const getCognateComponents = function () {
+  return getSavedComs().filter(c => c.is === this.is).concat(getSavedTabBars().filter(c => c.is === this.is))
 }
 
 const getCurrentPage = function () {
@@ -1173,20 +1177,23 @@ const factory = function (option, constructr) {
   option.methods[`${userConfig.methodPrefix}finish`] = function (data) {
     finish(data, this.$page)
   }
-  option.methods[`${userConfig.methodPrefix}getUrlParams`] = getUrlParams
-  option.methods[`${userConfig.methodPrefix}getPageInstance`] = function () {
-    return getPageInstance(this)
-  }
+
 
   extendCommonMethods(option.methods)
 
   if (constructr === _Component) {
     extendUserMethods(option.methods, 'component')
-    option[`${userConfig.methodPrefix}invoke`] = function (fnName, ...args) {
+    option.methods[`${userConfig.methodPrefix}invoke`] = function (fnName, ...args) {
       if (this.$page.$opener && isFunction(this.$page.$opener[fnName])) {
         this.$page.$opener[fnName](...args)
       }
     }
+    option.methods[`${userConfig.methodPrefix}getUrlParams`] = getUrlParams
+
+    option.methods[`${userConfig.methodPrefix}getPageInstance`] = function () {
+      return getPageInstance(this)
+    }
+    option.methods[`${userConfig.methodPrefix}getCognateComponents`] = getCognateComponents
   }
 
   return constructr(option)

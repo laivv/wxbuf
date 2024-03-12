@@ -3,3 +3,4 @@
 <view class="mt-32 text-center">storage.count：{{$storage.count}}</view>
 <view class="btn mt-32" bind:tap="handleA">修改store.appCount</view>
 <view class="btn mt-32" bind:tap="handleB">修改storage.count</view>
+<view class="text-gray mt-32">在app.js中配置injectStore或injectStorage可以全局把数据注入到所有页面和组件，并且是响应式的</view>
