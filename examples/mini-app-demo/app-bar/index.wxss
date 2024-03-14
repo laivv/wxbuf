@@ -1,3 +1,9 @@
 .appbar{
-  
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 80rpx;
+  background-color: #ccc;
+  z-index: 999;
 }

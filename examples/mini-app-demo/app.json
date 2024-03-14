@@ -71,7 +71,7 @@
   "style": "v2",
   "sitemapLocation": "sitemap.json",
   "appBar": {},
-  "renderer": "skyline",
+  "renderer": "webview",
   "lazyCodeLoading": "requiredComponents",
   "rendererOptions": {
     "skyline": {

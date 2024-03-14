@@ -3,5 +3,5 @@
   },
   "navigationBarTitleText": "首页",
   "enablePullDownRefresh": true,
-  "navigationStyle": "custom"
+  "navigationStyle": "default"
 }
