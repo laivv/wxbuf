@@ -825,6 +825,8 @@
     }
   })
   ```
+  【bug】： 在`app.json`中配置`"lazyCodeLoading": "requiredComponents"`可能导致自定义组件不能正确的与全局状态保持一致，请尽量不要进行此项配置
+
 <a id="mixin-storage"></a>
 
 * ***mixinStorage*** : `array<string>`  
@@ -881,6 +883,9 @@
     }
   })
   ```
+  【bug】： 在`app.json`中配置`"lazyCodeLoading": "requiredComponents"`可能导致自定义组件不能正确的与全局状态保持一致，请尽量不要进行此项配置
+
+   
 ## 【增加】一些钩子
 <a id="on-storage-change"></a>
 
