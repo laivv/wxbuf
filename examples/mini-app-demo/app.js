@@ -1,4 +1,4 @@
-import wxbuf from './lib/dist/wxbuf.min'
+import wxbuf from './lib/wxbuf.min'
 
 wxbuf.global.extend('getAppName', function () {
   return '这段文字由app.js中定义的全局方法提供'

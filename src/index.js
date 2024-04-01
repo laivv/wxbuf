@@ -933,6 +933,15 @@ const createOnLoad = function (option) {
     initComputed(option, this)
     initMixinData(option, this)
     initAppMixinData(this)
+    // fix bug: app.json config "lazyCodeLoading": "requiredComponents"
+    if(isTabBarPage(this.route)) {
+      const tabbar = this.getTabBar()
+      if(tabbar) {
+        initComputed(tabbar.$constructorOptions, tabbar)
+        initMixinData(tabbar.$constructorOptions, tabbar)
+        initAppMixinData(tabbar)
+      }
+    }
     initObservers(option, this)
     this.$rawParamsQuery = toQueryString(params)
     this.$rawParams = extend({}, params)

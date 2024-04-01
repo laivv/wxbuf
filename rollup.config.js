@@ -10,9 +10,9 @@ const banner =
 export default [{
   input: './src/index.js',
   output: {
-    file: './dist/wxbuf.min.js',
-    format: 'es', // output format: amd / es / cjs / iife / umd / system
-    sourcemap: false,  // bundle.js.map
+    file: './lib/wxbuf.min.js',
+    format: 'es',
+    sourcemap: false,  
     banner
   },
   plugins: [
