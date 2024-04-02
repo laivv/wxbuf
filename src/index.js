@@ -930,16 +930,16 @@ const createOnLoad = function (option) {
     initSwitchTabParams(params, this)
     initPageRouter(this)
     initFeature(this)
-    initComputed(option, this)
     initMixinData(option, this)
     initAppMixinData(this)
+    initComputed(option, this)
     // fix bug: app.json config "lazyCodeLoading": "requiredComponents"
     if(isTabBarPage(this.route)) {
       const tabbar = this.getTabBar()
       if(tabbar) {
-        initComputed(tabbar.$constructorOptions, tabbar)
         initMixinData(tabbar.$constructorOptions, tabbar)
         initAppMixinData(tabbar)
+        initComputed(tabbar.$constructorOptions, tabbar)
       }
     }
     initObservers(option, this)
@@ -1128,9 +1128,9 @@ const factory = function (option, constructr) {
     this.$route = page.route
     this.$feature = page.$feature
     this.$page = page
-    initComputed(option, this)
     initMixinData(option, this)
     initAppMixinData(this)
+    // initComputed(option, this)
     if (isComponent) {
       installExportMethods(option, this)
       const parent = this.selectOwnerComponent()
@@ -1142,6 +1142,9 @@ const factory = function (option, constructr) {
         this.$parent = parent
         initInject(option, this)
       }
+    }
+    initComputed(option, this)
+    if (isComponent) {
       callAppHook('onComponentAttached', this)
     }
     return _attached.apply(this, arguments)

@@ -1,0 +1,8 @@
+<view class="boder pd-16">
+  <view class="bold">
+    组件A
+  </view>
+  <view class="mt-32 text-center">版本号：{{$store.appVersion}}</view>
+  <view class="mt-32 text-center">store.appCount：{{$store.appCount}}</view>
+  <view class="mt-32 mb-32 text-center">storage.count：{{$storage.count}}</view>
+</view>

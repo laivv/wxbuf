@@ -1,0 +1,6 @@
+<view class="boder pd-16">
+  <view class="bold">
+    组件A
+  </view>
+  <view class="btn mt-16" bind:tap="handle">点击打开新页并向其传递数据</view>
+</view>

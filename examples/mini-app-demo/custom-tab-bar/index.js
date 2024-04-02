@@ -1,4 +1,14 @@
 Component({
+  listeners: {
+    dataChange(e) {
+      wx.showModal({ content: 'custom-tab-bar收到了dataChange事件' })
+    }
+  },
+  computed: {
+    count() {
+      return this.data.$store.appCount
+    }
+  },
   pageLifetimes: {
     // wxbuf 修复了这个show不工作的官方bug，这个钩子现在可以正常工作
     show() {
@@ -24,7 +34,7 @@ Component({
       iconPath: "/images/my.png",
       selectedIconPath: "/images/my1.png",
     },
-  ]
+    ]
   },
   methods: {
     handleSwitchTab(e, { url }) {

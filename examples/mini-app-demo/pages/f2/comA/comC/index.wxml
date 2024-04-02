@@ -6,5 +6,6 @@
   <view class="mt-16">number: {{number}}</view>
   <view class="mt-16">count: {{count}}</view>
   <view class="mt-16">total: {{total}}</view>
+  <view class="mt-16">totalText: {{totalText}}</view>
   <view class="mt-16 btn" bind:tap="handle">点击修改page的number</view>
 </view>
