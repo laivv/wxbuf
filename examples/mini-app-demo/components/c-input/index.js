@@ -9,19 +9,14 @@ Component({
       }
     },
   },
+  parentLifetimes: {
+    setData() {
+      this.init()
+    }
+  },
   lifetimes: {
     attached() {
-      const ctx = this
-      this.$_setData = this.$parent.setData
-      this.$parent.setData = function () {
-        ctx.$_setData.apply(this, arguments)
-        ctx.init()
-      }
-    },
-    detached() {
-      if(this.$parent) {
-        this.$parent.setData = this.$_setData
-      }
+      this.init()
     }
   },
   data: {

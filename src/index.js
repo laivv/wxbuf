@@ -613,6 +613,21 @@ const initComputed = function (option, context) {
   update(computed, context)
 }
 
+// when parent component setData, notify children
+const initParentLifetimes = function (context) {
+  const setData = context.setData
+  context.setData = function () {
+    setData.apply(this, arguments)
+    if (this.$components && this.$components.length) {
+      this.$components.forEach(c => {
+        if (c.$constructorOptions && c.$constructorOptions.parentLifetimes && c.$constructorOptions.parentLifetimes.setData) {
+          c.$constructorOptions.parentLifetimes.setData.call(c, this.data)
+        }
+      })
+    }
+  }
+}
+
 const initGlobalShareAppMessage = function (page) {
   if (userConfig.enableGlobalShareAppMessage && !page.onShareAppMessage) {
     page.onShareAppMessage = function (object) {
@@ -934,14 +949,15 @@ const createOnLoad = function (option) {
     initAppMixinData(this)
     initComputed(option, this)
     // fix bug: app.json config "lazyCodeLoading": "requiredComponents"
-    if(isTabBarPage(this.route)) {
+    if (isTabBarPage(this.route)) {
       const tabbar = this.getTabBar()
-      if(tabbar) {
+      if (tabbar) {
         initMixinData(tabbar.$constructorOptions, tabbar)
         initAppMixinData(tabbar)
         initComputed(tabbar.$constructorOptions, tabbar)
       }
     }
+    initParentLifetimes(this)
     initObservers(option, this)
     this.$rawParamsQuery = toQueryString(params)
     this.$rawParams = extend({}, params)
@@ -1145,6 +1161,7 @@ const factory = function (option, constructr) {
     }
     initComputed(option, this)
     if (isComponent) {
+      initParentLifetimes(this)
       callAppHook('onComponentAttached', this)
     }
     return _attached.apply(this, arguments)
