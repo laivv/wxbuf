@@ -2,10 +2,14 @@
   <view class="bold">page</view>
   <view class="mt-16">text: {{text}}</view>
   <view class="mt-16">number: {{number}}</view>
-  <view class="mt-16">count: {{count}}</view>
-  <view class="mt-16">total: {{total}}</view>
-  <view class="btn mt-16" bind:tap="handleA">修改count</view>
-  <view class="btn mt-16" bind:tap="handleB">修改total</view>
+  <view class="flex-y-center mt-16">
+    <view class="flex-1">count: {{count}}</view>
+    <view class="btn w-100" bind:tap="handleA">修改count</view>
+  </view>
+  <view class="flex-y-center mt-16">
+    <view class="flex-1">total: {{total}}</view>
+    <view class="btn w-100" bind:tap="handleB">修改total</view>
+  </view>
   <view class="mt-16">
     <comA />
   </view>

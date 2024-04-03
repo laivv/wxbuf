@@ -1,8 +1,8 @@
 {
   "name": "wxbuf",
   "version": "1.0.0",
-  "description": "提供状态管理，事件通信与工具类的小程序js库",
-  "main": "./dist/wxbuf.min.js",
+  "description": "轻量级的微信小程序状态管理与事件通信javascript库",
+  "main": "./lib/wxbuf.min.js",
   "directories": {
     "lib": "lib"
   },

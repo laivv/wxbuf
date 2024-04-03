@@ -1,7 +1,7 @@
 <view class="pb-64">
   <c-list title="数据传递">
     <c-list-item url="/pages/a/index">向新页面传递数据</c-list-item>
-    <c-list-item url="/pages/b/index">向上一个页面回传数据</c-list-item>
+    <c-list-item url="/pages/b/index">页面回传数据</c-list-item>
     <c-list-item url="/pages/f/index">跨级传递数据</c-list-item>
   </c-list>
   <c-list title="通信">

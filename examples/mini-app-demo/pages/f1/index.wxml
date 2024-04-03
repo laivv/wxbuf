@@ -3,7 +3,7 @@
   <view class="mt-16">text: {{text}}</view>
   <view class="mt-16">value: {{value}}</view>
   <view class="mt-16">desc: {{desc}}</view>
-  <view class="mt-16">count: {{count}}</view>
+  <view class="mt-16">count: <c-text text="{{count}}" /></view>
   <view class="mt-16">
     <comA />
   </view>

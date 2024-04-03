@@ -40,10 +40,10 @@
     "c-btn": "./components/c-btn/index",
     "c-picker": "./components/c-picker/index",
     "c-loading": "./components/c-loading/index",
-    "c-echo": "./components/c-echo/index",
     "c-list": "./components/c-list/index",
     "c-list-item": "./components/c-list-item/index",
-    "c-input": "./components/c-input/index"
+    "c-input": "./components/c-input/index",
+    "c-text": "./components/c-text/index"
   },
   "tabBar": {
     "custom": true,

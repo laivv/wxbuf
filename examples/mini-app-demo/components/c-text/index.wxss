@@ -1,0 +1,7 @@
+.text {
+  transition: background-color .3s;
+  background-color: rgb(255, 255, 255);
+}
+.flash {
+  background-color: rgb(224, 126, 126);
+}

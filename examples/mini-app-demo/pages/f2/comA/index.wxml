@@ -2,8 +2,10 @@
   <view class="bold">
     组件A
   </view>
-  <view class="mt-16">count: {{count}}</view>
-  <view class="btn mt-16" bind:tap="handle">修改count</view>
+  <view class="flex-y-center mt-16">
+    <view class="flex-1">count: {{count}}</view>
+    <view class="btn w-100" bind:tap="handle">修改count</view>
+  </view>
   <view class="mt-16">
     <comC />
   </view>
