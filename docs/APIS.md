@@ -604,7 +604,7 @@
 * ***option.observers*** : `object`     
   适用于： `page`   
 
-  说明：监听data对象中某个字段值的变化，和`compontent`中的`observers`功能一样，但也有少许区别 
+  说明：监听data对象中某个字段值的变化，和`compontent`中的`observers`功能一样，区别是监听器的第二个回调参数是旧值
 
   例子：
   ```js
@@ -619,6 +619,10 @@
       }
       'obj.count'(newVal, oldVal) {
         //...
+      },
+      // 每次setData都触发
+      '**'(newVal) {
+
       }
     },
     handleTapA() {
@@ -640,7 +644,7 @@
       obj: {
         count: 1
       }
-    }
+    },
     observers: {
       obj(newVal, oldVal) {
        
@@ -660,7 +664,27 @@
   })
   ```
 
-注意：wxbuf提供的页面`observers`不支持通配符`**`
+  wxbuf提供的page `observers`不支持一个key以逗号分隔的多个字段，这与官方`component`的`observers`不同    
+
+  <span style="color: red">以下例子无效</span>：    
+
+  ```js
+  Page({
+    data: {
+      a: 1,
+      b: 2
+    },
+    observers: {
+      // 此方式不支持，一个key多个字段无效
+      'a, b'(newVal, oldVal) {
+        
+      },
+    },
+    onLoad() {
+
+    }
+  })
+  ```
 
 <a id="listeners"></a>
   

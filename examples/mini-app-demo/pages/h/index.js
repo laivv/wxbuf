@@ -10,6 +10,9 @@ Page({
     'obj.count'(v) {
       wx.showToast({ title: '您修改了obj.count的值，新值是' + v, icon: 'none' })
     },
+    '**'(v) {
+      console.log('发生了setData行为，最新的data值是：', v)
+    }
     // obj(o) {
     //   wx.showToast({ title: '您修改了obj，obj.count新值是' + o.count, icon: 'none' })
     // }

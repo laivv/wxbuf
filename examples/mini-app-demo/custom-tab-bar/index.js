@@ -1,7 +1,9 @@
 Component({
   listeners: {
     dataChange(e) {
-      wx.showModal({ content: 'custom-tab-bar收到了dataChange事件' })
+      setTimeout(() => {
+        wx.showToast({ title: 'custom-tab-bar收到了dataChange事件', icon: 'none' })
+      }, 2000)
     }
   },
   computed: {

@@ -575,16 +575,21 @@ const initObservers = function (option, context) {
     // const old = deepClone(this.data)
     const old = {}
     for (let key in observers) {
-      old[key] = getValueByKeypath(this.data, key)
+      if (key !== '**') {
+        old[key] = getValueByKeypath(this.data, key)
+      }
     }
     setData.apply(this, arguments)
     for (let key in observers) {
       const fn = observers[key]
-      const newVal = getValueByKeypath(this.data, key)
-      const oldVal = old[key]
-      // const oldVal = getValueByKeypath(old, key)
-      if (isFunction(fn) && newVal !== oldVal) {
-        fn.call(this, newVal, oldVal)
+      if (key === '**') {
+        fn.call(this, this.data)
+      } else {
+        const newVal = getValueByKeypath(this.data, key)
+        const oldVal = old[key]
+        if (isFunction(fn) && newVal !== oldVal) {
+          fn.call(this, newVal, oldVal)
+        }
       }
     }
   }
