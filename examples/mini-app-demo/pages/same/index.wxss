@@ -1,0 +1,4 @@
+.user {
+  padding: 8rpx;
+  margin-bottom: 32rpx;
+}

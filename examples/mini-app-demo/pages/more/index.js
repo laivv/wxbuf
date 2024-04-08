@@ -30,5 +30,10 @@ Page({
     wx.navigateTo({
       url: '/pages/duplex/index',
     })
-  }
+  },
+  handleG() {
+    wx.navigateTo({
+      url: '/pages/same/index',
+    })
+  },
 })

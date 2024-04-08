@@ -428,7 +428,7 @@ const setStore = function (key, value) {
 }
 
 const getCognateComponents = function () {
-  return getSavedComs().concat(getSavedTabBars()).concat(getSavedAppBars()).filter(c => c.is === this.is)
+  return getSavedComs().map(c => c.context).concat(getSavedTabBars()).concat(getSavedAppBars()).filter(c => c.is === this.is)
 }
 
 const getCurrentPage = function () {

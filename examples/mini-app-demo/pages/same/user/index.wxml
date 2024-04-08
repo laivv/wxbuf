@@ -1,0 +1,16 @@
+<view class="class text-center inline-block">
+  <view
+    class="rounded bg-ccc inline-block"
+    style="width: 100rpx;height: 100rpx;"
+  ></view>
+  <view class="mt-8">{{userId}}</view>
+  <view class="mt-8">
+    <view
+      bind:tap="handleTap"
+      style="width: 100px;"
+      class="{{subscribe ? 'bg-ccc' : 'bg-red'}} text-white inline-block px-8 py-4 rounded-2 text-14"
+    >
+      {{subscribe ? '已订阅' : '订阅'}}
+    </view>
+  </view>
+</view>

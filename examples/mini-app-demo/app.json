@@ -28,7 +28,8 @@
     "pages/p/index",
     "pages/q/index",
     "pages/more/index",
-    "pages/duplex/index"
+    "pages/duplex/index",
+    "pages/same/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -56,7 +56,7 @@ export function getSavedAppBars() {
   pages.forEach(page => {
     if (isFunction(page.getAppBar)) {
       const appbar = page.getAppBar()
-      if (appbar && isFunction(appbar.setData)) {
+      if (appbar && isFunction(appbar.setData) && !appbars.includes(appbar)) {
         appbars.push(appbar)
       }
     }

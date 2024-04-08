@@ -1,6 +1,7 @@
 page {
   padding: 32rpx;
 }
+
 page,
 view {
   box-sizing: border-box;
@@ -20,6 +21,10 @@ view {
 }
 
 .btn+.btn {
+  margin-top: 16rpx;
+}
+
+.mt-8 {
   margin-top: 16rpx;
 }
 
@@ -68,8 +73,24 @@ view {
   color: #888;
 }
 
+.text-white {
+  color: #fff;
+}
+
+.text-black {
+  color: #000;
+}
+
 .text-12 {
   font-size: 24rpx;
+}
+
+.text-14 {
+  font-size: 28rpx;
+}
+
+.text-16 {
+  font-size: 32rpx;
 }
 
 .boder {
@@ -95,12 +116,32 @@ view {
   height: 100%;
 }
 
+.px-4 {
+  padding-left: 8rpx;
+  padding-right: 8rpx;
+}
+
+.px-8 {
+  padding-left: 16rpx;
+  padding-right: 16rpx;
+}
+
 .pd-16 {
   padding: 32rpx;
 }
 
 .pd-8 {
   padding: 16rpx;
+}
+
+.py-4 {
+  padding-top: 8rpx;
+  padding-bottom: 8rpx;
+}
+
+.py-8 {
+  padding-top: 16rpx;
+  padding-bottom: 16rpx;
 }
 
 .py-16 {
@@ -111,9 +152,11 @@ view {
 .pb-16 {
   padding-bottom: 32rpx;
 }
+
 .pb-32 {
   padding-bottom: 64rpx;
 }
+
 .pb-64 {
   padding-bottom: 128rpx;
 }
@@ -122,12 +165,57 @@ view {
   font-weight: bold;
 }
 
-.bg-white {
+.bg-white,
+.bg-fff {
   background-color: #fff;
+}
+
+.bg-red {
+  background-color: red;
+}
+
+.bg-666 {
+  background-color: #666;
+}
+
+.bg-777 {
+  background-color: #777;
+}
+
+.bg-888 {
+  background-color: #888;
+}
+
+.bg-999 {
+  background-color: #999;
+}
+
+.bg-aaa {
+  background-color: #aaa;
+}
+
+.bg-bbb {
+  background-color: #bbb;
+}
+
+.bg-ccc {
+  background-color: #ccc;
+}
+
+.bg-ddd {
+  background-color: #ddd;
+}
+
+.bg-eee {
+  background-color: #eee;
 }
 
 .inline {
   display: inline;
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 .flex-y-center {
@@ -147,6 +235,31 @@ view {
 .relative {
   position: relative;
 }
+
+.absolute {
+  position: absolute;
+}
+
 .w-100 {
   width: 200rpx;
+}
+
+.rounded {
+  border-radius: 50%;
+}
+
+.rounded-2 {
+  border-radius: 4rpx;
+}
+
+.rounded-4 {
+  border-radius: 8rpx;
+}
+
+.rounded-6 {
+  border-radius: 12rpx;
+}
+
+.rounded-8 {
+  border-radius: 16rpx;
 }
