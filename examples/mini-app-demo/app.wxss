@@ -263,3 +263,6 @@ view {
 .rounded-8 {
   border-radius: 16rpx;
 }
+.text-nowrap {
+  white-space: nowrap;
+}

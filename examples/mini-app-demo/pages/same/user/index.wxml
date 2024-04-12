@@ -7,8 +7,7 @@
   <view class="mt-8">
     <view
       bind:tap="handleTap"
-      style="width: 100px;"
-      class="{{subscribe ? 'bg-ccc' : 'bg-red'}} text-white inline-block px-8 py-4 rounded-2 text-14"
+      class="{{subscribe ? 'bg-ccc' : 'bg-red'}} text-white text-nowrap inline-block px-8 py-4 rounded-2 text-14"
     >
       {{subscribe ? '已订阅' : '订阅'}}
     </view>
