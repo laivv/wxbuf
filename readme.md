@@ -157,13 +157,13 @@ Page({
 ```
 
 ## 快速入门文档
-[快速入门文档](../blob/master/docs/DOCS.md)
+[快速入门文档](../../blob/master/docs/DOCS.md)
 
 ## API文档大全
-[API文档大全](../blob/master/docs/APIS.md)
+[API文档大全](../../blob/master/docs/APIS.md)
 
 ## 演示小程序demo
-[小程序demo](../tree/master/examples/mini-app-demo)
+[小程序demo](../../tree/master/examples/mini-app-demo)
 
 ## License
 
