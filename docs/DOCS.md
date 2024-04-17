@@ -398,7 +398,7 @@
 
 
 ## 演示小程序demo
-[小程序demo](https://gitee.com/laivv/wxbuf/tree/master/examples/mini-app-demo)
+[小程序demo](../tree/master/examples/mini-app-demo)
 
 ## 更多详细API请参考以下链接
-[API文档大全](https://gitee.com/laivv/wxbuf/blob/master/docs/APIS.md)
+[API文档大全](../blob/master/docs/APIS.md)
