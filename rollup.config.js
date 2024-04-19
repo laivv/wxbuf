@@ -3,7 +3,7 @@ import terser from '@rollup/plugin-terser'
 const banner =
   '/*!\n' +
   ` * wxbuf.js v1.0.0\n` +
-  ` * (c) ${new Date().getFullYear()} lingluo\n` +
+  ` * (c) ${new Date().getFullYear()} laivv\n` +
   ' * the MIT License.\n' +
   ' */'
 

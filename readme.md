@@ -1,16 +1,17 @@
 # <center>wxbuf</center>
 
-轻量级的微信原生小程序状态管理与事件通信的javascript库
-
+轻量级的微信小程序状态管理与事件通信javascript库   
+---
 为什么叫`wxbuf`？玩过游戏的都知道加`buff`就是增加状态，变强的意思。这就是取名`wxbuf`的原因。    
-
-`wxbuf`对小程序原生API进行了扩展，增加了以下功能
-* 支持全局数据（store）管理
-* 支持storage数据管理
+---
+`wxbuf`对小程序原生API进行了扩展，增加了以下功能：
+* 支持全局状态（store）管理
+* 支持storage数据状态管理
+* 支持按app、page或component来注入全局状态
 * 支持更易用的跨组件跨页面通信方式，彻底解决通信问题
 * 支持store、storage变化监听
 * 更方便的page间数据传递方式
-* 支持跨组件层级传递数据
+* 支持组件跨级传递数据
 * Page、Component支持computed计算属性
 * Page支持observers字段监听器
 * 自动反序列化页面url参数中的object、number、null、undefined、array字段，在onLoad钩子中自动接收反序列化后的参数
@@ -25,6 +26,11 @@
 * 修正wx官方自定义tabbar组件中的pageLifetimes不工作的问题
 * 更多功能请查看文档
 ---
+即将支持的功能：
+* 插件系统
+* App onLaunch 钩子支持返回一个promise来延迟页面的加载，适用于需要准备好必须的参数才允许加载页面（及其组件）的场景(功能已实现，正在测试)    
+* App onShow 钩子支持返回一个promise来延迟页面的加载，适用于需要准备好必须的参数才允许加载页面（及其组件）的场景(功能已实现，正在测试) 
+---  
 ## 起步
 在app.js文件头部引入:
 ```js

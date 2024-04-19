@@ -1,8 +1,3 @@
-/*
- * wxbuf.js
- * version: v1.0
- * update at 2023/11/20
- */
 import {
   noop,
   hasOwn,
