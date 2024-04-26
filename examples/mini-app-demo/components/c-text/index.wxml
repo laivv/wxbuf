@@ -1,1 +1,1 @@
-<view class="inline text {{ flash ? 'flash' : '' }}">{{text}}</view>
+{{text}}
