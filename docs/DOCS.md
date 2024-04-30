@@ -441,11 +441,15 @@ Component({
     virtualHost: true,
   },
   properties: {
-    value: [String, Number, Object, Array, Boolean, undefined, null],
+    value: {
+      optionalTypes: [String, Number, Object, Array, Boolean, null]
+    },
     // 过滤器方法名
     filter: String,
     // 过滤器参数
-    params: [String, Number, Object, Array, Boolean, undefined, null]
+    params: {
+      optionalTypes: [String, Number, Object, Array, Boolean, null]
+    }
   },
   observers: {
     "filter,params,value"() {

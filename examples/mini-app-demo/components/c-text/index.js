@@ -4,9 +4,13 @@ Component({
     virtualHost: true,
   },
   properties: {
-    value: [String, Number, Object, Array, Boolean, undefined, null],
+    value: {
+      optionalTypes: [String, Number, Object, Array, Boolean, null]
+    },
     filter: String,
-    params: [String, Number, Object, Array, Boolean, undefined, null]
+    params: {
+      optionalTypes: [String, Number, Object, Array, Boolean, null]
+    }
   },
   observers: {
     "filter,params,value"() {
