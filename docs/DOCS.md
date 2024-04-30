@@ -318,17 +318,269 @@
   
   })
   ```
-  注意的是，`beforePageEnter`无法拦截`Launch`进来的页面，即无法拦截通过正常启动或外链打开小程序等其它非js调用进入的页面，只能拦截通过js调用打开的页面
+  注意的是，`beforePageEnter`无法拦截`Launch`进来的页面，即无法拦截通过正常启动或外链打开小程序等其它非js调用进入的页面，只能拦截通过js调用打开的页面 
+  
+## 全局对wxml视图层事件监听或拦截
+
+可以在app.js中对所有的page和组件的视图层事件进行监听和拦截 
+
+### 基础的监听
+page.wxml:
+
+```xml
+  <view bindtap="handleTap" data-name="wxbuf"></view>
+```
+page.js:
+```js
+Page({
+  handleTap(event) {
+    //...
+  }
+})
+```
+
+app.js:
+```js
+// app.js
+import wxbuf from 'wxbuf'
+
+App({
+  onEventDispatch(event, next) {
+    console.log(event.currentTarget.dataset.name) // 'wxbuf'
+    // 继续执行原始的事件handler
+    next(event)
+  },
+})
+```
+
+当page中的`view`元素被点击时，会先调用`app`中的`onEventDispatch`钩子，`event`对象为原始的事件`event`，可以利用此对象获取被点击元素的信息，常见的应用场景如全局埋点上报功能。
+`next`是一个函数，调用它并传入`event`对象让页面上的原始的事件`handler`正常执行，并且必须原封不动的传入`event`对象，否则可能引起原始的事件`handler`不能接收到`event`对象参数
+
+### 对视图层事件进行拦截
+page.wxml:
+
+```xml
+  <view bindtap="handleTap" data-not-allowed="{{true}}"></view>
+```
+page.js:
+
+```js
+Page({
+  handleTap(event) {
+    wx.showToast({ title: '正常执行' })
+  }
+})
+```
+app.js:
+```js
+// app.js
+import wxbuf from 'wxbuf'
+
+App({
+  onEventDispatch(event, next) {
+    if(event.currentTarget.dataset.notAllowed){
+       wx.showToast({ title: '没有权限' })
+       // 不调用next(event)则不执行原始的事件handler
+    } else {
+    // 继续执行原始的事件handler
+      next(event)
+    }
+  },
+})
+```
+当page中的`view`元素被点击时，会弹出`没有权限`的toast提示，原始的事件`handler`被拦截无法执行
+
+### 减少event.currentTarget.dataset解构层数
+日常开发中经常会在某个元素上自定义`data-`的数据，并在事件处理函数中通过`event.currentTarget.dataset.xxx`来获取这些数据，每次都很繁琐， 利用`onEventDispatch`钩子可以减少取`dataset`的层数   
+page.wxml:
+
+```xml
+  <view bindtap="handleTap" data-name="wxbuf" data-id="123"></view>
+```
+page.js:
+```js
+Page({
+  handleTap(e, { id, name }) {
+    console.log(id) // 'wxbuf'
+    console.log(name) // '123'
+  }
+})
+```
+app.js:
+```js
+// app.js
+import wxbuf from 'wxbuf'
+
+App({
+  onEventDispatch(event, next) {
+    // 将第二个参数传递给原始的事件handler
+    next(event, event.currentTarget.dataset)
+  },
+})
+```
+
+## 类似vue中的 {{ var | filter }} 过滤器功能实现    
+
+小程序中视图层变量绑定并没有过滤器功能，`wxs`的语法又比较受限，要想自己实现`{{ var | filter }}`这样的语法是不行的，但我们通过自定义一个组件能达到相似的过滤器效果
+
+### 定义全局过滤器组件
+
+在`app.json`中声明一个全局组件，就叫`c-text`，接下来实现这个组件：
+
+c-text.wxml:
+```xml
+{{text}}
+```
+
+c-text.js:
+```js
+
+Component({
+  externalClasses: ["class"],
+  options: {
+    virtualHost: true,
+  },
+  properties: {
+    value: [String, Number, Object, Array, Boolean, undefined, null],
+    // 过滤器方法名
+    filter: String,
+    // 过滤器参数
+    params: [String, Number, Object, Array, Boolean, undefined, null]
+  },
+  observers: {
+    "filter,params,value"() {
+      this.render()
+    },
+  },
+  lifetimes: {
+    attached() {
+      this.render()
+    },
+  },
+  data: {
+    text: "",
+  },
+  methods: {
+    render() {
+      const { value, filter, params } = this.data
+      let text = value
+      if (filter) {
+        // 获取过滤器函数
+        const handler = this.$parent[filter]
+        const _params = Array.isArray(params) ? params : [params]
+        if (handler) {
+          text = handler.call(this.$parent, value, ..._params)
+        }
+      }
+      this.setData({ text: text ?? "" })
+    },
+  },
+})
+
+```
+现在我们就可以使用这个组件来使用过滤器功能了     
+### 基出用法    
+wxml:
+```xml
+<c-text value="{{timeStamp}}" />
+```
+```js
+  Page({
+    data: {
+      timeStamp: 1714123672808
+    }
+  })
+```
+以上是一个普通的显示，和以下写法没什么区别:
+```xml
+{{timeStamp}}
+```
+### 指定过滤器
+wxml: 
+```xml
+<c-text value="{{timeStamp}}" filter="formatDate" />
+```
+```js
+Page({
+  data: {
+    timeStamp: 1714123672808
+  },
+  formatDate(value) {
+    return dayjs(value).format('YYYY-MM-DD')
+  }
+})
+```
+### 指定过滤器的参数 
+`params`属性指定传递给过滤器的参数    
+
+wxml: 
+```xml
+<c-text value="{{timeStamp}}" filter="formatDate" params="YYYY-MM-DD HH:mm:ss" />
+```
+```js
+Page({
+  data: {
+    timeStamp: 1714123672808
+  },
+  formatDate(value, format) {
+    return dayjs(value).format(format)
+  }
+})
+```
+`params`属性也可以是一个数组:  
+wxml: 
+```xml
+<c-text value="{{timeStamp}}" filter="formatDate" params="{{ ['YYYY-MM-DD HH:mm:ss', '-'] }}" />
+```
+```js
+Page({
+  data: {
+    timeStamp: '',
+  },
+  formatDate(value, format, defaultValue) {
+    return value ? dayjs(value).format(format) : defaultValue
+  }
+})
+```
 
 ## switchTab传参
 
 `wx.switchTab`支持在`url`上携带`query`参数（原来是不支持的）  
+
   例子：
+
+   ```js
+  // /pageA.js
+  Page({
+    // 第一次点击
+    handleFirstTap() {
+      wx.switchTab({
+        url: '/pages/my/index?a=1'
+      })
+    },
+    // 第二次点击
+    handleSecondTap() {
+      wx.switchTab({
+        url: '/pages/my/index?a=2'
+      })
+    },
+  })
+  ```
+
   ```js
-    wx.switchTab({
-      url: '/pages/index/index?a=1&b=2'
-    })
-  ``` 
+  // /pages/my/index.js
+  // 此页面是tabbar页面
+  Page({
+    // 首次进入页面在onLoad钩子接收wx.switchTab参数
+    onLoad(options) {
+      console.log(options.a) // '1'
+    },
+    // 非首次进入页面在onSwitchTab钩子接收wx.switchTab参数
+    onSwitchTab(options) {
+      console.log(options.a) // '2'
+    }
+  })
+  ```
   注意：首次打开目标tabbar页面请在`onLoad`钩子中接收参数，如果目标tabbar页面已经打开过（实例未销毁），此时`switchTab`跳转过去请在`onSwitchTab`钩子中接收参数；由于受限于小程序，url上并不会体现出来query参数，但并不影响实际使用
 
   

@@ -9,7 +9,9 @@ Component({
       }
     },
   },
+  // wxbuf提供了一些父组件的生命周期parentLifetimes
   parentLifetimes: {
+    // 父组件发生setData行为时调用
     setData() {
       this.init()
     }
@@ -26,11 +28,13 @@ Component({
     init() {
       if (this.$parent && this.data.vModel) {
         const value = this.getValueByKeypath(this.$parent.data, this.data.vModel)
-        this.setData({ value })
+        if (value !== this.data.value) {
+          this.setData({ value })
+        }
       }
     },
     handleInput({ detail: { value } }) {
-      if (this.data.vModel) {
+      if (this.$parent && this.data.vModel) {
         this.$parent.setData({ [this.data.vModel]: value })
       }
       this.setData({ value })

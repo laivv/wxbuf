@@ -10,7 +10,7 @@ Component({
     handleTap() {
       const { userId, subscribe } = this.data
       // 获取同胞组件列表
-      this.getCognateComponents().filter(c => c.data.userId === userId).forEach(c => c.setData({ subscribe: !subscribe }))
+      this.getCognates().filter(c => c.data.userId === userId).forEach(c => c.setData({ subscribe: !subscribe }))
     }
   }
 })

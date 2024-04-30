@@ -422,7 +422,7 @@ const setStore = function (key, value) {
   updateMixinsAsync({ [key]: value }, { [key]: oldValue }, 'store')
 }
 
-const getCognateComponents = function () {
+const getCognates = function () {
   return getSavedComs().map(c => c.context).concat(getSavedTabBars()).concat(getSavedAppBars()).filter(c => c.is === this.is)
 }
 
@@ -1224,7 +1224,7 @@ const factory = function (option, constructr) {
     option.methods[`${userConfig.methodPrefix}getPageInstance`] = function () {
       return getPageInstance(this)
     }
-    option.methods[`${userConfig.methodPrefix}getCognateComponents`] = getCognateComponents
+    option.methods[`${userConfig.methodPrefix}getCognates`] = getCognates
   }
 
   return constructr(option)

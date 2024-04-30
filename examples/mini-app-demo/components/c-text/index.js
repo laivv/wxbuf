@@ -1,25 +1,25 @@
 Component({
-  externalClasses: ['class'],
+  externalClasses: ["class"],
   options: {
     virtualHost: true,
   },
   properties: {
-    value: [String, Number, Object, Array, undefined, null],
+    value: [String, Number, Object, Array, Boolean, undefined, null],
     filter: String,
-    params: [String, Number, Object, Array, undefined, null]
+    params: [String, Number, Object, Array, Boolean, undefined, null]
   },
   observers: {
-    'filter,params,value'() {
+    "filter,params,value"() {
       this.render()
-    }
+    },
   },
   lifetimes: {
     attached() {
       this.render()
-    }
+    },
   },
   data: {
-    text: ''
+    text: "",
   },
   methods: {
     render() {
@@ -32,7 +32,7 @@ Component({
           text = handler.call(this.$parent, value, ..._params)
         }
       }
-      this.setData({ text: text ?? '' })
-    }
-  }
+      this.setData({ text: text ?? "" })
+    },
+  },
 })

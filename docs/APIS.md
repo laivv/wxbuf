@@ -22,13 +22,17 @@
 * [***getPageInstance*** (): `pageInstance`](#getPageInstance) 获取所在页面的实例
 * [***getUrlParams*** (): `object`](#getUrlParams) 获取所在页面的url参数(同page的onLoad钩子回调参数一致，只能在ready之后调用)
 * [***invoke*** (`fnName`: string, `...args`: any[]): `any`](#invoke) 尝试调用所在页面的opener页面的方法
-* [***getCognateComponents*** (): `component[]`](#getCognateComponents) 获取同胞组件实例列表
+* [***getCognates*** (): `component[]`](#getCognates) 获取同胞组件实例列表
+### 【新增】Component实例属性
+* [***$parent***](#props-parent) 父组件实例     
+* [***$page***](#props-page) 所在page实例   
+* [***$route***](#props-route) 所在page url路径  
 ### 【新增】Page(option)构造器选项
 * [***option.computed*** ](#computed) 声明计算属性
 * [***option.observers*** ](#observers) 声明字段变化监听器
 * [***option.listeners*** ](#listeners) 声明全局事件监听器
 * [***option.onWakeup*** ](#onWakeup) 非首次onShow时调用
-* [***option.onSwitchTab*** ](#onSwitchTab) 当页面是tabbar时，在非首次onShow页面时调用，可接收参数
+* [***option.onSwitchTab*** ](#onSwitchTab) 当页面是tabbar时，在第二次及以后切入页面时调用，可接收参数
 * [***option.mixinStore*** ](#mixin-global-data) 使用响应式的全局数据（store）
 * [***option.mixinStorage*** ](#mixin-storage) 使用响应式的storage数据
 * [***option.onStoreChange*** ](#on-global-data-change) 监听全局数据（store）变化
@@ -45,6 +49,8 @@
 * [***option.pageLifeTimes.reachBottom*** ](#reach-bottom) 所在页面onReachBottom
 * [***option.pageLifeTimes.pageScroll*** ](#page-scroll) 所在页面onPageScroll
 * [***option.pageLifeTimes.switchTab*** ](#com-switchTab) 所在tabbar页面发生onSwitchTab时调用   
+* [***option.parentLifeTimes.setData*** ](#com-parentSetData) 父组件调用this.setData时调用    
+
 * [***option.exports*** ](#page-methods) 向所在的父组件实例暴露方法 
 * [***option.provide*** ](#provide) 向后代组件提供数据
 * [***option.inject*** ](#inject) 获取来自上层组件提供的数据（配合provide使用）
@@ -470,6 +476,49 @@
   `opener`是指打开前当页面的页面，类似于浏览器js环境中的`window.opener`；使用实例方法[openPage](#open-page)打开新页面可以建立`opener`关系，使用`reLaunch`或`redirectTo`等会替换当前页面栈的方法无法建立`opener`关系，
   注意：`invoke`方法仅仅是尝试调用，若不存在`opener`页面或`opener`页面不存在对应的方法，也不会抛错，这比较适用于某个页面多次把数据回传给上一个页面的场景，并且也不关心`opener`页面或`opener`页面的方法是否存在  
 
+<a id="getCognates"></a>
+
+* ***getCognates*** (): `component[]`   
+  适用于：`component`  
+
+  说明：获取同胞组件实例列表  
+
+  同胞组件指同一个组件在页面上有多个实例，某些场景下不想使用全局状态，又需要批量更新同类组件的状态
+
+  例子：
+
+  ```xml
+  <!-- 同一个 required-login 组件使用了3次 -->
+   <required-login>内容1</required-login>
+   <required-login>内容2</required-login>
+   <required-login>内容3</required-login>
+  ```
+  `required-login`组件定义如下：
+
+  ```xml
+   <!-- required-login.wxml -->
+  <slot wx:if="{{isLogin}}"></slot>
+  <view wx:else>
+    <view>登录后才能查看</view>
+    <view bindtap="handleTap">点击登录</view>
+  </view>
+  ```
+
+  ```js
+  // required-login.js
+  Component({
+    data: {
+      isLogin: false
+    },
+    methods: {
+      handleTap() {
+        // 获取到所有required-login组件实例列表，并且批量更新它们的状态
+        this.getCognates().forEach(c => c.setData({ isLogin: true }))
+      },
+    }
+  })
+  ```  
+
 <a id="getPageInstance"></a>
 
 * ***getPageInstance*** (): `page`   
@@ -504,8 +553,10 @@
   ```js
   // ./comA/index.js
   Component({
-    handleItemTap(item){
-     console.log(this.getPageInstance().getUserId()) // '1'
+    methods: {
+      handleItemTap(item){
+        console.log(this.getPageInstance().getUserId()) // '1'
+      }
     }
   })
   ```  
@@ -738,7 +789,7 @@
 * ***option.onSwitchTab*** : `(options: object) => void`  
   适用于：  `page` 
 
-  说明：若当前页面是`tabbar`页面，在第二次及之后页面`onShow`的时候会调用此钩子，并且此钩子可以接收来自`wx.switchTab`的参数传递；非tabbar页面此钩子不会调用
+  说明：若当前页面是`tabbar`页面，在第二次及之后切入页面时候会调用此钩子，并且此钩子可以接收来自`wx.switchTab`的参数传递；非tabbar页面此钩子不会调用
 
   例子：  
 
@@ -768,7 +819,7 @@
     onLoad(options) {
       console.log(options.a) // '1'
     },
-    // 非首次(第二次onShow及之后)在onSwitchTab钩子接收wx.switchTab参数
+    // 非首次进入页面在onSwitchTab钩子接收wx.switchTab参数
     onSwitchTab(options) {
       console.log(options.a) // '2'
     }
@@ -996,6 +1047,100 @@
     }
   })
   ```
+<a id="injectStore"></a>
+
+* ***option.injectStore***   
+
+  适用于： `app`    
+
+  说明：全局注入`store`到所有页面和组件 
+
+  例子：
+
+  ```js
+
+  // app.js
+  import wxbuf from 'wxbuf'
+
+  App({
+    // 全局注入store到所有页面、组件的实例上
+    injectStore: {
+      // [可选参数] 注入到实例的命名空间（前缀）,建议填写
+      namespace: '$store',
+      // [必填参数] 注入globalData中的哪些字段
+      keys: ['appVersion', 'appCount'],
+    },
+    globalData: {
+      appVersion: 'v1.0',
+      appCount: 0
+    },
+    onLaunch(){
+
+    }
+  })
+  ```
+
+  接下来可以在任意页面或组件中访问这些`store`数据，并且是响应式的
+
+  ```xml
+  <view>{{$store.appCount}}</view>
+  <view>{{$store.appVersion}}</view>
+  ```
+
+  ```js
+    Page({
+      onLoad(){
+        console.log(this.data.$store)
+      }
+    })
+  ``` 
+
+  tips：也可以不指定`namespace`字段，访问时就不需要前缀，但还是建议声明`namespace`，以减少和页面或组件中字段冲突的几率
+
+  <a id="injectStorage"></a>
+
+* ***option.injectStorage***   
+
+  适用于： `app`    
+
+  全局注入`storage`到所有页面和组件   
+   
+  例子：
+
+  ```js
+
+  // app.js
+  import wxbuf from 'wxbuf'
+
+  App({
+    // 全局注入storage到所有页面、组件的实例上
+    injectStorage: {
+      // [可选参数] 注入到实例的命名空间（前缀）
+      namespace: '$storage',
+      // [必填参数] 注入storage中的哪些字段
+      keys: ['count'],
+    },
+    onLaunch(){
+
+    }
+  })
+  ```
+
+  接下来可以在任意页面或组件中访问这些`storage`数据，并且是响应式的
+
+  ```xml
+  <view>{{$storage.count}}</view>
+  ```
+
+  ```js
+    Page({
+      onLoad(){
+        console.log(this.data.$storage)
+      }
+    })
+  ```
+
+  tips：也可以不指定`namespace`字段，访问时就不需要前缀，但还是建议声明`namespace`，以减少和页面或组件中字段冲突的几率
 
 <a id="provide"></a>
 
@@ -1149,7 +1294,7 @@
 * ***option.pageLifeTimes.switchTab*** : `(options: object) => void`  
   适用于：  `component` 
 
-  说明：若当前组件所在页面是`tabbar`页面，在页面第二次及之后`onShow`的时候会调用此钩子，并且此钩子可以接收来自`wx.switchTab`的参数传递；非tabbar页面此钩子不会调用
+  说明：若当前组件所在页面是`tabbar`页面，在发生[页面onSwitchTab](#onSwitchTab)的时候会调用此钩子，并且此钩子可以接收来自`wx.switchTab`的参数传递；非tabbar页面此钩子不会调用
 
   例子：  
 
@@ -1179,7 +1324,7 @@
     onLoad(options) {
       console.log(options.a) // '1'
     },
-    // 非首次(第二次onShow及之后)在onSwitchTab钩子接收wx.switchTab参数
+    // 非首次进入页面在onSwitchTab钩子接收wx.switchTab参数
     onSwitchTab(options) {
       console.log(options.a) // '2'
     }
@@ -1197,7 +1342,7 @@
       }
     },
     pageLifetimes: {
-      // 非首次onShow在switchTab钩子接收wx.switchTab参数 
+      // 非首次进入页面在switchTab钩子接收wx.switchTab参数 
       switchTab(options) {
         console.log(options.a) // '2'
       }
@@ -1205,6 +1350,38 @@
   })
   ```
   为什么`pageLifetimes.switchTab`不设计成每次切入tabbar页面时都调用呢？这是因为很多组件并不会在页面初次打开时就存在，可能要等到调用接口后才会展示出来，此时已经错过了所在tabbar页面的`onSwitchTab`生命周期，所以这种设计机制和小程序组件内置的生命周期（如`pageLifetimes.show`）保持一致
+
+
+<a id="com-parentSetData"></a>
+  
+* ***option.parentLifeTimes.setData*** : `(data: object) => void`  
+  适用于：  `component` 
+
+  说明：当前组件所在的父组件发生`setData`时进行回调
+
+  例子：  
+
+  ```js
+  // page.js
+  Page({
+    handleTap() {
+      this.setData({ count: 2 })
+    },
+  })
+  ```
+
+  ```js
+  // 子组件
+  Component({
+    parentLifetimes: {
+      setData(data) {
+        console.log(data.count) // 2
+      }
+    }
+  })
+  ```
+
+  利用此特性可以实现父子组件`数据双向同步`的功能
 
 <a id="page-methods"></a>
 
