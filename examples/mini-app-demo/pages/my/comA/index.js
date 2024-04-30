@@ -1,6 +1,6 @@
 Component({
   pageLifetimes: {
-    // 非首次在switchTab钩子接收wx.switchTab参数 
+    // 非首次进入在switchTab钩子接收wx.switchTab参数 
     switchTab(options) {
       this.setData({ data: JSON.stringify(options) })
     }

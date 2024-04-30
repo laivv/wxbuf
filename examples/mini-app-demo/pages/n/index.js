@@ -1,6 +1,6 @@
 Page({
   data: {
-    n: 10
+    n: 0
   },
   async handleLoadMore() {
     await new Promise(resolve => setTimeout(() => {

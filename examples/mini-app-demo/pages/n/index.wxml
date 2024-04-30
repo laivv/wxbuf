@@ -11,4 +11,4 @@
 </view>
 
 
-<c-loading loadData="handleLoadMore" text="正在加载下一页..." />
+<c-loading loadData="handleLoadMore" text="正在加载下一页..." pagination />

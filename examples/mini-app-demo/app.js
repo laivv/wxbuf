@@ -93,6 +93,7 @@ App({
   injectStore: {
     // 注入到实例的命名空间（前缀）
     namespace: '$store',
+    // 注入store中的哪些字段
     keys: ['appVersion', 'appCount'],
   },
   // 全局注入storage到所有页面、组件
