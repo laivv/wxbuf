@@ -36,7 +36,7 @@
 在app.js文件头部引入:
 ```js
 // app.js
-import wxbuf from './utils/wxbuf'
+import wxbuf from 'wxbuf'
 
 App({
   globalData: {},
@@ -51,7 +51,7 @@ App({
 下面是一个比较丰富的例子，其中使用了大量`wxbuf`的特色功能    
 ```js
 // app.js
-import wxbuf from './utils/wxbuf'
+import wxbuf from 'wxbuf'
 
 // wxbuf.config({ /** */}) // 全局配置项
 // wxbuf.watch({ /** */}) // 全局监听器

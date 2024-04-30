@@ -1738,7 +1738,7 @@
 ## 全局监听器
 ```js
 //app.js
-import wxbuf  from './utils/wxbuf'
+import wxbuf  from 'wxbuf'
 
 wxbuf.watch({
   onAppLaunch: function (option) {
@@ -1828,7 +1828,7 @@ App({
 ## 全局配置
 ```js
 // app.js
-import wxbuf  from './utils/wxbuf'
+import wxbuf  from 'wxbuf'
 
 wxbuf.config({
   // 开启自动反序列化url参数
@@ -1860,7 +1860,7 @@ App({
   例子：    
   ```js
   // app.js
-  import wxbuf  from './utils/wxbuf'
+  import wxbuf  from 'wxbuf'
 
   wxbuf.global.extend('util', {
     say() {
@@ -1891,7 +1891,7 @@ App({
   例子：    
   ```js
   // app.js
-  import wxbuf  from './utils/wxbuf'
+  import wxbuf from 'wxbuf'
 
   wxbuf.page.extend({
     getData(key){

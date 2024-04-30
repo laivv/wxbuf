@@ -592,7 +592,7 @@ Page({
   例子：    
   ```js
   // app.js
-  import wxbuf  from './utils/wxbuf'
+  import wxbuf  from 'wxbuf'
 
   wxbuf.global.extend('getAppVersion',function(){
     return 'v1.0.0'
@@ -621,7 +621,7 @@ Page({
   例子：    
   ```js
   // app.js
-  import wxbuf  from './utils/wxbuf'
+  import wxbuf from 'wxbuf'
 
   wxbuf.page.extend({
     getData(key){
