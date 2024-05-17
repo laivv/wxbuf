@@ -1,92 +1,78 @@
-import wxbuf from './lib/wxbuf.min'
+import { usePlugin, definePlugin } from './lib/wxbuf.min'
 
-// 定义顶级全局变量，其它page或组件无需import可直接使用
-wxbuf.global.extend('getAppName', function () {
-  return '这段文字由app.js中定义的全局方法提供'
-})
-// 给所有page实例扩展公共方法
-wxbuf.page.extend({
-  showToast(title) {
-    wx.showToast({
-      title,
-      icon: 'none'
-    })
+const myplugin = definePlugin({
+  options: {
+    target: 'app',
+  },
+  lifetimes: {
+    init(options) {
+      debugger
+    },
+    onLaunch(options) {
+      debugger
+    },
+    onLaunch_end() {
+      debugger
+    },
+    onShow() {
+      debugger
+    }
   }
 })
-// 对小程序的各种生命周期或事件进行监听
-wxbuf.watch({
-  onAppLaunch: function (argv) {
-    // console.log('onAppLaunch', argv)
+const myplugin2 = definePlugin({
+  options: {
+    target: 'app',
   },
-  onAppShow: async function () {
-    // console.log('onAppShow')
+  lifetimes: {
+    init(options) {
+      var a = options
+      debugger
+    },
+    onLaunch(options) {
+      var b = options
+      debugger
+    },
+    onShow() {
+      debugger
+    }
+  }
+})
+const myplugin3 = definePlugin({
+  options: {
+    target: 'page',
   },
-  onAppHide: function () {
-    // console.log('onAppHide')
+  data: {
+    a: 1
   },
-  onPageLoad: function (option) {
-    // console.log('onPageLoad:', option)
+  lifetimes: {
+    init(options) {
+      var a = options
+      debugger
+    },
+    setData(options) {
+      var b = options
+      this.$target.setData({ c: 3 })
+      debugger
+    },
+    setData_end() {
+      var b = [].slice.call(arguments, 0)
+      this.showToas()
+      debugger
+    },
+    onShow() {
+      debugger
+    }
   },
-  onPageShow: function (option) {
-    // console.log('onPageShow:', option)
-  },
-  onPageScroll: function (option) {
-    // console.log('onPageScroll:', option)
-  },
-  onPageReachBottom: function (option) {
-    console.log('onPageReachBottom:', option)
-  },
-  onPagePullDownRefresh: function (option) {
-    console.log('onPagePullDownRefresh:', option)
-  },
-  onTap: function (option) {
-    console.log('onTap:', option)
-  },
-  onLongpress: function (option) {
-    console.log('onLongpress:', option)
-  },
-  onLongtap: function (option) {
-    // console.log('onLongtap:', option)
-  },
-  onTouchstart: function (option) {
-    // console.log('onTouchstart:', option)
-  },
-  onTouchmove: function (option) {
-    // console.log('onTouchmove:', option)
-  },
-  onTouchend: function (option) {
-    // console.log('onTouchend:', option)
-  },
-  onTouchcancel: function (option) {
-    // console.log('onTouchcancel:', option)
-  },
-  onTouchforcechange: function (option) {
-    // console.log('onTouchforcechange:', option)
-  },
-  onInput: function (option) {
-    console.log('onInput:', option)
-  },
-  onFocus: function (option) {
-    console.log('onFocus:', option)
-  },
-  onBlur: function (option) {
-    console.log('onBlur:', option)
-  },
+  methods: {
+    showToas() {
+      wx.showToast({title: 'plugins-toast'})
+    }
+  }
 })
 
-// 全局配置
-wxbuf.config({
-  // 开启自动反序列化url参数
-  parseUrlArgs: true,
-  // 给wxbuf提供的实例或wx对象上的方法添加前缀，用于防止冲突
-  methodPrefix: '',
-  // 开启所有页面分享给好友
-  enableGlobalShareAppMessage: true,
-  // 开启所有页面分享到朋友圈
-  enableGlobalShareTimeline: true,
-  // 指定app中哪个key值被作为store数据来管理
-  storeKey: 'globalData',
-})
+// usePlugin(myplugin)
+// usePlugin(myplugin2)
+// usePlugin(myplugin3)
 
 App({
   // 全局注入store到所有页面、组件的实例上
@@ -114,6 +100,7 @@ App({
     appCount: 0
   },
   onPageShareAppMessage(page, options, object) {
+    debugger
   },
   onPageShareTimeline(page, options) {
   },

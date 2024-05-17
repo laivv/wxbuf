@@ -8,7 +8,7 @@ const banner =
   ' */'
 
 export default [{
-  input: './src/index.js',
+  input: './src/entry/index.js',
   output: {
     file: './lib/wxbuf.min.js',
     format: 'es',
