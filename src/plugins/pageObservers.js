@@ -7,32 +7,33 @@ export default definePlugin({
   },
   lifetimes: {
     setData() {
-      const observers = this.$target.$ctorOptions.observers
-      this.observers = observers
+      const target = this.$target
+      const observers = target.$ctorOptions.observers
       if (!observers) return
-      this.oldData = {}
+      target._observersOldData = {}
       for (let key in observers) {
         if (key !== '**') {
-          this.oldData[key] = getValueByKeypath(this.data, key)
+          target._observersOldData[key] = getValueByKeypath(target.data, key)
         }
       }
     },
     setData_end() {
-      const observers = this.observers
-      if (!observers || !this.oldData) return
+      const target = this.$target
+      const observers = target.$ctorOptions.observers
+      if (!observers || !target._observersOldData) return
       for (let key in observers) {
         const fn = observers[key]
         if (key === '**') {
-          fn.call(this.$target, this.$target.data)
+          fn.call(target, target.data)
         } else {
-          const newVal = getValueByKeypath(this.$target.data, key)
-          const oldVal = this.oldData[key]
+          const newVal = getValueByKeypath(target.data, key)
+          const oldVal = target._observersOldData[key]
           if (isFunction(fn) && newVal !== oldVal) {
-            fn.call(this.$traget, newVal, oldVal)
+            fn.call(target, newVal, oldVal)
           }
         }
       }
-      this.oldData = null
+      delete target._observersOldData
     }
   }
 })

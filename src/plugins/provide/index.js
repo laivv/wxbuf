@@ -62,26 +62,29 @@ export const componentProvide = definePlugin({
         return
       }
       const provides = this.getParentProvides()
+      const data = {}
       inject.forEach(key => {
-        for (let i = 0; i < provides.length; i++) {
-          const { parent, provide, isStatic } = provides[i]
-          if (!hasOwn(provide, key)) continue
+        const provider = provides.find(({ provide }) => hasOwn(provide, key))
+        if (provider) {
+          const { parent, provide, isStatic } = provider
           if (!isStatic) {
             this.addWatcher(new ProvideWatcher(parent, context, key))
             this.dependParent(parent)
           }
-          this.updateData(provide, key)
-          break
+          this.updateData(provide, key, data)
         }
       })
+      if (Object.keys(data).length) {
+        this.$target.setData(data)
+      }
     },
-    updateData(provide, key) {
+    updateData(provide, key, data) {
       const context = this.$target
       const v = provide[key]
       if (isFunction(v)) {
         context[key] = v.bind(parent)
       } else {
-        context.setData({ [key]: v })
+        data[key] = v
       }
     },
     addWatcher(watcher) {
@@ -95,6 +98,7 @@ export const componentProvide = definePlugin({
       const context = this.$target
       const parents = context.$provideParents || []
       parents.forEach(parent => parent.$provideObserver.remove(context))
+      delete context.$provideParents
     },
     dependParent(parent) {
       const context = this.$target

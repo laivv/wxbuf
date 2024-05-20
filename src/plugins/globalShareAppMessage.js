@@ -7,21 +7,20 @@ export default definePlugin({
   },
   lifetimes: {
     init(page) {
-      if (this.getConfig('enableGlobalShareTimeline') && !page.onShareTimeline) {
-        page.onShareTimeline = function () {
-          let options = {
-            title: getNavigateBarTitle(),
-            query: this.$rawParamsQuery,
-          }
-          const app = getApp()
-          if (app.onPageShareTimeline) {
-            const ret = app.onPageShareTimeline(this, options)
-            if (isObject(ret)) {
-              options = ret
-            }
-          }
-          return options
+      if (!this.getConfig('enableGlobalShareTimeline') || page.onShareTimeline) {
+        return
+      }
+      page.onShareTimeline = function () {
+        let options = {
+          title: getNavigateBarTitle(),
+          query: this.$rawParamsQuery,
         }
+        const app = getApp()
+        if (app.onPageShareTimeline) {
+          const ret = app.onPageShareTimeline(this, options)
+          options = isObject(ret) ? ret : options
+        }
+        return options
       }
     }
   }

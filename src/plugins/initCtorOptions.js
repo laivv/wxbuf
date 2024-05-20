@@ -1,44 +1,29 @@
 import { definePlugin } from "../core/index"
+import { extend, noop } from "../util"
 
-// 给app，page，component实例挂载$ctorOptions属性，值为原始的构造器参数
-export const appCtorOptions = definePlugin({
-  options: {
-    target: 'app',
-  },
-  lifetimes: {
-    init(options) {
-      this.options = options
-    },
-    onLaunch() {
-      this.$target.$ctorOptions = this.options
-    }
+const proxy = function (options, key) {
+  const fn = options[key] || noop
+  const option = key === 'created' ? options.lifetimes : options
+  option[key] = function () {
+    this.$ctorOptions = options
+    return fn.apply(this, arguments)
   }
-})
+}
 
-export const pageCtorOptions = definePlugin({
-  options: {
-    target: 'page',
-  },
-  lifetimes: {
-    init(options) {
-      this.options = options
+const createCtorOptions = function (target, key) {
+  return definePlugin({
+    options: {
+      target,
     },
-    onLoad() {
-      this.$target.$ctorOptions = this.options
+    lifetimes: {
+      init_end(options) {
+        proxy(options, key)
+      }
     }
-  }
-})
+  })
+}
 
-export const componentCtorOptions = definePlugin({
-  options: {
-    target: 'component',
-  },
-  lifetimes: {
-    init(options) {
-      this.options = options
-    },
-    created() {
-      this.$target.$ctorOptions = this.options
-    }
-  }
-})
+export const appCtorOptions = createCtorOptions('app', 'onLaunch')
+export const pageCtorOptions = createCtorOptions('page', 'onLoad')
+export const componentCtorOptions = createCtorOptions('component', 'created')
+

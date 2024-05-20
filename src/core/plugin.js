@@ -33,11 +33,11 @@ export const getPlugins = function (target) {
   return installedPlugins[target]
 }
 
-const callInitPlugins = function (target, options) {
+const callInitPlugins = function (target, lifetime, options) {
   const plugins = installedPlugins[target]
   plugins.forEach((plugin) => {
-    if (plugin.lifetimes.init) {
-      plugin.lifetimes.init.call(plugin, options)
+    if (plugin.lifetimes[lifetime]) {
+      plugin.lifetimes[lifetime].call(plugin, options)
     }
   })
 }
@@ -72,7 +72,7 @@ const patch = function (options) {
   if (!options.lifetimes) options.lifetimes = {}
   if (!options.methods) options.methods = {}
   if (!options.pageLifetimes) options.pageLifetimes = {};
-  ["created", "attached", "ready", "moved", "detached", "error"].forEach(
+  ['created', 'attached', 'ready', 'moved', 'detached', 'error'].forEach(
     name => {
       if (options[name] && !options.lifetimes[name]) {
         options.lifetimes[name] = options[name]
@@ -82,35 +82,43 @@ const patch = function (options) {
 }
 
 App = function (options) {
-  callInitPlugins("app", options)
-  APP_LIFETIMES.forEach(name => overwrite("app", name, options))
+  callInitPlugins('app', 'init', options)
+  APP_LIFETIMES.forEach(name => overwrite('app', name, options))
+  callInitPlugins('app', 'init_end', options)
   return _App(options)
 }
 
 Page = function (options) {
-  callInitPlugins("page", options)
-  PAGE_LIFETIMES.forEach(name => overwrite("page", name, options))
+  callInitPlugins('page', 'init', options)
+  PAGE_LIFETIMES.forEach(name => {
+    if (!['onShareAppMessage', 'onShareTimeline', 'onAddToFavorites'].includes(name) || options[name]) {
+      overwrite('page', name, options)
+    }
+  })
+  callInitPlugins('page', 'init_end', options)
   return _Page(options)
 }
 
 Component = function (options) {
   patch(options)
-  callInitPlugins("component", options)
+  callInitPlugins('component', 'init', options)
   COM_LIFETIMES.forEach(name => {
-    overwrite("component", name, options)
-    overwrite("component", name, options.lifetimes)
+    overwrite('component', name, options)
+    overwrite('component', name, options.lifetimes)
   })
-  COM_PAGE_LIFETIMES.forEach(name => overwrite("component", name, options.pageLifetimes))
+  COM_PAGE_LIFETIMES.forEach(name => overwrite('component', name, options.pageLifetimes))
+  callInitPlugins('component', 'init_end', options)
   return _Component(options)
 }
 
 Behavior = function (options) {
   patch(options)
-  callInitPlugins("behavior", options)
+  callInitPlugins('behavior', 'init', options)
   COM_LIFETIMES.forEach(name => {
-    overwrite("behavior", name, options)
-    overwrite("behavior", name, options.lifetimes)
+    overwrite('behavior', name, options)
+    overwrite('behavior', name, options.lifetimes)
   })
-  COM_PAGE_LIFETIMES.forEach(name => overwrite("behavior", name, options.pageLifetimes))
+  COM_PAGE_LIFETIMES.forEach(name => overwrite('behavior', name, options.pageLifetimes))
+  callInitPlugins('behavior', 'init_end', options)
   return _Behavior(options)
 }

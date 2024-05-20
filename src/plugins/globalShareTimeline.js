@@ -7,7 +7,6 @@ export default definePlugin({
   },
   lifetimes: {
     init(page) {
-       const app = getApp()
       if (!this.getConfig('enableGlobalShareAppMessage') || page.onShareAppMessage) {
         return
       }
@@ -16,6 +15,7 @@ export default definePlugin({
           title: getNavigateBarTitle(),
           url: `${this.route}${this.$rawParamsQuery ? `?${this.$rawParamsQuery}` : ''}`,
         }
+        const app = getApp()
         if (app.onPageShareAppMessage) {
           const ret = app.onPageShareAppMessage(this, options, object)
           options = isObject(ret) ? ret : options

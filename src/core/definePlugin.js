@@ -1,13 +1,13 @@
-import { getUserConfig } from "./userConfig"
+import { getConfig } from "./config"
 
+let uid = 0
 class Plugin {
-
   constructor(options) {
     // 目标实例
     this.$target = null
+    this._uid = ++uid
     this.init(options)
   }
-
   init({ options, data, lifetimes, methods }) {
     this.target = options.target
     this.data = data
@@ -16,11 +16,9 @@ class Plugin {
       this[key] = methods[key]
     }
   }
-
   getConfig(key) {
-    return getUserConfig(key)
+    return getConfig(key)
   }
-
 }
 
 

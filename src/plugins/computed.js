@@ -16,23 +16,23 @@ function createComputed(target, lifetime) {
     },
     methods: {
       update() {
-        const context = this.$target
-        const computed = context.$ctorOptions.computed
+        const target = this.$target
+        const computed = target.$ctorOptions.computed
         if (!computed) return
-        const oldData = context.data
+        const oldData = target.data
         const data = {}
         let value
         for (let key in computed) {
           const fn = computed[key]
           if (isFunction(fn)) {
-            value = fn.call(context)
+            value = fn.call(target)
             if (oldData[key] !== value) {
               data[key] = value
             }
           }
         }
         if (!isEmpty(data)) {
-          context.setData(data)
+          target.setData(data)
         }
       }
     }
@@ -40,4 +40,4 @@ function createComputed(target, lifetime) {
 }
 
 export const computedPage = createComputed('page', 'onLoad')
-export const computedComponent = createComputed('component', 'created')
+export const computedComponent = createComputed('component', 'attached')

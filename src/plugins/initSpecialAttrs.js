@@ -1,4 +1,5 @@
 import { definePlugin } from "../core/index"
+import { getPage } from "../utils/index"
 
 export default definePlugin({
   options: {
@@ -7,12 +8,27 @@ export default definePlugin({
   lifetimes: {
     attached() {
       this.bindParent()
+      this.bindPage()
     },
     detached() {
       this.unBindParent()
+      this.unBindPage()
     }
   },
   methods: {
+    bindPage() {
+      const target = this.$target
+      const page = getPage(target)
+      if(page) {
+        target.$page = page
+        target.$route = page.route 
+      }
+    },
+    unBindPage() {
+      const target = this.$target
+      delete target.$page
+      delete target.$route
+    },
     bindParent() {
       const target = this.$target
       const parent = target.selectOwnerComponent()

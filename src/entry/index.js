@@ -14,6 +14,7 @@ import pageCache from '../plugins/pageCache'
 import { appUserHook, pageUserHook } from '../plugins/userHook'
 import { pageProvide, componentProvide } from '../plugins/provide/index'
 
+
 usePlugin(appCtorOptions)
 usePlugin(pageCtorOptions)
 usePlugin(componentCtorOptions)
@@ -36,5 +37,9 @@ usePlugin(pageUserHook)
 usePlugin(pageProvide)
 usePlugin(componentProvide)
 
-export { usePlugin, definePlugin }
+
+export {
+  usePlugin,
+  definePlugin,
+}
 

@@ -14,9 +14,7 @@ export default definePlugin({
         const app = getApp()
         if (app.onPageShareTimeline) {
           const ret = app.onPageShareTimeline(this, options)
-          if (isObject(ret)) {
-            options = ret
-          }
+          options = isObject(ret) ? ret : options
         }
         return options
       }

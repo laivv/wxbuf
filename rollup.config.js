@@ -12,7 +12,7 @@ export default [{
   output: {
     file: './lib/wxbuf.min.js',
     format: 'es',
-    sourcemap: false,  
+    sourcemap: true,  
     banner
   },
   plugins: [
