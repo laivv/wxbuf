@@ -27,8 +27,6 @@ class Plugin {
 
 function patch(options) {
   if (!options) options = {}
-  if (!options.options) options.options = {}
-  if (!options.options.target) options.options.target = 'behavior'
   if (!options.data) options.data = {}
   if (!options.lifetimes) options.lifetimes = {}
   if (!options.methods) options.methods = {}

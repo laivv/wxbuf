@@ -15,8 +15,8 @@ export default definePlugin({
   },
   methods: {
     proxy(options, key) {
-      const fn = options[key] || noop
       const option = key === 'created' ? options.lifetimes : options
+      const fn = option[key] || noop
       option[key] = function () {
         this.$ctorOptions = options
         return fn.apply(this, arguments)

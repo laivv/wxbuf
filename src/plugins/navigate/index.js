@@ -67,7 +67,7 @@ const switchTab = function (option) {
 export default definePlugin({
   lifetimes: {
     app_init() {
-      const prefix = this.getConfig('prefix')
+      const prefix = this.getConfig('methodPrefix')
       wx[`${prefix}openPage`] = openPage
       wx[`${prefix}replacePage`] = replacePage
       wx[`${prefix}navigateTo`] = navigateTo
@@ -85,7 +85,7 @@ export default definePlugin({
       const target = this.$target
       resolveOpener(target)
       resolveBody(options, target)
-      resolveSwitchTabParams_onLoad(params, target)
+      resolveSwitchTabParams_onLoad(options, target)
       resolveFeature(target)
     },
     page_onShow() {
@@ -94,7 +94,7 @@ export default definePlugin({
   },
   methods: {
     mountMethods(options) {
-      const prefix = this.getConfig('prefix')
+      const prefix = this.getConfig('methodPrefix')
       options[`${prefix}openPage`] = openPage
       options[`${prefix}replacePage`] = replacePage
       options[`${prefix}finish`] = finish

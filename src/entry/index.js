@@ -14,6 +14,8 @@ import pageCache from '../plugins/pageCache'
 import userHook from '../plugins/userHook'
 import provide from '../plugins/provide/index'
 import navigate from '../plugins/navigate/index'
+import exportsMethods from '../plugins/exportsMethods'
+import listeners from '../plugins/listeners'
 
 usePlugin(initCtorOptions)
 usePlugin(initSpecialAttrs)
@@ -23,12 +25,14 @@ usePlugin(shareTimeline)
 usePlugin(globalShareTimeline)
 usePlugin(shareAppMessage)
 usePlugin(globalShareAppMessage)
-usePlugin(pageObservers)
 usePlugin(computed)
+usePlugin(pageObservers)
 usePlugin(parentLifetimes)
 usePlugin(userHook)
 usePlugin(provide)
 usePlugin(navigate)
+usePlugin(exportsMethods)
+usePlugin(listeners)
 
 
 export {

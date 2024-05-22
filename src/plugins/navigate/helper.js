@@ -72,6 +72,21 @@ export const destoryFeature = function (context) {
   }
 }
 
+const createVirtualPage = function (context) {
+  const pageId = context.getPageId()
+  return new Proxy({}, {
+    get(target, key) {
+      const page = getCurrentPages().find(p => p.getPageId() === pageId)
+      if (page) {
+        return isFunction(page[key]) ? page[key].bind(page) : page[key]
+      } else {
+        console.warn('wxbuf: 访问了不存在的页面实例')
+        return undefined
+      }
+    }
+  })
+}
+
 
 export const createOpener = function (option, context) {
   opener = {

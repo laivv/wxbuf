@@ -1,94 +1,3 @@
-import {
-  noop,
-  hasOwn,
-  extend,
-  isArray,
-  isEmpty,
-  isEvent,
-  isObject,
-  isNumber,
-  isString,
-  upperCase,
-  deepClone,
-  getRealKey,
-  isFunction,
-  parseOption,
-  defProperty,
-  isTabBarPage,
-  toQueryString,
-  queryToObject,
-  getConfigJson,
-  mergePathQuery,
-  getTabBarPages,
-  getPageInstance,
-  getValueByKeypath,
-  getPathWithOutQuery,
-  getNavigateBarTitle,
-} from './util'
-import {
-  addCom,
-  addPage,
-  removeCom,
-  removePage,
-  getSavedPages,
-  getSavedComs,
-  getSavedTabBars,
-  getSavedAppBars
-} from './instance'
-import path from './path'
-import { builtInHooks } from './builtInHooks'
-import { storageCache } from './storageCache'
-import { renderViewAsync } from './renderAsync'
-import { callUserHook, watchHook } from './hookConfig'
-import { saveAppConfig, callAppHook, getAppConfig } from './appConfig'
-
-
-let userConfig = {
-  methodPrefix: '',
-  parseUrlArgs: false,
-  enableGlobalShareAppMessage: false,
-  enableGlobalShareTimeline: false,
-  storeKey: 'globalData'
-}
-
-
-const extendFns = {
-  page: {},
-  component: {}
-}
-
-
-const _App = App
-const _Page = Page
-const _Component = Component
-const _Behavior = Behavior
-const _wx = wx
-
-
-
-const _page = {
-  extend(option) {
-    extendFns.page = extend(extendFns.page, option)
-  }
-}
-const _component = {
-  extend(option) {
-    extendFns.component = extend(extendFns.component, option)
-  }
-}
-
-const extendUserMethods = function (option, target) {
-  const map = extendFns[target]
-  for (let key in map) {
-    const fn = map[key]
-    if (isFunction(fn)) {
-      option[key] = fn
-    }
-  }
-}
-
-
-
 
 const fireEvent = function (name, value) {
   const event = {
@@ -155,110 +64,6 @@ const updateMixinsAsync = function (kvs, oldkvs, name) {
 }
 
 
-const setStorage = function (option) {
-  const { success, key, data } = option
-  if (!key) return
-  const oldVal = storageCache.get(key)
-  option.success = function () {
-    storageCache.set(key, data)
-    updateMixinsAsync({ [key]: data }, { [key]: oldVal }, 'storage')
-    return (success || noop).apply(this, arguments)
-  }
-  return _setStorage.apply(wx, arguments)
-}
-
-const batchSetStorage = function (option) {
-  const { kvList, success } = option
-  const oldVal = function () {
-    const o = {}
-    kvList.forEach(({ key }) => o[key] = getStorageSync(key))
-    return o
-  }()
-  option.success = function () {
-    const kvs = {}
-    kvList.forEach(({ key, value }) => {
-      kvs[key] = value
-      storageCache.set(key, value)
-    })
-    updateMixinsAsync(kvs, oldVal, 'storage')
-    return (success || noop).apply(this, arguments)
-  }
-  return _batchSetStorage.apply(wx, arguments)
-}
-
-const removeStorage = function (option) {
-  const { key, success } = option
-  if (!key) return
-  const oldVal = storageCache.get(key)
-  option.success = function () {
-    storageCache.remove(key)
-    updateMixinsAsync({ [key]: '' }, { [key]: oldVal })
-    return (success || noop).apply(this, arguments)
-  }
-  return _removeStorage.call(wx, option)
-}
-
-const getStorageSync = function (key) {
-  return storageCache.get(key)
-}
-
-const setStorageSync = function (key, value) {
-  if (!key) return
-  const oldVal = storageCache.get(key)
-  storageCache.set(key, value)
-  _setStorageSync.call(wx, key, value)
-  updateMixinsAsync({ [key]: value }, { [key]: oldVal }, 'storage')
-}
-
-const batchSetStorageSync = function (kvList) {
-  const kvs = {}
-  const oldKvs = {}
-  kvList.forEach(({ key, value }) => {
-    kvs[key] = value
-    storageCache.set(key, value)
-    oldKvs[key] = getStorageSync(key)
-  })
-  updateMixinsAsync(kvs, oldKvs, 'storage')
-  return _batchSetStorageSync.apply(wx, arguments)
-}
-
-const removeStorageSync = function (key) {
-  if (!key) return
-  const oldValue = storageCache.get(key)
-  storageCache.remove(key)
-  _removeStorageSync.call(wx, key)
-  updateMixinsAsync({ [key]: '' }, { [key]: oldValue }, 'storage')
-}
-
-const clearStorage = function (option = {}) {
-  const success = option.success
-  const keys = _wx.getStorageInfoSync().keys
-  option.success = function () {
-    const kvs = {}
-    const oldKvs = {}
-    keys.forEach(key => {
-      kvs[key] = ''
-      storageCache.remove(key)
-      oldKvs[key] = getStorageSync(key)
-    })
-    updateMixinsAsync(kvs, oldKvs, 'storage')
-    return (success || noop).apply(wx, arguments)
-  }
-  return _clearStorage.call(wx, option)
-}
-
-const clearStorageSync = function () {
-  const kvs = {}
-  const oldKvs = {}
-  _wx.getStorageInfoSync().keys.forEach(key => {
-    kvs[key] = ''
-    storageCache.remove(key)
-    oldKvs[key] = getStorageSync(key)
-  })
-  updateMixinsAsync(kvs, oldKvs, 'storage')
-
-  return _clearStorageSync.apply(wx, arguments)
-}
 
 const getStore = function (key) {
   const data = getApplication()[userConfig.storeKey]
@@ -407,20 +212,7 @@ App = function (option = {}) {
 
   const onLaunch = function (...args) {
     fixGetApp(this)
-    callUserHook(this, 'onAppLaunch', ...args)
   }
-
-  const onHide = function () {
-    callUserHook(this, 'onAppHide')
-  }
-
-  const onShow = function () {
-    callUserHook(this, 'onAppShow')
-  }
-
-  overwriteFn(option, 'onLaunch', onLaunch)
-  overwriteFn(option, 'onHide', onHide)
-  overwriteFn(option, 'onShow', onShow)
   extendCommonMethods(option)
   return _App(option)
 }
@@ -599,47 +391,7 @@ Page = function (option) {
   return _Page(option)
 }
 
-const installExportMethods = function (option, context) {
-  let { exports } = option
-  const parent = context.selectOwnerComponent()
-  if (exports && parent) {
-    if (isFunction(exports)) {
-      exports = exports.call(context)
-    }
-    context.$exports = exports
-    const { namespace = null, methods = {} } = exports
-    if (namespace && parent[namespace]) return
-    let target = parent
-    if (namespace) {
-      target = parent[namespace] = { $installedBy: context }
-    }
-    for (let key in methods) {
-      const fn = methods[key]
-      if (methods.hasOwnProperty(key) && isFunction(fn) && !target[key]) {
-        target[key] = fn.bind(context)
-        target[key].$installedBy = context
-      }
-    }
-  }
-}
 
-const uninstallExportsMethods = function (option, context) {
-  const parent = context.selectOwnerComponent()
-  const exports = context.$exports
-  if (!parent || !exports) return
-  const { namespace = null, methods = {} } = exports
-  if (namespace) {
-    if (parent[namespace] && parent[namespace].$installedBy === context) {
-      delete parent[namespace]
-    }
-  } else {
-    for (let key in methods) {
-      if (parent[key] && parent[key].$installedBy === context) {
-        delete parent[key]
-      }
-    }
-  }
-}
 
 const getUrlParams = function () {
   return getPageInstance(this).$params
@@ -707,23 +459,6 @@ const factory = function (option, constructr) {
     if (com.type === 'component') {
       uninstallExportsMethods(com.option, this)
       const parent = this.selectOwnerComponent()
-      if (parent) {
-        if (parent.$components) {
-          const index = parent.$components.indexOf(this)
-          if (index > -1) {
-            parent.$components.splice(index, 1)
-            this.$parent = null
-          }
-        }
-        if (this.$parentProvides) {
-          this.$parentProvides.forEach(parent => {
-            const index = parent.$provideWatchers.findIndex(w => w.context === this)
-            if (index > -1) {
-              parent.$provideWatchers.splice(index, 1)
-            }
-          })
-        }
-      }
       callAppHook('onComponentDetached', this)
     }
     return _detached.apply(this, arguments)
@@ -826,47 +561,4 @@ function initWx() {
   wx.redirectTo = redirectTo
   wx.reLaunch = reLaunch
   wx.switchTab = switchTab
-}
-
-initWx()
-export const watch = watchHook
-export const config = _config
-export const page = _page
-export const component = _component
-export const global = _global
-const wxbuf = {
-  setStorage,
-  removeStorage,
-  getStorageSync,
-  setStorageSync,
-  removeStorageSync,
-  clearStorage,
-  clearStorageSync,
-  batchSetStorage,
-  batchSetStorageSync,
-  setStore,
-  getStore,
-  reLaunch,
-  navigateTo,
-  redirectTo,
-  switchTab,
-  getNavigateBarTitle,
-  getTabBarPages,
-  isTabBarPage,
-  getConfigJson
-}
-
-global.extend('wxbuf', wxbuf)
-
-Object.defineProperty(wxbuf, 'version', {
-  get: () => '1.0',
-  configurable: false,
-})
-
-export default {
-  page,
-  watch,
-  config,
-  global,
-  component
 }

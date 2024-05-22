@@ -35,7 +35,7 @@ export default definePlugin({
         isStatic = true
         if (isFunction(provide)) {
           isStatic = false
-          provide = parent.provide()
+          provide = provide.call(parent)
         }
         if (isObject(provide)) {
           provides.push({ parent, provide, isStatic })

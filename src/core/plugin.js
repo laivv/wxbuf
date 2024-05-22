@@ -40,7 +40,6 @@ export const callPlugins = function (
   args,
   ...restArgs
 ) {
-  let hook
   installedPlugins.forEach((plugin) => {
     plugin.$target = context;
     (plugin.lifetimes[name] || noop).apply(plugin, args.concat(restArgs))
