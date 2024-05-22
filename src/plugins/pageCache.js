@@ -1,20 +1,17 @@
 import { definePlugin } from "../core/index"
 
 export default definePlugin({
-  options: {
-    target: 'page'
-  },
   lifetimes: {
-    init() {
+    page_init() {
       const app = getApp()
       if (!app.$pages)
         app.$pages = []
     },
-    onLoad() {
+    page_onLoad() {
       const app = getApp()
       app.$pages.push(this.$target)
     },
-    onUnload() {
+    page_onUnload() {
       const app = getApp()
       const index = app.$pages.indexOf(this.$target)
       if (index > -1)

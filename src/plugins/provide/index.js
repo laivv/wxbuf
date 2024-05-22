@@ -3,37 +3,27 @@ import ProvideObserver from "./provideObserver"
 import ProvideWatcher from "./provideWatcher"
 import { isFunction, isObject, hasOwn } from "../../util"
 
-export const pageProvide = definePlugin({
-  options: {
-    target: 'page'
-  },
+export default definePlugin({
   lifetimes: {
-    setData_end() {
-      if (this.$target.$provideObserver) {
-        this.$target.$provideObserver.notify()
-      }
-    }
-  }
-})
-
-export const componentProvide = definePlugin({
-  options: {
-    target: 'component'
-  },
-  lifetimes: {
-    attached() {
+    page_setData_end() {
+      this.notify()
+    },
+    component_setData_end() {
+      this.notify()
+    },
+    component_attached() {
       this.initProvide()
     },
-    detached() {
+    component_detached() {
       this.removeWatcher()
     },
-    setData_end() {
+  },
+  methods: {
+    notify() {
       if (this.$target.$provideObserver) {
         this.$target.$provideObserver.notify()
       }
-    }
-  },
-  methods: {
+    },
     getParentProvides() {
       const provides = []
       let parent = this.$target
@@ -53,7 +43,6 @@ export const componentProvide = definePlugin({
       }
       return provides
     },
-
     initProvide() {
       const context = this.$target
       const options = context.$ctorOptions

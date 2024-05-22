@@ -1,45 +1,43 @@
 
-import { usePlugin, definePlugin } from '../core/index'
-import { pageEventHandlerProxy, componentEventHandlerProxy, behaviorEventHandlerProxy } from '../plugins/eventHandlerProxy'
+import { usePlugin, definePlugin, watch, config, page, component, global } from '../core/index'
+import eventHandlerProxy from '../plugins/eventHandlerProxy'
 import shareAppMessage from '../plugins/shareAppMessage'
 import shareTimeline from '../plugins/shareTimeline'
 import globalShareAppMessage from '../plugins/globalShareAppMessage'
 import globalShareTimeline from '../plugins/globalShareTimeline'
-import { pageCtorOptions, appCtorOptions, componentCtorOptions } from '../plugins/initCtorOptions'
+import initCtorOptions from '../plugins/initCtorOptions'
 import pageObservers from '../plugins/pageObservers'
-import { computedPage, computedComponent } from '../plugins/computed'
+import computed from '../plugins/computed'
 import initSpecialAttrs from '../plugins/initSpecialAttrs'
-import { parentLifetimesPage, parentLifetimesComponent } from '../plugins/parentLifetimes'
+import parentLifetimes from '../plugins/parentLifetimes'
 import pageCache from '../plugins/pageCache'
-import { appUserHook, pageUserHook } from '../plugins/userHook'
-import { pageProvide, componentProvide } from '../plugins/provide/index'
+import userHook from '../plugins/userHook'
+import provide from '../plugins/provide/index'
+import navigate from '../plugins/navigate/index'
 
-
-usePlugin(appCtorOptions)
-usePlugin(pageCtorOptions)
-usePlugin(componentCtorOptions)
+usePlugin(initCtorOptions)
 usePlugin(initSpecialAttrs)
 usePlugin(pageCache)
-usePlugin(pageEventHandlerProxy)
-usePlugin(componentEventHandlerProxy)
-usePlugin(behaviorEventHandlerProxy)
+usePlugin(eventHandlerProxy)
 usePlugin(shareTimeline)
 usePlugin(globalShareTimeline)
 usePlugin(shareAppMessage)
 usePlugin(globalShareAppMessage)
 usePlugin(pageObservers)
-usePlugin(computedPage)
-usePlugin(computedComponent)
-usePlugin(parentLifetimesPage)
-usePlugin(parentLifetimesComponent)
-usePlugin(appUserHook)
-usePlugin(pageUserHook)
-usePlugin(pageProvide)
-usePlugin(componentProvide)
+usePlugin(computed)
+usePlugin(parentLifetimes)
+usePlugin(userHook)
+usePlugin(provide)
+usePlugin(navigate)
 
 
 export {
   usePlugin,
   definePlugin,
+  watch,
+  config,
+  page,
+  component,
+  global
 }
 

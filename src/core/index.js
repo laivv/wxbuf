@@ -1,14 +1,18 @@
 
 import { usePlugin, getPlugins, callPlugins } from './plugin'
+import { watch } from './watch'
+import { config, getConfig } from './config'
 import { definePlugin } from './definePlugin'
-import { setDataPage, setDataComponent, setDataBehavior } from './setData'
-import { globalExtend, pageExtend, componentExtend, mountComponentExtend, mountPageExtend } from './extend'
+import setData from './setData'
+import { globalExtend, pageExtend, componentExtend, mountExtend } from './extend'
 
-usePlugin(setDataPage)
-usePlugin(setDataComponent)
-usePlugin(setDataBehavior)
-usePlugin(mountPageExtend)
-usePlugin(mountComponentExtend)
+usePlugin(setData)
+usePlugin(mountExtend)
+
+
+const page = { extend: pageExtend }
+const global = { extend: globalExtend }
+const component = { extend: componentExtend }
 
 export {
   usePlugin,
@@ -17,6 +21,11 @@ export {
   definePlugin,
   globalExtend,
   pageExtend,
-  componentExtend
+  componentExtend,
+  watch,
+  global,
+  page,
+  component,
+  config,
+  getConfig,
 }
-

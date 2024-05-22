@@ -1,4 +1,5 @@
 import { getConfig } from "./config"
+import { callWatcher } from "./watch"
 
 let uid = 0
 class Plugin {
@@ -8,8 +9,7 @@ class Plugin {
     this._uid = ++uid
     this.init(options)
   }
-  init({ options, data, lifetimes, methods }) {
-    this.target = options.target
+  init({ data, lifetimes, methods }) {
     this.data = data
     this.lifetimes = lifetimes
     for (let key in methods) {
@@ -18,6 +18,9 @@ class Plugin {
   }
   getConfig(key) {
     return getConfig(key)
+  }
+  callWatcher(name, ...args) {
+    callWatcher(this.$target, name, ...args)
   }
 }
 

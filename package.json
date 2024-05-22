@@ -1,7 +1,7 @@
 {
   "name": "wxbuf",
   "version": "1.0.0",
-  "description": "轻量级的微信小程序状态管理与事件通信javascript库",
+  "description": "轻量级的微信小程序状态管理与事件通信库",
   "main": "./lib/wxbuf.min.js",
   "directories": {
     "lib": "lib"
@@ -16,5 +16,9 @@
     "@rollup/plugin-terser": "^0.4.4",
     "rollup": "^4.6.1",
     "shx": "^0.3.4"
-  }
+  },
+  "files": [
+    "lib"
+  ],
+  "typings": "./lib/index.d.ts"
 }

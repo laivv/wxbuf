@@ -2,11 +2,8 @@ import { definePlugin } from "../core/index"
 import { getNavigateBarTitle } from "../util"
 
 export default definePlugin({
-  options: {
-    target: 'page',
-  },
   lifetimes: {
-    init(page) {
+    page_init(page) {
       if (!this.getConfig('enableGlobalShareAppMessage') || page.onShareAppMessage) {
         return
       }

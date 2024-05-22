@@ -1,45 +1,33 @@
 import { definePlugin } from "../core/index"
-import { callUserHook } from "../hookConfig"
 
-export const appUserHook = definePlugin({
-  options: {
-    target: 'app'
-  },
+export default definePlugin({
   lifetimes: {
-    onLaunch(options) {
-      callUserHook(getApp(), 'onAppLaunch', options)
+    app_onLaunch(options) {
+      this.callWatcher('onAppLaunch', options)
     },
-    onShow() {
-      callUserHook(getApp(), 'onAppLaunch')
+    app_onShow() {
+      this.callWatcher('onAppLaunch')
     },
-    onHide() {
-      callUserHook(getApp(), 'onAppHide')
-    }
-  }
-})
-
-export const pageUserHook = definePlugin({
-  options: {
-    target: 'page'
-  },
-  lifetimes: {
-    onLoad(options) {
-      callUserHook(this.$target, 'onPageLoad', options)
+    app_onHide() {
+      this.callWatcher('onAppHide')
     },
-    onShow() {
-      callUserHook(this.$target, 'onPageShow')
+    page_onLoad(options) {
+      this.callWatcher('onPageLoad', options)
     },
-    onHide() {
-      callUserHook(this.$target, 'onPageHide')
+    page_onShow() {
+      this.callWatcher('onPageShow')
     },
-    onPageScroll(e) {
-      callUserHook(this.$target, 'onPageScroll', e)
+    page_onHide() {
+      this.callWatcher('onPageHide')
     },
-    onReachBottom() {
-      callUserHook(this.$target, 'onPageReachBottom')
+    page_onPageScroll(e) {
+      this.callWatcher('onPageScroll', e)
     },
-    onPullDownRefresh() {
-      callUserHook(this.$target, 'onPagePullDownRefresh')
+    page_onReachBottom() {
+      this.callWatcher('onPageReachBottom')
+    },
+    page_onPullDownRefresh() {
+      this.callWatcher('onPagePullDownRefresh')
     },
   }
 })

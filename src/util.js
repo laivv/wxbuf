@@ -68,6 +68,11 @@ export const getPageInstance = function (context) {
   return page
 }
 
+export const getCurrentPage = function () {
+  const pages = getCurrentPages()
+  return pages.length ? pages[pages.length - 1] : null
+}
+
 export const toQueryString = function (data) {
   if (!isObject(data)) {
     return ''

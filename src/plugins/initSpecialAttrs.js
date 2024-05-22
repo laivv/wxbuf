@@ -2,15 +2,12 @@ import { definePlugin } from "../core/index"
 import { getPage } from "../utils/index"
 
 export default definePlugin({
-  options: {
-    target: 'component',
-  },
   lifetimes: {
-    attached() {
+    component_attached() {
       this.bindParent()
       this.bindPage()
     },
-    detached() {
+    component_detached() {
       this.unBindParent()
       this.unBindPage()
     }

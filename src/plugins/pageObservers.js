@@ -2,11 +2,8 @@ import { definePlugin } from "../core/index"
 import { getValueByKeypath, isFunction } from "../util"
 
 export default definePlugin({
-  options: {
-    target: 'page',
-  },
   lifetimes: {
-    setData() {
+    page_setData() {
       const target = this.$target
       const observers = target.$ctorOptions.observers
       if (!observers) return
@@ -17,7 +14,7 @@ export default definePlugin({
         }
       }
     },
-    setData_end() {
+    page_setData_end() {
       const target = this.$target
       const observers = target.$ctorOptions.observers
       if (!observers || !target._observersOldData) return

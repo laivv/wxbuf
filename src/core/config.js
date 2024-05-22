@@ -1,5 +1,7 @@
 
-const conf = {}
+const conf = {
+  prefix: ''
+}
 
 export const getConfig = function (key) {
   return conf[key]

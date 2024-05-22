@@ -1,17 +1,20 @@
 import { definePlugin } from "./definePlugin"
 
-
-
 const extendMethods = {
   page: {},
   component: {}
 }
 
+wx = Object.assign(Object.create(wx.__proto__), wx)
 
 export function globalExtend(name, value) {
   Object.defineProperty(globalThis, name, {
     get: () => value,
   })
+}
+
+export function wxExtend(name, value) {
+  wx[name] = value
 }
 
 export function pageExtend(object) {
@@ -26,23 +29,12 @@ export function getExtends(target) {
   return extendMethods[target]
 }
 
-export const mountPageExtend = definePlugin({
-  options: {
-    target: 'page'
-  },
+export const mountExtend = definePlugin({
   lifetimes: {
-    init(options) {
+    page_init(options) {
       Object.assign(options, extendMethods.page)
-    }
-  }
-})
-
-export const mountComponentExtend = definePlugin({
-  options: {
-    target: 'component'
-  },
-  lifetimes: {
-    init(options) {
+    },
+    component_init(options){
       Object.assign(options.methods, extendMethods.component)
     }
   }

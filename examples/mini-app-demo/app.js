@@ -1,65 +1,27 @@
 import { usePlugin, definePlugin } from './lib/wxbuf.min'
 
-const myplugin = definePlugin({
-  options: {
-    target: 'app',
-  },
-  lifetimes: {
-    init(options) {
-      debugger
-    },
-    onLaunch(options) {
-      debugger
-    },
-    onLaunch_end() {
-      debugger
-    },
-    onShow() {
-      debugger
-    }
-  }
-})
-const myplugin2 = definePlugin({
-  options: {
-    target: 'app',
-  },
-  lifetimes: {
-    init(options) {
-      var a = options
-      debugger
-    },
-    onLaunch(options) {
-      var b = options
-      debugger
-    },
-    onShow() {
-      debugger
-    }
-  }
-})
+
 const myplugin3 = definePlugin({
-  options: {
-    target: 'page',
-  },
+
   data: {
     a: 1
   },
   lifetimes: {
-    init(options) {
+    page_init(options) {
       var a = options
       debugger
     },
-    setData(options) {
+    page_setData(options) {
       var b = options
       this.$target.setData({ c: 3 })
       debugger
     },
-    setData_end() {
+    page_setData_end() {
       var b = [].slice.call(arguments, 0)
       this.showToas()
       debugger
     },
-    onShow() {
+    page_onShow() {
       debugger
     }
   },

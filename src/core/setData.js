@@ -1,34 +1,38 @@
 import { callPlugins } from "./plugin"
 import { definePlugin } from "./definePlugin"
 
-function createSetDataPlugin(target, lifetime) {
-  return definePlugin({
-    options: {
-      target,
+
+export default definePlugin({
+  lifetimes: {
+    page_onLoad: function () {
+      this.init('page')
     },
-    lifetimes: {
-      [lifetime]: function () {
-        const context = this.$target
-        const setData = context.setData
-        let pending = false
-        context.setData = function (...args) {
-          if (pending) {
-            return setData.apply(context, arguments)
-          }
-          pending = true
-          callPlugins(context, target, 'setData', args)
-          setData.apply(context, arguments)
-          callPlugins(context, target, 'setData_end', args, context.data)
-          pending = false
+    component_created() {
+      this.init('component')
+    },
+    behavior_created() {
+      this.init('behavior')
+    }
+  },
+  methods: {
+    init(target) {
+      const context = this.$target
+      const setData = context.setData
+      let pending = false
+      context.setData = function (...args) {
+        if (pending) {
+          return setData.apply(context, arguments)
         }
+        pending = true
+        callPlugins(context, `${target}_setData`, args)
+        setData.apply(context, arguments)
+        callPlugins(context, `${target}_setData_end`, args, context.data)
+        pending = false
       }
     }
-  })
-}
+  }
+})
 
-export const setDataPage = createSetDataPlugin('page', 'onLoad')
-export const setDataComponent = createSetDataPlugin('component', 'created')
-export const setDataBehavior = createSetDataPlugin('behavior', 'created')
 
 
 
