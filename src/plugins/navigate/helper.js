@@ -127,7 +127,7 @@ export const resolveSwitchTabParams_onLoad = function (option, context) {
 }
 
 export const resetSwitchTabParams = function () {
-    switchTabParams = null
+  switchTabParams = null
 }
 
 
@@ -191,4 +191,38 @@ export const jumpPage = function (fn, option) {
     option.url = option.url.split("?")[0]
   }
   return fn.call(wx, option)
+}
+
+
+const fnProxy = function (context, key, fn) {
+  if (context._ignore) { return }
+  const oldFn = context[key] || noop
+  context[key] = function () {
+    if (fn.apply(this, arguments) === false) {
+      return
+    }
+    return oldFn.apply(this, arguments)
+  }
+  context._ignore = true
+}
+
+
+export const resolvePageRouter = function (context) {
+  const fn = function (option) {
+    const absoluteURL = path.resolve(context.is, option.url)
+    const app = getApp()
+    let allow = true
+    if (app.beforePageEnter) {
+      allow = app.beforePageEnter(Object.assign({}, option, { url: absoluteURL }), getConfigJson(getPathWithOutQuery(absoluteURL)))
+    }
+    return allow ?? true
+  }
+  fnProxy(context.pageRouter, 'navigateTo', fn)
+  fnProxy(context.pageRouter, 'redirectTo', fn)
+  fnProxy(context.pageRouter, 'reLaunch', fn)
+  fnProxy(context.pageRouter, 'switchTab', fn)
+  fnProxy(context.router, 'navigateTo', fn)
+  fnProxy(context.router, 'redirectTo', fn)
+  fnProxy(context.router, 'reLaunch', fn)
+  fnProxy(context.router, 'switchTab', fn)
 }

@@ -14,7 +14,7 @@ export default definePlugin({
   methods: {
     installExportMethods() {
       const context = this.$target
-      const option = context.$ctorOptions
+      const option = context.$ctorOptions || context
       let { exports } = option
       const parent = context.$parent
       if (exports && parent) {

@@ -1,11 +1,7 @@
 export const getPage = function (context) {
-  let p, page
-  p = page = context.selectOwnerComponent()
-  if (page === null) {
-    return context.route ? context : null
+  let p
+  while (p = context.selectOwnerComponent()) {
+    context = p
   }
-  while (p = page.selectOwnerComponent()) {
-    page = p
-  }
-  return page.route ? page : null
+  return context.route ? context : null
 }

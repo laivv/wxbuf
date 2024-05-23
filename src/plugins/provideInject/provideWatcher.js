@@ -8,7 +8,7 @@ export default class ProvideWatcher {
     const provide = this.parent.provide()
     const key = this.key
     const v = provide[key]
-    if (isFunction(v)) {
+    if (typeof v === 'function') {
       this.context[key] = v.bind(this.parent)
     } else {
       if (this.context.data[key] !== v) {

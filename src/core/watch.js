@@ -13,9 +13,9 @@ export function watch(options = {}) {
   }
 }
 
-export function callWatcher(contex, name) {
+export function callWatcher(context, name) {
   const fns = watchers[name] || []
   fns.forEach(fn => {
-    fn.apply(contex, arguments)
+    fn.apply(context, arguments)
   })
 }

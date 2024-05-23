@@ -1,28 +1,25 @@
 import { usePlugin, definePlugin } from './lib/wxbuf.min'
 
-
 const myplugin3 = definePlugin({
-
   data: {
     a: 1
   },
+  app: {
+    init() {
+
+    }
+  },
+  page: {
+    init() {
+
+    }
+  },
   lifetimes: {
-    page_init(options) {
-      var a = options
-      debugger
+    beforeCreate() {
+
     },
-    page_setData(options) {
-      var b = options
-      this.$target.setData({ c: 3 })
-      debugger
-    },
-    page_setData_end() {
-      var b = [].slice.call(arguments, 0)
-      this.showToas()
-      debugger
-    },
-    page_onShow() {
-      debugger
+    created() {
+
     }
   },
   methods: {
@@ -60,6 +57,17 @@ App({
   globalData: {
     appVersion: 'v1.0',
     appCount: 0
+  },
+  onLaunch(){
+    wx.showLoading()
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve()
+        wx.hideLoading()
+      }, 5000)
+    })
+  },
+  onShow() {
   },
   onPageShareAppMessage(page, options, object) {
     debugger

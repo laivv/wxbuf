@@ -1,8 +1,18 @@
 import { definePlugin } from "../core/index"
 import { getPage } from "../utils/index"
-
+import { noop } from "../util"
+// add attrs: $components,$page,$parent,$route,$ctorOptions
 export default definePlugin({
   lifetimes: {
+    app_init_end(options) {
+      this.proxy(options, 'onLaunch')
+    },
+    page_init_end(options) {
+      this.proxy(options, 'onLoad')
+    },
+    component_init_end(options) {
+      this.proxy(options, 'created')
+    },
     component_attached() {
       this.bindParent()
       this.bindPage()
@@ -16,9 +26,9 @@ export default definePlugin({
     bindPage() {
       const target = this.$target
       const page = getPage(target)
-      if(page) {
+      if (page) {
         target.$page = page
-        target.$route = page.route 
+        target.$route = page.route
       }
     },
     unBindPage() {
@@ -49,6 +59,14 @@ export default definePlugin({
         components.splice(index, 1)
       }
       delete target.$parent
+    },
+    proxy(options, key) {
+      const option = key === 'created' ? options.lifetimes : options
+      const fn = option[key] || noop
+      option[key] = function () {
+        this.$ctorOptions = options
+        return fn.apply(this, arguments)
+      }
     }
   }
 })

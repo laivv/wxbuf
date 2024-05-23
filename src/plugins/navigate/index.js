@@ -10,7 +10,8 @@ import {
   resolveSwitchTabParams_onLoad,
   resolveSwitchTabParams_onShow,
   resetSwitchTabParams,
-  jumpPage, 
+  resolvePageRouter,
+  jumpPage,
 } from "./helper"
 
 import _wx from './_wx'
@@ -43,9 +44,6 @@ const finish = function (data) {
   return wx.navigateBack()
 }
 
-
-
-
 const navigateTo = function (option) {
   return jumpPage(_wx.navigateTo, option)
 }
@@ -62,7 +60,6 @@ const switchTab = function (option) {
   resetSwitchTabParams()
   return jumpPage(_wx.switchTab, option)
 }
-
 
 export default definePlugin({
   lifetimes: {
@@ -87,9 +84,13 @@ export default definePlugin({
       resolveBody(options, target)
       resolveSwitchTabParams_onLoad(options, target)
       resolveFeature(target)
+      resolvePageRouter(target)
     },
     page_onShow() {
       resolveSwitchTabParams_onShow(this.$target, this.getConfig('parseUrlArgs'))
+    },
+    component_created() {
+      resolvePageRouter(this.$target)
     }
   },
   methods: {

@@ -1,85 +1,9 @@
 
-const fireEvent = function (name, value) {
-  const event = {
-    route: this.$route,
-    value
-  }
-  const notify = function (context, listeners) {
-    if (isObject(listeners) && isFunction(listeners[name])) {
-      listeners[name].call(context, event)
-    }
-  }
-  getSavedPages().forEach(page => notify(page, page.listeners))
-  getSavedComs().forEach(({ context, option }) => notify(context, option.listeners))
-  // notify custom tabbar and appbar [skyline]
-  getSavedTabBars().concat(getSavedAppBars()).forEach(bar => notify(bar, bar.$constructorOptions.listeners))
-  notify(getApp(), getAppConfig('listeners'))
-}
-
-const updateMixinsAsync = function (kvs, oldkvs, name) {
-  const mixinName = `mixin${upperCase(name, 0)}`
-  const injectName = `inject${upperCase(name, 0)}`
-
-  const updateDataSync = function (context, mixinKeys = []) {
-    mixinKeys.forEach((key) => {
-      const [sourceKey, targetKey] = getRealKey(key)
-      if (hasOwn(kvs, sourceKey)) {
-        context.data[targetKey] = kvs[sourceKey]
-      }
-    })
-  }
-
-  const updateAppDataSync = function (context) {
-    const mixinConfig = getAppConfig(injectName)
-    if (!mixinConfig) return
-    const { keys: mixinKeys, namespace } = mixinConfig
-    mixinKeys.forEach((key) => {
-      const [sourceKey, targetKey] = getRealKey(key)
-      if (hasOwn(kvs, sourceKey)) {
-        if (namespace) {
-          if (!context.data[namespace]) {
-            context.data[namespace] = {}
-          }
-          context.data[namespace][targetKey] = kvs[sourceKey]
-        } else {
-          context.data[targetKey] = kvs[sourceKey]
-        }
-      }
-    })
-  }
-
-  getSavedPages().forEach(page => {
-    updateDataSync(page, page[mixinName])
-    updateAppDataSync(page)
-  })
-  getSavedComs().forEach(({ context, option }) => {
-    updateDataSync(context, option[mixinName])
-    updateAppDataSync(context)
-  })
-  getSavedTabBars().concat(getSavedAppBars()).forEach(bar => {
-    updateDataSync(bar, bar.$constructorOptions[mixinName])
-    updateAppDataSync(bar)
-  })
-  renderViewAsync({ kvs, oldkvs, name })
-}
 
 
 
-const getStore = function (key) {
-  const data = getApplication()[userConfig.storeKey]
-  return data ? (key ? data[key] : data) : undefined
-}
 
-const setStore = function (key, value) {
-  const { storeKey } = userConfig
-  const app = getApplication()
-  if (!app[storeKey]) {
-    app[storeKey] = {}
-  }
-  const oldValue = app[storeKey][key]
-  app[storeKey][key] = value
-  updateMixinsAsync({ [key]: value }, { [key]: oldValue }, 'store')
-}
+
 
 const getCognates = function () {
   return getSavedComs().map(c => c.context).concat(getSavedTabBars()).concat(getSavedAppBars()).filter(c => c.is === this.is)
@@ -90,43 +14,7 @@ const getCurrentPage = function () {
   return pages.length ? pages[pages.length - 1] : null
 }
 
-const initMixinData = function (option, context) {
-  const gData = getApp()[userConfig.storeKey];
-  ['Store', 'Storage'].forEach(name => {
-    const mixinKeys = option[`mixin${name}`]
-    if (isArray(mixinKeys)) {
-      const data = {}
-      mixinKeys.forEach(key => {
-        const [sourceKey, targetKey] = getRealKey(key)
-        data[targetKey] = name === 'Store' ? gData[sourceKey] : getStorageSync(sourceKey)
-      })
-      context.setData(data)
-    }
-  })
-}
 
-const initAppMixinData = function (context) {
-  const gData = getApp()[userConfig.storeKey];
-  ['Store', 'Storage'].forEach(name => {
-    const mixinConfig = getAppConfig(`inject${name}`)
-    if (!mixinConfig) return
-    const mixinKeys = mixinConfig.keys
-    const namespace = mixinConfig.namespace
-    if (isArray(mixinKeys)) {
-      const data = {}
-      mixinKeys.forEach(key => {
-        const [sourceKey, targetKey] = getRealKey(key)
-        data[targetKey] = name === 'Store' ? gData[sourceKey] : getStorageSync(sourceKey)
-      })
-      if (namespace) {
-        const _data = extend({}, context.data[namespace] || {}, data)
-        context.setData({ [namespace]: _data })
-      } else {
-        context.setData(data)
-      }
-    }
-  })
-}
 
 const overwriteFn = function (option, key, fn) {
   const oldFn = option[key]
@@ -138,23 +26,7 @@ const overwriteFn = function (option, key, fn) {
   }
 }
 
-const extendCommonMethods = function (option) {
-  const { methodPrefix: pref } = userConfig
-  option[`${pref}openPage`] = openPage
-  option[`${pref}replacePage`] = replacePage
-  option[`${pref}getStore`] = getStore
-  option[`${pref}setStore`] = setStore
-  option[`${pref}getStorageSync`] = getStorageSync
-  option[`${pref}setStorageSync`] = setStorageSync
-  option[`${pref}removeStorageSync`] = removeStorageSync
-  option[`${pref}setStorage`] = setStorage
-  option[`${pref}removeStorage`] = removeStorage
-  option[`${pref}batchSetStorage`] = batchSetStorage
-  option[`${pref}batchSetStorageSync`] = batchSetStorageSync
-  option[`${pref}clearStorage`] = clearStorage
-  option[`${pref}clearStorageSync`] = clearStorageSync
-  option[`${pref}fireEvent`] = fireEvent
-}
+
 
 const createVirtualPage = function (context) {
   const pageId = context.getPageId()
@@ -218,32 +90,7 @@ App = function (option = {}) {
 }
 
 
-const fnProxy = function (context, key, fn) {
-  if (context._ignore) { return }
-  const oldFn = context[key] || noop
-  context[key] = function () {
-    if (fn.apply(this, arguments) === false) {
-      return
-    }
-    return oldFn.apply(this, arguments)
-  }
-  context._ignore = true
-}
 
-const initPageRouter = function (context) {
-  const fn = function (option) {
-    const absoluteURL = path.resolve(context.is, option.url)
-    return callAppHook('beforePageEnter', Object.assign({}, option, { url: absoluteURL }), getConfigJson(getPathWithOutQuery(absoluteURL)))
-  }
-  fnProxy(context.pageRouter, 'navigateTo', fn)
-  fnProxy(context.pageRouter, 'redirectTo', fn)
-  fnProxy(context.pageRouter, 'reLaunch', fn)
-  fnProxy(context.pageRouter, 'switchTab', fn)
-  fnProxy(context.router, 'navigateTo', fn)
-  fnProxy(context.router, 'redirectTo', fn)
-  fnProxy(context.router, 'reLaunch', fn)
-  fnProxy(context.router, 'switchTab', fn)
-}
 
 
 
@@ -298,15 +145,6 @@ const createOnLoad = function (option) {
       tabbar.$feature = this.$feature
       tabbar.$route = this.route
     }
-
-    callUserHook(this, 'onPageLoad', {
-      option: params,
-      path: this.route
-    })
-    callAppHook('onPageLoad', this, {
-      option: params,
-      path: this.route
-    })
   }
 }
 
@@ -495,70 +333,3 @@ const factory = function (option, constructr) {
   return constructr(option)
 }
 
-Component = function (option) {
-  return factory(option, _Component)
-}
-
-Behavior = function (option) {
-  return factory(option, _Behavior)
-}
-
-function _config(option = {}) {
-  extend(userConfig, option)
-  initWx()
-}
-
-const _global = {
-  extend(globalVar, value) {
-    if (globalVar === 'wx') {
-      console.warn('global.extend: 不能重复定义wx')
-    } else {
-      Object.defineProperty(globalThis, globalVar, {
-        get: () => value,
-      })
-    }
-  }
-}
-const fnsBakup = {
-  openPage: wx.openPage,
-  replacePage: wx.replacePage,
-  getStore: wx.getStore,
-  setGlobbalData: wx.setStore,
-  finish: wx.finish,
-  getNavigateBarTitle: wx.getNavigateBarTitle,
-  getTabBarPages: wx.getTabBarPages,
-  isTabBarPage: wx.isTabBarPage,
-  getConfigJson: wx.getConfigJson,
-  fireEvent: wx.fireEvent
-}
-
-function initWx() {
-  extend(wx, fnsBakup)
-  const { methodPrefix: pref } = userConfig
-  wx[`${pref}openPage`] = openPage
-  wx[`${pref}replacePage`] = replacePage
-  wx[`${pref}getStore`] = getStore
-  wx[`${pref}setStore`] = setStore
-  wx[`${pref}finish`] = function (data) {
-    finish(data, getCurrentPage())
-  }
-  wx[`${pref}getNavigateBarTitle`] = getNavigateBarTitle
-  wx[`${pref}getTabBarPages`] = getTabBarPages
-  wx[`${pref}isTabBarPage`] = isTabBarPage
-  wx[`${pref}getConfigJson`] = getConfigJson
-  wx[`${pref}fireEvent`] = fireEvent
-
-  wx.getStorageSync = getStorageSync
-  wx.setStorage = setStorage
-  wx.setStorageSync = setStorageSync
-  wx.removeStorageSync = removeStorageSync
-  wx.removeStorage = removeStorage
-  wx.batchSetStorage = batchSetStorage
-  wx.batchSetStorageSync = batchSetStorageSync
-  wx.clearStorage = clearStorage
-  wx.clearStorageSync = clearStorageSync
-  wx.navigateTo = navigateTo
-  wx.redirectTo = redirectTo
-  wx.reLaunch = reLaunch
-  wx.switchTab = switchTab
-}

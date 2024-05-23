@@ -1,24 +1,35 @@
 
-import { usePlugin, definePlugin, watch, config, page, component, global } from '../core/index'
-import eventHandlerProxy from '../plugins/eventHandlerProxy'
-import shareAppMessage from '../plugins/shareAppMessage'
-import shareTimeline from '../plugins/shareTimeline'
-import globalShareAppMessage from '../plugins/globalShareAppMessage'
-import globalShareTimeline from '../plugins/globalShareTimeline'
-import initCtorOptions from '../plugins/initCtorOptions'
-import pageObservers from '../plugins/pageObservers'
-import computed from '../plugins/computed'
-import initSpecialAttrs from '../plugins/initSpecialAttrs'
-import parentLifetimes from '../plugins/parentLifetimes'
-import pageCache from '../plugins/pageCache'
-import userHook from '../plugins/userHook'
-import provide from '../plugins/provide/index'
-import navigate from '../plugins/navigate/index'
-import exportsMethods from '../plugins/exportsMethods'
-import listeners from '../plugins/listeners'
+import {
+  usePlugin,
+  definePlugin,
+  watch,
+  config,
+  page,
+  component,
+  global
+} from '../core/index'
+import {
+  eventHandlerProxy,
+  shareAppMessage,
+  shareTimeline,
+  globalShareAppMessage,
+  globalShareTimeline,
+  pageObservers,
+  computed,
+  specialAttrs,
+  parentLifetimes,
+  pageCache,
+  callWatch,
+  provideInject,
+  navigate,
+  exportsMethods,
+  listeners,
+  onLaunchDeferred,
+  reactiveStorage,
+  reactiveStore
+} from '../plugins/index'
 
-usePlugin(initCtorOptions)
-usePlugin(initSpecialAttrs)
+usePlugin(specialAttrs)
 usePlugin(pageCache)
 usePlugin(eventHandlerProxy)
 usePlugin(shareTimeline)
@@ -28,12 +39,14 @@ usePlugin(globalShareAppMessage)
 usePlugin(computed)
 usePlugin(pageObservers)
 usePlugin(parentLifetimes)
-usePlugin(userHook)
-usePlugin(provide)
+usePlugin(callWatch)
+usePlugin(provideInject)
 usePlugin(navigate)
 usePlugin(exportsMethods)
 usePlugin(listeners)
-
+usePlugin(reactiveStorage)
+usePlugin(reactiveStore)
+usePlugin(onLaunchDeferred)
 
 export {
   usePlugin,

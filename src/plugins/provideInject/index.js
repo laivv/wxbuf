@@ -30,7 +30,7 @@ export default definePlugin({
       let provide = null
       let isStatic
       while ((parent = parent.$parent)) {
-        provide = parent.$ctorOptions.provide
+        provide = parent.provide
         if (!provide) continue
         isStatic = true
         if (isFunction(provide)) {
@@ -47,6 +47,7 @@ export default definePlugin({
       const context = this.$target
       const options = context.$ctorOptions
       const inject = options.inject
+      context.provide = options.provide
       if (!Array.isArray(inject) || !inject.length) {
         return
       }
