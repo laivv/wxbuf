@@ -217,12 +217,17 @@ export const resolvePageRouter = function (context) {
     }
     return allow ?? true
   }
-  fnProxy(context.pageRouter, 'navigateTo', fn)
-  fnProxy(context.pageRouter, 'redirectTo', fn)
-  fnProxy(context.pageRouter, 'reLaunch', fn)
-  fnProxy(context.pageRouter, 'switchTab', fn)
-  fnProxy(context.router, 'navigateTo', fn)
-  fnProxy(context.router, 'redirectTo', fn)
-  fnProxy(context.router, 'reLaunch', fn)
-  fnProxy(context.router, 'switchTab', fn)
+
+  if(context.router) {
+    fnProxy(context.router, 'navigateTo', fn)
+    fnProxy(context.router, 'redirectTo', fn)
+    fnProxy(context.router, 'reLaunch', fn)
+    fnProxy(context.router, 'switchTab', fn)
+  }
+  if(context.pageRouter){
+    fnProxy(context.pageRouter, 'navigateTo', fn)
+    fnProxy(context.pageRouter, 'redirectTo', fn)
+    fnProxy(context.pageRouter, 'reLaunch', fn)
+    fnProxy(context.pageRouter, 'switchTab', fn)
+  }
 }

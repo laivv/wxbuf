@@ -23,8 +23,8 @@ export default definePlugin({
     component_init(options) {
       this.mountMethods(options.methods)
     },
-    page_onLoad(options) {
-      initStorage(options, this.$target)
+    page_onLoad() {
+      initStorage(this.$target.$ctorOptions, this.$target)
       initAppStorage(this.$target)
     },
     component_attached() {

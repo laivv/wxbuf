@@ -61,14 +61,14 @@ export default definePlugin({
             this.addWatcher(new ProvideWatcher(parent, context, key))
             this.dependParent(parent)
           }
-          this.updateData(provide, key, data)
+          this.updateData(parent, provide, key, data)
         }
       })
       if (Object.keys(data).length) {
-        this.$target.setData(data)
+        this.$target.$setData(data)
       }
     },
-    updateData(provide, key, data) {
+    updateData(parent, provide, key, data) {
       const context = this.$target
       const v = provide[key]
       if (isFunction(v)) {

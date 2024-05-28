@@ -14,7 +14,7 @@ import navigate from './navigate/index'
 import exportsMethods from './exportsMethods'
 import listeners from './listeners'
 import onLaunchDeferred from './onLaunchDeferred'
-import { reactiveStorage, reactiveStore } from './reactiveState'
+import { reactiveStorage, reactiveStore } from './reactiveState/index'
 
 export {
   eventHandlerProxy,

@@ -8,10 +8,10 @@ export default definePlugin({
       this.proxy(options, 'page')
     },
     component_init(options) {
-      this.proxy(options, 'component')
+      this.proxy(options.methods, 'component')
     },
     behavior_init(options) {
-      this.proxy(options, 'behavior')
+      this.proxy(options.methods, 'behavior')
     },
   },
   methods: {

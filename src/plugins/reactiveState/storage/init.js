@@ -9,11 +9,11 @@ export const initStorage = function (option, context) {
     const [sourceKey, targetKey] = getRealKey(key)
     data[targetKey] = getStorageSync(sourceKey)
   })
-  context.setData(data)
+  context.$setData(data)
 }
 
 export const initAppStorage = function (context) {
-  const mixinConfig = getApp.injectStorage
+  const mixinConfig = getApp().injectStorage
   if (!mixinConfig) return
   const mixinKeys = mixinConfig.keys
   const namespace = mixinConfig.namespace
@@ -25,8 +25,8 @@ export const initAppStorage = function (context) {
   })
   if (namespace) {
     const _data = extend({}, context.data[namespace] || {}, data)
-    context.setData({ [namespace]: _data })
+    context.$setData({ [namespace]: _data })
   } else {
-    context.setData(data)
+    context.$setData(data)
   }
 }

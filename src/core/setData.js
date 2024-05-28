@@ -18,6 +18,7 @@ export default definePlugin({
     init(target) {
       const context = this.$target
       const setData = context.setData
+      context.$setData = setData
       let pending = false
       context.setData = function (...args) {
         if (pending) {

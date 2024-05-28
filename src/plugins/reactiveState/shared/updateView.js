@@ -91,7 +91,7 @@ function stopUpdateView() {
   }
 }
 
-const app = getApp()
+
 
 function updateView() {
   timer = setTimeout(function () {
@@ -100,6 +100,7 @@ function updateView() {
       doAppUpdateView(context)
       callInstanceHook(context, context.$ctorOptions)
     })
+    const app = getApp()
     models.forEach(({ kvs, oldkvs, name }) => {
       if (app[HOOK_NAMES[name]]) {
         app[HOOK_NAMES[name]](kvs, oldkvs)

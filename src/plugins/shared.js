@@ -1,5 +1,5 @@
 
-
+import { isFunction } from "../util"
 
 
 export function traverseInstance(callback) {
@@ -10,31 +10,34 @@ export function traverseInstance(callback) {
     for (let i = contexts.length - 1; i >= 0; i--) {
       const context = contexts[i]
       if (context.$components) {
-        walk(context.$components)
+        walk(context.$components, callback)
       }
       callback(context)
-
-      if (isFunction(context.getTabBar)) {
-        const tabbar = context.getTabBar()
+    }
+  }
+  const walkTabbar = (pages) => {
+    for (let i = pages.length - 1; i >= 0; i--) {
+      const page = pages[i]
+      if (isFunction(page.getTabBar)) {
+        const tabbar = page.getTabBar()
         if (tabbar && isFunction(tabbar.setData)) {
-          walk([tabbar])
           callback(tabbar)
         }
       }
 
-      if (isFunction(context.getAppBar)) {
-        const appbar = context.getAppBar()
+      if (isFunction(page.getAppBar)) {
+        const appbar = page.getAppBar()
         if (
           appbar &&
           isFunction(appbar.setData) &&
           !appbarCache.includes(appbar)
         ) {
           appbarCache.push(appbar)
-          walk([appbar])
           callback(appbar)
         }
       }
     }
   }
-  walk(getApp().$pages(), callback)
+  walk(getApp().$pages, callback)
+  walkTabbar(getApp().$pages, callback)
 }

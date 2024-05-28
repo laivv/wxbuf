@@ -17,9 +17,8 @@ const noop = function () { }
 const installedPlugins = []
 
 export const usePlugin = function (plugin) {
-  if (installedPlugins.indexOf(plugin) === -1) {
-    installedPlugins.push(plugin)
-  }
+  if (installedPlugins.indexOf(plugin) > -1) return
+  installedPlugins.push(plugin)
 }
 
 export const getPlugins = function () {
@@ -28,9 +27,8 @@ export const getPlugins = function () {
 
 const callInitPlugins = function (lifetime, options) {
   installedPlugins.forEach((plugin) => {
-    if (plugin.lifetimes[lifetime]) {
-      plugin.lifetimes[lifetime].call(plugin, options)
-    }
+    if (!plugin.lifetimes[lifetime]) return
+    plugin.lifetimes[lifetime].call(plugin, options)
   })
 }
 

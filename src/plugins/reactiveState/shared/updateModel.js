@@ -1,7 +1,7 @@
 import { hasOwn, getRealKey, upperCase } from "../../../util"
 import { traverseInstance } from "../../shared"
 
-const updateDataSync = function (context, mixinKeys = []) {
+const updateDataSync = function (context, kvs, mixinKeys = []) {
   mixinKeys.forEach((key) => {
     const [sourceKey, targetKey] = getRealKey(key)
     if (!hasOwn(kvs, sourceKey)) return
@@ -33,7 +33,7 @@ export const updateModelSync = function (kvs, name) {
   const injectName = `inject${upperCase(name, 0)}`
 
   traverseInstance((context) => {
-    updateDataSync(context, context.$ctorOptions[mixinName])
+    updateDataSync(context, kvs, context.$ctorOptions[mixinName])
     updateAppDataSync(context, kvs, injectName)
   })
 }

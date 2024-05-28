@@ -19,9 +19,9 @@ export default definePlugin({
     component_init(options) {
       this.mountMethods(options.methods)
     },
-    page_onLoad(options) {
-      initStore(options, this)
-      initAppStore(this)
+    page_onLoad() {
+      initStore(this.$target.$ctorOptions, this.$target)
+      initAppStore(this.$target)
     },
     component_attached() {
       initStore(this.$target.$ctorOptions, this.$target)

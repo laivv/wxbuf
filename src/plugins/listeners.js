@@ -47,9 +47,7 @@ const fireEvent = function (name, value) {
 export default definePlugin({
   lifetimes: {
     app_init(options) {
-      const prefix = this.getConfig('methodPrefix')
-      wx[`${prefix}fireEvent`] = fireEvent
-
+      this.mountMethods(wx)
       this.mountMethods(options)
     },
     page_init(options) {
