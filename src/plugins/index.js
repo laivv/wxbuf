@@ -13,8 +13,9 @@ import provideInject from './provideInject/index'
 import navigate from './navigate/index'
 import exportsMethods from './exportsMethods'
 import listeners from './listeners'
-import onLaunchDeferred from './onLaunchDeferred'
+import asyncOnLaunch from './asyncOnLaunch'
 import { reactiveStorage, reactiveStore } from './reactiveState/index'
+import pageOnInit from './pageOnInit'
 
 export {
   eventHandlerProxy,
@@ -32,7 +33,8 @@ export {
   navigate,
   exportsMethods,
   listeners,
-  onLaunchDeferred,
+  asyncOnLaunch,
   reactiveStorage,
-  reactiveStore
+  reactiveStore,
+  pageOnInit
 }

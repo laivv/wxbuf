@@ -59,12 +59,21 @@ App({
     appCount: 0
   },
   onLaunch(){
-    wx.showLoading()
+    wx.showLoading({ title: 'onLaunch 2s' })
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve()
         wx.hideLoading()
-      }, 5000)
+        resolve()
+      }, 2000)
+    })
+  },
+  onPageInit() {
+    wx.showLoading({ title: 'onPageInit 2s' })
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        wx.hideLoading()
+        resolve()
+      }, 2000)
     })
   },
   onShow() {

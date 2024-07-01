@@ -24,9 +24,11 @@ import {
   navigate,
   exportsMethods,
   listeners,
-  onLaunchDeferred,
+  asyncOnLaunch,
   reactiveStorage,
-  reactiveStore
+  reactiveStore,
+  pageOnInit
+
 } from '../plugins/index'
 
 usePlugin(specialAttrs)
@@ -46,7 +48,8 @@ usePlugin(listeners)
 usePlugin(reactiveStorage)
 usePlugin(reactiveStore)
 usePlugin(computed)
-usePlugin(onLaunchDeferred)
+usePlugin(pageOnInit)
+usePlugin(asyncOnLaunch)
 
 export {
   usePlugin,
