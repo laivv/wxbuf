@@ -37,9 +37,11 @@ export default definePlugin({
       options.onLoad = async function () {
         if (!this.$$lock && options.onInit) {
           this.$$lock = options.onInit.apply(this, arguments)
+          this.$$isLocked = true
         }
         if (this.$$lock) {
           await this.$$lock
+          this.$$isLocked = false
         }
         if (this.$$childLocks) {
           this.$$childLocks.forEach(c => {
@@ -88,11 +90,23 @@ export default definePlugin({
       if (!options.onInit) return
       const fn = options[name]
       if (!fn) return
-      options[name] = async function () {
-        if (this.$$lock) {
-          await this.$$lock
+      if ([
+        'onPullDownRefresh',
+        'onReachBottom',
+        'onPageScroll'
+      ].includes(name)) {
+        options[name] = function () {
+          if (this.$$isLocked)
+            return
+          return fn.apply(this, arguments)
         }
-        return fn.apply(this, arguments)
+      } else {
+        options[name] = async function () {
+          if (this.$$lock) {
+            await this.$$lock
+          }
+          return fn.apply(this, arguments)
+        }
       }
     },
     lockComponent(name, options) {
