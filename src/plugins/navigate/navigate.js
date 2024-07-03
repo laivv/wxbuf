@@ -8,6 +8,7 @@ import {
   jumpPage,
 } from "./helper"
 import _wx from './_wx'
+import { getPage } from "../../utils/index"
 
 export const openPage = function (option) {
   if (isRouteAllow(option)) {
@@ -51,4 +52,9 @@ export const reLaunch = function (option) {
 export const switchTab = function (option) {
   resetSwitchTabParams()
   return jumpPage(_wx.switchTab, option)
+}
+
+export const getUrlParams = function () {
+  const page = this.$page || getPage(this)
+  return page ? page.$params : null
 }

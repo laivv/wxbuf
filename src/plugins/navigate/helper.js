@@ -43,14 +43,25 @@ export const createBody = function (option) {
 }
 
 export const resolveBody = function (params, context) {
-  if (body && body.data && body.url === context.route) {
+  if (
+    body &&
+    body.data &&
+    body.url === context.route
+  ) {
     extend(params, body.data)
     body = null
   }
 }
 
+export const resolveParams = function (params, context, parseUrlArgs) {
+  context.$rawParamsQuery = toQueryString(params)
+  context.$rawParams = extend({}, params)
+  parseOption(params, !parseUrlArgs)
+  context.$params = params
+}
+
 export const createFeature = function (option) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     feature = {
       resolve,
       url: getPathWithOutQuery(option.url)
@@ -120,7 +131,11 @@ export const createSwitchTabParams = function (option) {
 }
 
 export const resolveSwitchTabParams_onLoad = function (option, context) {
-  if (switchTabParams && isTabBarPage(context.route) && switchTabParams.url === context.route) {
+  if (
+    switchTabParams &&
+    isTabBarPage(context.route) &&
+    switchTabParams.url === context.route
+  ) {
     extend(option, switchTabParams.data)
     switchTabParams = null
   }
@@ -134,10 +149,11 @@ export const resetSwitchTabParams = function () {
 export const resolveSwitchTabParams_onShow = function (context, parseUrlArgs) {
   let switchParams = null
   const isTabbar = isTabBarPage(context.route)
-  if (switchTabParams &&
+  if (
+    switchTabParams &&
     isTabbar &&
     switchTabParams.url === context.route &&
-    context._wakeUp
+    context._isWakeUp
   ) {
     const options = {}
     resolveSwitchTabParams_onLoad(options, context)
@@ -148,14 +164,27 @@ export const resolveSwitchTabParams_onShow = function (context, parseUrlArgs) {
     parseOption(context.$params, !parseUrlArgs)
     switchParams = options
   }
-  if (isTabbar && context._wakeUp) {
-    if (context.onSwitchTab) {
-      context.onSwitchTab(switchParams || {})
-    }
-    // createLifeTime('switchTab').call(context, switchParams || {})
-  }
+  return switchParams
 }
 
+export const callSwitchTabHook = function (context, params) {
+  if (isTabBarPage(context.route) && context._isWakeUp) {
+    if (context.onSwitchTab) {
+      context.onSwitchTab(params)
+    }
+    const children = context.$components || []
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i]
+      const switchTab = child.$ctorOptions.pageLifetimes
+      if (switchTab) {
+        switchTab.call(child, params)
+      }
+      if (child.$components) {
+        child.push(...child.$components)
+      }
+    }
+  }
+}
 
 export const isRouteAllow = function (option) {
   if (!/^\//.test(option.url)) {
@@ -218,13 +247,13 @@ export const resolvePageRouter = function (context) {
     return allow ?? true
   }
 
-  if(context.router) {
+  if (context.router) {
     fnProxy(context.router, 'navigateTo', fn)
     fnProxy(context.router, 'redirectTo', fn)
     fnProxy(context.router, 'reLaunch', fn)
     fnProxy(context.router, 'switchTab', fn)
   }
-  if(context.pageRouter){
+  if (context.pageRouter) {
     fnProxy(context.pageRouter, 'navigateTo', fn)
     fnProxy(context.pageRouter, 'redirectTo', fn)
     fnProxy(context.pageRouter, 'reLaunch', fn)

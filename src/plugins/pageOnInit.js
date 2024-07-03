@@ -54,6 +54,8 @@ export default definePlugin({
         if (this.$$behaviorUnLock) {
           this.$$behaviorUnLock()
         }
+        // make sure component's lifetimes is called before page's onLoad
+        await Promise.resolve()
         return onLoad.apply(this, arguments)
       }
     },

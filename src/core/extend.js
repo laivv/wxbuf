@@ -30,7 +30,7 @@ export function getExtends(target) {
 }
 
 export const mountExtend = definePlugin({
-  lifetimes: {
+  targetHooks: {
     page_init(options) {
       Object.assign(options, extendMethods.page)
     },

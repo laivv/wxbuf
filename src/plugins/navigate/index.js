@@ -7,6 +7,9 @@ import {
   resolveSwitchTabParams_onLoad,
   resolveSwitchTabParams_onShow,
   resolvePageRouter,
+  resolveParams,
+  destoryFeature,
+  callSwitchTabHook
 } from "./helper"
 import {
   openPage,
@@ -15,7 +18,8 @@ import {
   navigateTo,
   redirectTo,
   switchTab,
-  finish
+  finish,
+  getUrlParams
 } from './navigate'
 
 export default definePlugin({
@@ -35,11 +39,21 @@ export default definePlugin({
       resolveOpener(target)
       resolveBody(options, target)
       resolveSwitchTabParams_onLoad(options, target)
+      resolveParams(options, target, this.getConfig('parseUrlArgs'))
       resolveFeature(target)
       resolvePageRouter(target)
+
     },
     page_onShow() {
-      resolveSwitchTabParams_onShow(this.$target, this.getConfig('parseUrlArgs'))
+      const params = resolveSwitchTabParams_onShow(this.$target, this.getConfig('parseUrlArgs'))
+      callSwitchTabHook(params || {})
+      this.$target._isWakeUp = true
+    },
+    page_onUnload() {
+      destoryFeature(this.$target)
+    },
+    component_init(options) {
+      this.mountComMethods(options.methods)
     },
     component_created() {
       resolvePageRouter(this.$target)
@@ -58,6 +72,10 @@ export default definePlugin({
       options[`${prefix}redirectTo`] = redirectTo
       options[`${prefix}reLaunch`] = reLaunch
       options[`${prefix}switchTab`] = switchTab
+    },
+    mountComMethods(options) {
+      const prefix = this.getConfig('methodPrefix')
+      options[`${prefix}getUrlParams`] = getUrlParams
     }
   }
 })
