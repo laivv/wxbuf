@@ -1,8 +1,7 @@
 
-import { usePlugin, getPlugins, callPlugins } from './plugin'
+import { usePlugin, getPlugins, callPlugins, definePlugin } from './kernel'
 import { watch } from './watch'
 import { config, getConfig } from './config'
-import { definePlugin } from './definePlugin'
 import setData from './setData'
 import { globalExtend, pageExtend, componentExtend, mountExtend } from './extend'
 

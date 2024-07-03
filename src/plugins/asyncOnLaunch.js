@@ -4,6 +4,11 @@ let onLaunchPromise = null
 
 export default definePlugin({
   lifetimes: {
+    created() {
+      this.enable = this.getConfig('asyncOnLaunch') ?? true
+    }
+  },
+  targetHooks: {
     app_init_end(options) {
       this.onLaunchDeferred(options)
       this.proxy(options, 'onShow')

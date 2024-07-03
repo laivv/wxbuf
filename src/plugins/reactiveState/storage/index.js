@@ -12,7 +12,7 @@ import {
 import { initAppStorage, initStorage } from './init'
 
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     app_init(options) {
       this.mountMethods(wx)
       this.mountMethods(options)

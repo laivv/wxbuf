@@ -1,9 +1,8 @@
-import { callPlugins } from "./plugin"
-import { definePlugin } from "./definePlugin"
+import { callPlugins, definePlugin } from "./kernel"
 
 
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     page_onLoad: function () {
       this.init('page')
     },

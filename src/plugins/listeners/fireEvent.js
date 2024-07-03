@@ -1,7 +1,6 @@
-import { definePlugin } from "../core/index"
-import { isFunction } from "../util"
+import { isFunction } from "../../util"
 
-const fireEvent = function (name, value) {
+export const fireEvent = function (name, value) {
 
   const event = {
     route: this.route ? this.route : this.$route,
@@ -43,24 +42,3 @@ const fireEvent = function (name, value) {
   notify(getApp().$pages)
   notify([getApp()])
 }
-
-export default definePlugin({
-  lifetimes: {
-    app_init(options) {
-      this.mountMethods(wx)
-      this.mountMethods(options)
-    },
-    page_init(options) {
-      this.mountMethods(options)
-    },
-    component_init(options) {
-      this.mountMethods(options.methods)
-    }
-  },
-  methods: {
-    mountMethods(options) {
-      const prefix = this.getConfig('methodPrefix')
-      options[`${prefix}fireEvent`] = fireEvent
-    }
-  }
-})

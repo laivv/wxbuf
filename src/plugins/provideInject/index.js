@@ -4,7 +4,7 @@ import ProvideWatcher from "./provideWatcher"
 import { isFunction, isObject, hasOwn } from "../../util"
 
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     page_setData_end() {
       this.notify()
     },

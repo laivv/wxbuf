@@ -2,7 +2,7 @@ import { definePlugin } from "../core/index"
 import { getValueByKeypath, isFunction } from "../util"
 
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     page_setData() {
       const target = this.$target
       const observers = target.$ctorOptions.observers

@@ -1,4 +1,4 @@
-import { definePlugin } from "./definePlugin"
+import { definePlugin } from "./kernel"
 
 const extendMethods = {
   page: {},

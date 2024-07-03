@@ -2,7 +2,7 @@ import { definePlugin } from "../core/index"
 import { isFunction } from "../util"
 
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     component_attached() {
       this.installExportMethods()
     },

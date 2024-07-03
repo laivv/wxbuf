@@ -1,7 +1,7 @@
 import { definePlugin } from "../core/index"
 
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     app_onLaunch(options) {
       this.callWatcher('onAppLaunch', options)
     },

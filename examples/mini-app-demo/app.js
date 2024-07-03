@@ -1,37 +1,4 @@
-import { usePlugin, definePlugin } from './lib/wxbuf.min'
-
-const myplugin3 = definePlugin({
-  data: {
-    a: 1
-  },
-  app: {
-    init() {
-
-    }
-  },
-  page: {
-    init() {
-
-    }
-  },
-  lifetimes: {
-    beforeCreate() {
-
-    },
-    created() {
-
-    }
-  },
-  methods: {
-    showToas() {
-      wx.showToast({title: 'plugins-toast'})
-    }
-  }
-})
-
-// usePlugin(myplugin)
-// usePlugin(myplugin2)
-// usePlugin(myplugin3)
+import { definePlugin, config } from './lib/wxbuf.min'
 
 App({
   // 全局注入store到所有页面、组件的实例上

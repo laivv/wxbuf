@@ -3,7 +3,7 @@ import { isFunction, isEvent, upperCase, extend, getPageInstance, hasOwn, defPro
 import { PAGE_LIFETIMES } from "../core/constants"
 
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     page_init(options) {
       this.proxy(options, 'page')
     },

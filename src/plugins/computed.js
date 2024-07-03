@@ -2,7 +2,7 @@ import { definePlugin } from "../core/index"
 import { isFunction, isEmpty } from "../util"
 
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     page_onLoad: function () {
       this.update()
     },

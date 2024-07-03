@@ -1,7 +1,7 @@
 import { definePlugin } from "../core/index"
 
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     page_setData_end() {
       this.notify()
     },

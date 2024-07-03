@@ -2,7 +2,7 @@ import { definePlugin } from "../core/index"
 import { isObject } from "../util"
 
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     page_init(page) {
       const cb = page.onShareAppMessage
       if (!cb) return

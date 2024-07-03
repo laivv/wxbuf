@@ -4,6 +4,11 @@ import { getPage } from "../utils/index"
 
 export default definePlugin({
   lifetimes: {
+    created() {
+      this.enable = this.getConfig('pageOnInit') ?? true
+    }
+  },
+  targetHooks: {
     page_init_end(options) {
       this.proxyOnInit(options)
       this.proxyOnLoad(options)

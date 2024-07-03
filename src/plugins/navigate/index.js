@@ -1,76 +1,28 @@
+import _wx from './_wx'
+import { definePlugin } from "../../core/index"
 import {
-  isRouteAllow,
-  createOpener,
-  createFeature,
-  createBody,
-  startPage,
   resolveOpener,
   resolveBody,
   resolveFeature,
   resolveSwitchTabParams_onLoad,
   resolveSwitchTabParams_onShow,
-  resetSwitchTabParams,
   resolvePageRouter,
-  jumpPage,
 } from "./helper"
-
-import _wx from './_wx'
-import { definePlugin } from "../../core/index"
-
-const openPage = function (option) {
-  if (isRouteAllow(option)) {
-    createOpener(option, this)
-    const promise = createFeature(option)
-    createBody(option)
-    startPage(option)
-    return promise
-  }
-  return Promise.reject()
-}
-
-const replacePage = function (option) {
-  if (isRouteAllow(option)) {
-    createBody(option)
-    startPage(option, true)
-  }
-}
-
-const finish = function (data) {
-  const context = this.$page ? this.$page : this
-  if (context.$feature) {
-    context.$feature.resolve(data)
-    context.$feature = null
-  }
-  return wx.navigateBack()
-}
-
-const navigateTo = function (option) {
-  return jumpPage(_wx.navigateTo, option)
-}
-
-const redirectTo = function (option) {
-  return jumpPage(_wx.redirectTo, option)
-}
-
-const reLaunch = function (option) {
-  return jumpPage(_wx.reLaunch, option)
-}
-
-const switchTab = function (option) {
-  resetSwitchTabParams()
-  return jumpPage(_wx.switchTab, option)
-}
+import {
+  openPage,
+  replacePage,
+  reLaunch,
+  navigateTo,
+  redirectTo,
+  switchTab,
+  finish
+} from './navigate'
 
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     app_init() {
-      const prefix = this.getConfig('methodPrefix')
-      wx[`${prefix}openPage`] = openPage
-      wx[`${prefix}replacePage`] = replacePage
-      wx[`${prefix}navigateTo`] = navigateTo
-      wx[`${prefix}redirectTo`] = redirectTo
-      wx[`${prefix}reLaunch`] = reLaunch
-      wx[`${prefix}switchTab`] = switchTab
+      this.proxyMethods(wx)
+      this.mountMethods(wx)
     },
     page_init(options) {
       this.mountMethods(options)
@@ -99,6 +51,13 @@ export default definePlugin({
       options[`${prefix}openPage`] = openPage
       options[`${prefix}replacePage`] = replacePage
       options[`${prefix}finish`] = finish
+    },
+    proxyMethods(options) {
+      const prefix = this.getConfig('methodPrefix')
+      options[`${prefix}navigateTo`] = navigateTo
+      options[`${prefix}redirectTo`] = redirectTo
+      options[`${prefix}reLaunch`] = reLaunch
+      options[`${prefix}switchTab`] = switchTab
     }
   }
 })

@@ -1,7 +1,7 @@
 import { definePlugin } from "../core/index"
 
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     page_init() {
       const app = getApp()
       if (!app.$pages)

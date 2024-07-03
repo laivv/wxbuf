@@ -3,7 +3,7 @@ import { getPage } from "../utils/index"
 import { noop } from "../util"
 // add attrs: $components,$page,$parent,$route,$ctorOptions
 export default definePlugin({
-  lifetimes: {
+  targetHooks: {
     app_init_end(options) {
       this.proxy(options, 'onLaunch')
     },
