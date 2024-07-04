@@ -16,6 +16,7 @@ import listeners from './listeners/index'
 import asyncOnLaunch from './asyncOnLaunch'
 import { reactiveStorage, reactiveStore } from './reactiveState/index'
 import pageOnInit from './pageOnInit'
+import componentPageLifetimes from './componentPageLifetimes'
 
 export {
   eventHandlerProxy,
@@ -36,5 +37,6 @@ export {
   asyncOnLaunch,
   reactiveStorage,
   reactiveStore,
-  pageOnInit
+  pageOnInit,
+  componentPageLifetimes
 }

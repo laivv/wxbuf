@@ -13,10 +13,6 @@ export function globalExtend(name, value) {
   })
 }
 
-export function wxExtend(name, value) {
-  wx[name] = value
-}
-
 export function pageExtend(object) {
   Object.assign(extendMethods.page, object)
 }

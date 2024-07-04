@@ -1,34 +1,33 @@
-
 import {
-  usePlugin,
-  definePlugin,
-  watch,
-  config,
   page,
+  watch,
+  global,
+  config,
+  usePlugin,
   component,
-  global
+  definePlugin
 } from '../core/index'
 import {
-  eventHandlerProxy,
-  shareAppMessage,
-  shareTimeline,
-  globalShareAppMessage,
-  globalShareTimeline,
-  pageObservers,
   computed,
-  specialAttrs,
-  parentLifetimes,
+  navigate,
   pageCache,
   callWatch,
-  provideInject,
-  navigate,
-  exportsMethods,
   listeners,
-  asyncOnLaunch,
-  reactiveStorage,
+  pageOnInit,
+  specialAttrs,
   reactiveStore,
-  pageOnInit
-
+  shareTimeline,
+  provideInject,
+  asyncOnLaunch,
+  pageObservers,
+  exportsMethods,
+  parentLifetimes,
+  shareAppMessage,
+  reactiveStorage,
+  eventHandlerProxy,
+  globalShareTimeline,
+  globalShareAppMessage,
+  componentPageLifetimes
 } from '../plugins/index'
 
 usePlugin(specialAttrs)
@@ -48,16 +47,17 @@ usePlugin(listeners)
 usePlugin(reactiveStorage)
 usePlugin(reactiveStore)
 usePlugin(computed)
+usePlugin(componentPageLifetimes)
 usePlugin(pageOnInit)
 usePlugin(asyncOnLaunch)
 
 export {
-  usePlugin,
-  definePlugin,
+  page,
   watch,
   config,
-  page,
+  global,
   component,
-  global
+  usePlugin,
+  definePlugin,
 }
 

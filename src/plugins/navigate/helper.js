@@ -175,7 +175,7 @@ export const callSwitchTabHook = function (context, params) {
     const children = context.$components || []
     for (let i = 0; i < children.length; i++) {
       const child = children[i]
-      const switchTab = child.$ctorOptions.pageLifetimes
+      const { switchTab } = child.$ctorOptions.pageLifetimes || {}
       if (switchTab) {
         switchTab.call(child, params)
       }

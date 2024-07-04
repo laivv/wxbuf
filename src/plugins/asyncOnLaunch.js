@@ -10,8 +10,7 @@ export default definePlugin({
   },
   targetHooks: {
     app_init_end(options) {
-      this.onLaunchDeferred(options)
-      this.proxy(options, 'onShow')
+      this.proxyOnLaunch(options)
       this.proxy(options, 'onShow')
       this.proxy(options, 'onHide')
       this.proxy(options, 'onError')
@@ -59,7 +58,7 @@ export default definePlugin({
     }
   },
   methods: {
-    onLaunchDeferred(options) {
+    proxyOnLaunch(options) {
       if (!options.onLaunch) return
       const self = this
       self.onLaunch = options.onLaunch

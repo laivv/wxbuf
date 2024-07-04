@@ -1,5 +1,10 @@
 import { definePlugin, config } from './lib/wxbuf.min'
 
+config({
+  pageOnInit: false,
+  asyncOnLaunch: true
+})
+
 App({
   // 全局注入store到所有页面、组件的实例上
   injectStore: {

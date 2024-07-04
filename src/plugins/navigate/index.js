@@ -42,17 +42,18 @@ export default definePlugin({
       resolveParams(options, target, this.getConfig('parseUrlArgs'))
       resolveFeature(target)
       resolvePageRouter(target)
-
     },
     page_onShow() {
-      const params = resolveSwitchTabParams_onShow(this.$target, this.getConfig('parseUrlArgs'))
-      callSwitchTabHook(params || {})
-      this.$target._isWakeUp = true
+      const page = this.$target
+      const params = resolveSwitchTabParams_onShow(page, this.getConfig('parseUrlArgs'))
+      callSwitchTabHook(page, params || {})
+      page._isWakeUp = true
     },
     page_onUnload() {
       destoryFeature(this.$target)
     },
     component_init(options) {
+      this.mountMethods(options.methods)
       this.mountComMethods(options.methods)
     },
     component_created() {
