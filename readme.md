@@ -2,7 +2,7 @@
 
 轻量级的微信小程序状态管理与事件通信javascript库   
 ---
-为什么叫`wxbuf`？玩过游戏的都知道加`buff`就是增加状态，变强的意思。这就是取名`wxbuf`的原因。    
+为什么叫`wxbuf`？玩过游戏的都知道加`buff`就是叠加状态，变强的意思。这就是取名`wxbuf`的原因。    
 
 
 `wxbuf`对小程序原生API进行了扩展，增加了以下功能：
@@ -21,7 +21,7 @@
 * 支持全局view标准事件拦截，方便按钮级权限控制
 * 全局开启所有页面的分享功能
 * Component支持更多pageLifeTimes
-* Component支持向所在的page安装方法
+* Component支持向所在的父组件实例挂载方法
 * 全局扩展page、component的实例方法
 * 支持定义顶级全局变量
 * 修正wx官方自定义tabbar组件中的pageLifetimes不工作的问题

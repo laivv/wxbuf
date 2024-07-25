@@ -1,6 +1,5 @@
 import { callPlugins, definePlugin } from "./kernel"
 
-
 export default definePlugin({
   targetHooks: {
     page_onLoad: function () {

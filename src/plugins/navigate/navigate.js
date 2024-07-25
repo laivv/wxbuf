@@ -9,6 +9,7 @@ import {
 } from "./helper"
 import _wx from './_wx'
 import { getPage } from "../../utils/index"
+import { isFunction } from "../../util"
 
 export const openPage = function (option) {
   if (isRouteAllow(option)) {
@@ -57,4 +58,10 @@ export const switchTab = function (option) {
 export const getUrlParams = function () {
   const page = this.$page || getPage(this)
   return page ? page.$params : null
+}
+
+export const invoke = function (context, name, ...args) {
+  if (context.$opener && isFunction(context.$opener[name])) {
+   return context.$opener[name](...args)
+  }
 }

@@ -8,6 +8,7 @@ import {
   clearStorage,
   removeStorage,
   removeStorageSync,
+  getStorageSync
 } from './helper'
 import { initAppStorage, initStorage } from './init'
 
@@ -43,6 +44,7 @@ export default definePlugin({
       options[`${prefix}clearStorage`] = clearStorage
       options[`${prefix}removeStorage`] = removeStorage
       options[`${prefix}removeStorageSync`] = removeStorageSync
+      options[`${prefix}getStorageSync`] = getStorageSync
     },
   }
 })

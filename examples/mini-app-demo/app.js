@@ -1,8 +1,19 @@
-import { definePlugin, config } from './lib/wxbuf.min'
+import { definePlugin, config, page, global } from './lib/wxbuf.min'
 
 config({
   pageOnInit: false,
-  asyncOnLaunch: true
+  asyncOnLaunch: true,
+  parseUrlArgs: true
+})
+
+global.extend('getAppName', function() {
+  return 'wxbufApp'
+})
+
+page.extend({
+  showToast(title) {
+    wx.showToast({ title, icon: 'none' })
+  }
 })
 
 App({

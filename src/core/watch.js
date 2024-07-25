@@ -1,4 +1,3 @@
-
 const watchers = {}
 
 export function watch(options = {}) {

@@ -1,4 +1,3 @@
-
 import { usePlugin, getPlugins, callPlugins, definePlugin } from './kernel'
 import { watch } from './watch'
 import { config, getConfig } from './config'
@@ -7,7 +6,6 @@ import { globalExtend, pageExtend, componentExtend, mountExtend } from './extend
 
 usePlugin(setData)
 usePlugin(mountExtend)
-
 
 const page = { extend: pageExtend }
 const global = { extend: globalExtend }

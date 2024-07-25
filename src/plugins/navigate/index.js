@@ -19,20 +19,23 @@ import {
   redirectTo,
   switchTab,
   finish,
-  getUrlParams
+  getUrlParams,
+  invoke
 } from './navigate'
 
 export default definePlugin({
   targetHooks: {
     app_init() {
-      this.proxyMethods(wx)
       this.mountMethods(wx)
+      this.proxyMethods(wx)
     },
     page_init(options) {
       this.mountMethods(options)
+      this.mountPageMethods(options)
     },
     component_init(options) {
       this.mountMethods(options.methods)
+      this.mountComMethods(options.methods)
     },
     page_onLoad(options) {
       const target = this.$target
@@ -52,10 +55,7 @@ export default definePlugin({
     page_onUnload() {
       destoryFeature(this.$target)
     },
-    component_init(options) {
-      this.mountMethods(options.methods)
-      this.mountComMethods(options.methods)
-    },
+ 
     component_created() {
       resolvePageRouter(this.$target)
     }
@@ -74,9 +74,18 @@ export default definePlugin({
       options[`${prefix}reLaunch`] = reLaunch
       options[`${prefix}switchTab`] = switchTab
     },
+    mountPageMethods(options) {
+      const prefix = this.getConfig('methodPrefix')
+      options[`${prefix}invoke`] = function (...args) {
+        return invoke(this, ...args)
+      }
+    },
     mountComMethods(options) {
       const prefix = this.getConfig('methodPrefix')
       options[`${prefix}getUrlParams`] = getUrlParams
+      options[`${prefix}invoke`] = function (...args) {
+        return invoke(this.$page, ...args)
+      }
     }
   }
 })
