@@ -39,7 +39,7 @@ export default definePlugin({
     },
     uninstallExportsMethods() {
       const context = this.$target
-      const parent = context.$parent
+      const parent = context.selectOwnerComponent()
       const exports = context.$exports
       if (!parent || !exports) return
       const { namespace = null, methods = {} } = exports
