@@ -594,23 +594,48 @@ const initComputed = function (option, context) {
   const computed = option.computed || {}
   if (isEmpty(computed)) return
   const setData = context.$setData
-  const update = function (computed, context) {
+  context.$_updateComputed = function (computed) {
     const data = {}
     for (let key in computed) {
       const fn = computed[key]
       if (isFunction(fn)) {
-        data[key] = fn.call(context)
+        data[key] = fn.call(this)
       }
     }
     if (!isEmpty(data)) {
-      setData.call(context, data)
+      setData.call(this, data)
     }
   }
   context.setData = function () {
-    setData.apply(context, arguments)
-    update(computed, context)
+    setData.apply(this, arguments)
+    this.$_updateComputed(computed)
   }
-  update(computed, context)
+  context.$_updateComputed(computed)
+}
+
+const initComputedComponent = function (properties) {
+  for (let key in properties) {
+    if (!properties.hasOwnProperty(key)) {
+      continue
+    }
+    const propertyDefine = properties[key]
+    if (!isObject(propertyDefine)) {
+      properties[key] = {
+        type: propertyDefine,
+        observer: function () {
+          this.$_updateComputed && this.$_updateComputed(this.$constructorOptions.computed || {})
+        }
+      }
+    } else {
+      const observer = propertyDefine.observer
+      propertyDefine.observer = function () {
+        this.$_updateComputed && this.$_updateComputed(this.$constructorOptions.computed || {})
+        if (isFunction(observer)) {
+          observer.apply(this, arguments)
+        }
+      }
+    }
+  }
 }
 
 // when parent component setData, notify children
@@ -1110,6 +1135,7 @@ const factory = function (option, constructr) {
   option = option || {}
   option.methods = option.methods || {}
   option.lifetimes = option.lifetimes || {}
+  option.properties = option.properties || {}
   const _created = option.lifetimes.created || option.created || noop
   const _attached = option.lifetimes.attached || option.attached || noop
   const _ready = option.lifetimes.ready || option.ready || noop
@@ -1204,7 +1230,7 @@ const factory = function (option, constructr) {
   option.lifetimes.ready = ready
   option.lifetimes.detached = detached
   initProxyTap(option.methods, false)
-
+  initComputedComponent(option.properties)
   option.methods[`${userConfig.methodPrefix}finish`] = function (data) {
     finish(data, this.$page)
   }

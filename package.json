@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "build": "set NODE_ENV=production && rollup -c&&shx cp -rf ./lib/ ./examples/mini-app-demo/"
+    "build": "set NODE_ENV=production && rollup -c&&shx cp -f ./src/types/index.d.ts ./lib/wxbuf.min.d.ts&&shx cp -rf ./lib/ ./examples/mini-app-demo/"
   },
   "type": "module",
   "author": "laivv",
