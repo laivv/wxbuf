@@ -84,6 +84,10 @@ wxbuf.config({
   enableGlobalShareAppMessage: true,
   // 开启所有页面分享到朋友圈
   enableGlobalShareTimeline: true,
+  // 开启异步onLaunch, 可延迟页面及其组件加载
+  asyncOnLaunch: true,
+  // 开启page的onInit钩子,开启后在page的onInit钩子或app的onPageInit钩子可以返回promise来推迟页面及其组件加载
+  pageOnInit: true,
   // 指定app中哪个key值被作为store数据来管理
   storeKey: 'globalData',
 })
@@ -112,6 +116,25 @@ App({
   globalData: {
     appVersion: 'v1.0',
     appCount: 0
+  },
+  onLaunch() {
+    wx.showLoading({
+      title: '延迟3s加载',
+    })
+    // 开启asyncOnLaunch后，这里可以返回promise来推迟页面及组件加载，你可以在这里进行全局必要数据的初始化准备工作
+    return new Promise(resolve => setTimeout(() => {
+      wx.hideLoading()
+      resolve()
+    }, 3000))
+  },
+  // 开启asyncOnLaunch后，onShow会被推迟执行，直到异步onLaunch执行完毕
+  onShow() {
+    wx.showToast({
+      title: 'App.onShow调用',
+      icon: 'none'
+    })
+  },
+  onPageInit(page) {
   },
   onPageShareAppMessage(page, options, object) {
   },

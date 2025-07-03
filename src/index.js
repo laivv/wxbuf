@@ -41,10 +41,14 @@ import { storageCache } from './storageCache'
 import { renderViewAsync } from './renderAsync'
 import { callUserHook, watchHook } from './hookConfig'
 import { saveAppConfig, callAppHook, getAppConfig } from './appConfig'
+import { initAsyncOnLaunch } from './asyncOnLaunch'
+import { initPageOnInit } from './pageOnInit'
 
 
 let userConfig = {
   methodPrefix: '',
+  asyncOnLaunch: false,
+  pageOnInit: false,
   parseUrlArgs: false,
   enableGlobalShareAppMessage: false,
   enableGlobalShareTimeline: false,
@@ -859,6 +863,7 @@ App = function (option = {}) {
   overwriteFn(option, 'onHide', onHide)
   overwriteFn(option, 'onShow', onShow)
   extendCommonMethods(option)
+  userConfig.asyncOnLaunch && initAsyncOnLaunch(option, 'app')
   return _App(option)
 }
 
@@ -1082,6 +1087,8 @@ Page = function (option) {
   }
   extendCommonMethods(option)
   extendUserMethods(option, 'page')
+  userConfig.pageOnInit && initPageOnInit(option, 'page')
+  userConfig.asyncOnLaunch && initAsyncOnLaunch(option, 'page')
   return _Page(option)
 }
 
@@ -1252,6 +1259,8 @@ const factory = function (option, constructr) {
     }
     option.methods[`${userConfig.methodPrefix}getCognates`] = getCognates
   }
+  userConfig.pageOnInit && initPageOnInit(option,  constructr === _Component ? 'component' : 'behavior')
+  userConfig.asyncOnLaunch && initAsyncOnLaunch(option, 'component')
 
   return constructr(option)
 }

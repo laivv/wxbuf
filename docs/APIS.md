@@ -1839,6 +1839,8 @@ wxbuf.config({
   enableGlobalShareAppMessage: true,
   // 开启所有页面分享到朋友圈（优先使用页面自己的分享函数）
   enableGlobalShareTimeline: true,
+  // 异步onLaunch, 当开启后，app中的onLaunch钩子可以return一个Promise来延迟加载页面
+  asyncOnLaunch: false,
   // 指定全局数据的key
   storeKey: 'globalData'
 })
