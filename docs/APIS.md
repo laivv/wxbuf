@@ -38,6 +38,7 @@
 * [***option.onStoreChange*** ](#on-global-data-change) 监听全局数据（store）变化
 * [***option.onStorageChange*** ](#on-storage-change) 监听storage变化
 * [***option.provide*** ](#provide) 向后代组件提供数据
+* [***option.onInit*** ](#page-onInit) page初始化钩子，可返回promise来推迟页面及组件的加载
 ### 【新增】Component(option)构造器选项
 * [***option.computed***  ](#computed) 声明计算属性
 * [***option.listeners***  ](#listeners) 声明全局事件监听器
@@ -74,6 +75,7 @@
 * [***option.onPageLoad*** ](#onPageLoad) 页面onLoad进行回调
 * [***option.onPageShow*** ](#on-route-change) 页面onShow时回调
 * [***option.onPageUnload*** ](#onPageUnload) 页面onUnload时回调
+* [***option.onPageInit*** ](#app-page-onInit) page初始化钩子，可返回promise来推迟页面及组件的加载
 * [***option.onPageShareAppMessage*** ](#onPageShareAppMessage) 当页面分享给好友时进行回调，可劫持并修改参数
 * [***option.onPageShareTimeline*** ](#onPageShareTimeline) 当页面分享到朋友圈时进行回调，可劫持并修改参数
 * [***option.onEventDispatch*** ](#onEventDispatch) UI标准事件触发时的前置拦截器    
@@ -94,6 +96,8 @@
 * [***wx.fireEvent*** (`eventName`: string, `value`: any): `void`  ](#wx-fireEvent) 派发一个事件（同实例fireEvent方法）
 ### 【更新】wx对象
 * [***wx.switchTab*** (`option`: object): `void` ](#wx-switch-tab) switchTab现在支持在url上携带query参数
+### 【更新】App(option)构造器选项
+* [***option.onLaunch*** ](#app-onLaunch) 支持返回promise来延迟加载app及页面和组件
 ### 【新增】全局监听器 `wxbuf.watch(option)`
 * [***option.onAppLaunch***](#watch)
 * [***option.onAppShow***](#watch)
@@ -1535,6 +1539,123 @@
 
   参数：`page`为相应的页面  
 
+<a id="page-onInit"></a> 
+
+* ***option.onInit(options)： void***    
+  适用于： `page`  
+  
+  说明：页面初始化时回调，通过返回`primise`来推迟页面及其组件的加载，此钩子先于页面及其组件的所有钩子执行    
+
+  参数：`options`同`onLoad`的回调参数一致   
+
+  <span style="color: red">【注意】</span>：如果使用此钩子，请确保返回的promise最终会是`Fulfilled（已成功）`状态，否则页面将永远不会被加载
+
+  例子：
+
+  默认未开启此钩子，要使用此功能，首先要在`app.js`配置中开启
+
+  ```js
+  // app.js
+  import wxbuf from 'wxbuf'
+
+  wxbuf.config({
+    pageOnInit: true // 开启pageOnInit
+  })
+
+  App({ 
+    //...
+  })
+  ```
+
+  然后在页面中使用`onInit`钩子    
+
+  ```js
+  Page({
+    onInit(options) {
+      return new Promise((resolve) => setTimeout(() => resolve(), 1000))
+    },
+    onLoad(options) {
+      // 等待onInit钩子执行完毕我才会执行
+    },
+    onShow() {
+      // 等待onInit钩子执行完毕我才会执行
+    },
+    onReady() {
+      // 等待onInit钩子执行完毕我才会执行
+    }
+    // ...其它钩子也会等待onInit钩子执行完毕才会执行
+  })
+  ```
+  页面的组件也会被推迟加载：
+  ```js
+  Component({
+    pageLifetimes: {
+      show() {
+        // 等待页面的onInit钩子执行完毕我才会执行
+      },
+      hide() {
+         // 等待页面的onInit钩子执行完毕我才会执行
+      }
+
+    },
+    lifetimes: {
+      create(options) {
+        // 等待页面的onInit钩子执行完毕我才会执行
+      },
+      attached() {
+        // 等待页面的onInit钩子执行完毕我才会执行
+      },
+      ready() {
+        // 等待页面的onInit钩子执行完毕我才会执行
+      }
+      // ...其它钩子也会等待页面onInit钩子执行完毕才会执行
+    }
+  })
+  ```
+  若在`app`中配置了`onPageInit`钩子，则页面的`onInit`钩子将等待`app.onPageInit`钩子执行完毕才执行。详情请看查[onPageInit](#app-page-onInit) 
+
+<a id="app-page-onInit"></a> 
+
+* ***option.onPageInit(page, options)： void***    
+  适用于： `app`  
+
+  说明：当任一页面初始化时回调，通过返回`primise`来推迟页面及其组件的加载
+
+  参数：`page`为目标页面实例  
+  参数：`options`同目标页面`onLoad`的回调参数一致   
+
+  此钩子是page的`onInit`钩子的全局版本，调用顺序是`app.onPageInit` -> `page.onInit` -> `页面及其组件的生命周期钩子`，并且`page.onInit`也会被此钩子推迟执行， 其它请参考[onInit](#page-onInit)    
+
+  <span style="color: red">【注意】</span>：如果使用此钩子，请确保返回的promise最终会是`Fulfilled（已成功）`状态，否则可能导整个app的页面不会被加载
+
+  例子：
+
+  默认未开启此钩子，要使用此功能，首先要在`app.js`配置中开启
+
+  ```js
+  // app.js
+  import wxbuf from 'wxbuf'
+
+  wxbuf.config({
+    pageOnInit: true // 开启pageOnInit
+  })
+
+  App({ 
+    //...
+  })
+  ```
+
+  然后在`app`中使用`onPageInit`钩子    
+
+  ```js
+  App({
+    onPageInit(options) {
+      return new Promise((resolve) => setTimeout(() => resolve(), 1000))
+    },
+  })
+  ```
+
+
 <a id="onComponentCreated"></a> 
 
 * ***option.onComponentCreated(com)： void***    
@@ -1733,6 +1854,46 @@
   注意：首次打开目标tabbar页面请在`onLoad`钩子中接收参数，如果目标tabbar页面已经打开过（实例未销毁），此时`switchTab`跳转过去请在`onSwitchTab`钩子中接收参数；由于受限于小程序，url上并不会体现出来query参数，但并不影响实际使用    
   关于如何接收参数，请参考[***onSwitchTab*** ](#onSwitchTab)钩子
 
+## 【更新】App(option)构造器选项
+<a id="app-onLaunch"></a>
+
+* ***option.onLaunch***   
+
+  适用于：`app`
+
+  说明：此钩子现在支持返回`promise`来推迟整个app、页面及组件的加载，适用于需要准备必要数据的场景。  
+
+   <span style="color: red">【注意】</span>：如果使用异步`onLaunch`，请确保返回的`promise`最终会是`Fulfilled（已成功）`状态，否则整个app将永远不会被加载    
+  
+  示例：
+
+  异步`onLaunch`默认关闭，需要手动开启
+
+  在`app.js`中配置开启异步`onLaunch`，并使用异步`onLaunch`钩子
+
+  ```js
+  // app.js
+  import wxbuf from 'wxbuf'
+
+  wxbuf.config({
+    asyncOnLaunch: true  // 开启异步onLaunch
+  })
+
+  App({ 
+    async onLaunch() {
+      // 确保返回的`promise`最终会是`Fulfilled（已成功）`状态
+      try {
+        const res = await fetch('/api/user')
+        //...
+      }catch(e) {}
+    }
+  })
+  ```
+
+  整个app、页面及组件的生命周期都将在`onLaunch`执行完毕并且是`Fulfilled（已成功）`状态时才会继行续执行。
+
+
+
 <a id="watch"></a>    
 
 ## 全局监听器
@@ -1841,6 +2002,8 @@ wxbuf.config({
   enableGlobalShareTimeline: true,
   // 异步onLaunch, 当开启后，app中的onLaunch钩子可以return一个Promise来延迟加载页面
   asyncOnLaunch: false,
+  // 页面的onInit钩子支持, 开启后，页面中的onInit钩子可以return一个Promise来延迟加载页面
+  pageonInit: false,
   // 指定全局数据的key
   storeKey: 'globalData'
 })

@@ -645,15 +645,17 @@ const initComputedComponent = function (properties) {
 // when parent component setData, notify children
 const initParentLifetimes = function (context) {
   const setData = context.setData
-  context.setData = function () {
-    setData.apply(this, arguments)
-    if (this.$components && this.$components.length) {
-      this.$components.forEach(c => {
-        if (c.$constructorOptions && c.$constructorOptions.parentLifetimes && c.$constructorOptions.parentLifetimes.setData) {
-          c.$constructorOptions.parentLifetimes.setData.call(c, this.data)
-        }
-      })
-    }
+  context.setData = function (data, callback) {
+    setData.call(this, data, () => {
+      callback && callback()
+      if (this.$components && this.$components.length) {
+        this.$components.forEach(c => {
+          if (c.$constructorOptions && c.$constructorOptions.parentLifetimes && c.$constructorOptions.parentLifetimes.setData) {
+            c.$constructorOptions.parentLifetimes.setData.call(c, this.data)
+          }
+        })
+      }
+    })
   }
 }
 
@@ -1259,7 +1261,7 @@ const factory = function (option, constructr) {
     }
     option.methods[`${userConfig.methodPrefix}getCognates`] = getCognates
   }
-  userConfig.pageOnInit && initPageOnInit(option,  constructr === _Component ? 'component' : 'behavior')
+  userConfig.pageOnInit && initPageOnInit(option, constructr === _Component ? 'component' : 'behavior')
   userConfig.asyncOnLaunch && initAsyncOnLaunch(option, 'component')
 
   return constructr(option)

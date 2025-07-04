@@ -38,8 +38,8 @@ const proxyOnLoad = function (options) {
     }
     if (this.$$lock) {
       await this.$$lock
-      this.$$isLocked = false
     }
+
     if (this.$$childLocks) {
       this.$$childLocks.forEach(c => {
         if (c.$$behaviorUnLock) {
@@ -51,7 +51,8 @@ const proxyOnLoad = function (options) {
     if (this.$$behaviorUnLock) {
       this.$$behaviorUnLock()
     }
-    // make sure component's lifetimes is called before page's onLoad
+    this.$$isLocked = false
+    // 确保组件的生命周期在锁被释放后先于page的生命周期执行，所以这里加个等待
     await Promise.resolve()
     return onLoad.apply(this, arguments)
   }
@@ -132,10 +133,13 @@ const lockComponent = function (name, options) {
         if (page.$$lock) {
           await page.$$lock
           this.$$unLock()
+          this.$$behaviorUnLock && this.$$behaviorUnLock()
         }
       }
-      if (!page || !page.onInit) {
+      if (!page || !page.onInit || page.$$isLocked === false) {
         this.$$unLock()
+        // 如果组件使用了behavior，behavior的解锁方法是挂在所在的组件this上的，就需要解锁behavior
+        this.$$behaviorUnLock && this.$$behaviorUnLock()
       }
     }
     await this.$$locker
@@ -147,10 +151,10 @@ const lockBehavior = function (name, options) {
   const fn = options[name]
   if (!fn) return
   options[name] = async function () {
-    if (!this.$$locker) {
-      this.$$locker = new Promise((reslove) => this.$$behaviorUnLock = reslove)
+    if (!this.$$behaviorLocker) {
+      this.$$behaviorLocker = new Promise((reslove) => this.$$behaviorUnLock = reslove)
     }
-    await this.$$locker
+    await this.$$behaviorLocker
     return fn.apply(this, arguments)
   }
 }

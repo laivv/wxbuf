@@ -28,6 +28,8 @@
 * 支持定义顶级全局变量
 * 修正wx官方自定义tabbar组件中的pageLifetimes不工作的问题
 * onLaunch 钩子支持返回promise来推迟页面的加载，适用于需要准备好必备数据才允许加载页面及其组件
+* page中新增onInit钩子，先于onLoad执行，在此钩子中可以返回promise来推迟页面及组件的加载
+* app中新增onPageInit钩子，在此钩子中可以返回promise来推迟页面及组件的加载
 * 更多功能请查看文档
 ---
  
