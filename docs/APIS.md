@@ -2003,7 +2003,7 @@ wxbuf.config({
   // 异步onLaunch, 当开启后，app中的onLaunch钩子可以return一个Promise来延迟加载页面
   asyncOnLaunch: false,
   // 页面的onInit钩子支持, 开启后，页面中的onInit钩子可以return一个Promise来延迟加载页面
-  pageonInit: false,
+  pageOnInit: false,
   // 指定全局数据的key
   storeKey: 'globalData'
 })
