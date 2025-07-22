@@ -8,8 +8,8 @@
 
 
 `wxbuf`对小程序原生API进行了扩展，增加了以下功能：
-* 支持全局状态（store）管理
-* 支持storage数据状态管理
+* 支持全局状态管理（store）
+* 支持对storage数据进行状态管理
 * 支持按app、page或component来注入全局状态
 * 支持更易用的跨组件跨页面通信方式，彻底解决通信问题
 * 支持store、storage变化监听
@@ -23,13 +23,13 @@
 * 支持全局view标准事件拦截，方便按钮级权限控制
 * 全局开启所有页面的分享功能
 * Component支持更多pageLifeTimes
-* Component支持向所在的page安装方法
-* 全局扩展page、component的实例方法
-* 支持定义顶级全局变量
-* 修正wx官方自定义tabbar组件中的pageLifetimes不工作的问题
-* onLaunch 钩子支持返回promise来推迟页面的加载，适用于需要准备好必备数据才允许加载页面及其组件
-* page中新增onInit钩子，先于onLoad执行，在此钩子中可以返回promise来推迟页面及组件的加载
-* app中新增onPageInit钩子，在此钩子中可以返回promise来推迟页面及组件的加载
+* Component支持向所在的父组件挂载方法（类似于vue自定义组件的$ref）
+* 支持全局扩展page、component的实例方法
+* 支持定义顶级全局变量(像使用getApp这类方法一样无需import)
+* 修正wx官方自定义tabbar组件中pageLifetimes.show不工作的问题
+* onLaunch钩子支持返回promise来推迟整个app、页面及组件的加载，适用于需要提前准备好必备数据的场景（解决生命周期异步顺序问题）
+* Page新增onInit钩子，先于onLoad执行，此钩子可以返回promise来推迟页面及组件的加载（解决生命周期异步顺序问题）
+* App新增onPageInit钩子，此钩子可以返回promise来推迟页面及组件的加载（解决生命周期异步顺序问题）
 * 更多功能请查看文档
 ---
  

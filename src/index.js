@@ -1209,7 +1209,7 @@ const factory = function (option, constructr) {
 
   const detached = function () {
     const com = removeCom(this)
-    if (com.type === 'component') {
+    if (com && com.type === 'component') {
       uninstallExportsMethods(com.option, this)
       const parent = this.selectOwnerComponent()
       if (parent) {
