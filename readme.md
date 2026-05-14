@@ -176,3 +176,15 @@ Page({
 ## License
 
 [MIT](https://opensource.org/licenses/MIT)
+
+## 请内推我（成都：前端/高级前端/前端架构岗）:    
+目前需要***成都***前端工作机会，请内推我  
+
+加好友时请备注“前端内推’”
+
+<img src="wechat.png" width="50%">
+
+
+或发邮件给我:
+
+<img src="email.png" width="50%">
