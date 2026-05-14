@@ -1,4 +1,4 @@
-# <center>wxbuf</center>
+# <center>wxbuf- v2.0[WIP]</center>
 
 轻量级的微信小程序状态管理与事件通信javascript库   
 ---
