@@ -72,7 +72,7 @@ import wxbuf from "wxbuf"
 import myPlugin from "./myPlugin"
 
 // 注册插件
-wxbuf.use(myPlugin)
+wxbuf.usePlugin(myPlugin)
 
 App({
   onLaunch () { }
