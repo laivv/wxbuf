@@ -71,6 +71,7 @@ export default definePlugin({
 import wxbuf from "wxbuf"
 import myPlugin from "./myPlugin"
 
+// 注册插件
 wxbuf.use(myPlugin)
 
 App({
